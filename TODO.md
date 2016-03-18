@@ -6,7 +6,7 @@
 - Routes (S)
 
 ### Features to Implement
-- Meteor app (S)
+- ~~Meteor app~~ (S)
 - UI (T)
 - Routes (S)
 - Email to admin for contact (T)
