@@ -3,7 +3,7 @@
 ### Research
 - CSS (bootstrap or smthing else) (T)
 - MongoDB & Models (T)
-- Routes (S)
+- ~~Routes~~ (S)
 
 ### Features to Implement
 - ~~Meteor app~~ (S)
