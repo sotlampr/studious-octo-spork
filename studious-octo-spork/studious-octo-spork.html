@@ -2,13 +2,40 @@
   <title>studious-octo-spork</title>
 </head>
 
-<body>
-  <h1>Welcome to Studious Octo Spork!</h1>
-
-  {{> hello}}
-</body>
+<template name="App_body">
+  <h3>Studious Octo Spork</h3>
+  {{> Template.dynamic template=main}}
+  <footer>
+    <p><i>by >touch_ code</i></p>
+  </footer>
+</template>
 
 <template name="hello">
+  <h1>Welcome to studious-octo-spork</h1>
   <button>Click Me</button>
   <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="about">
+  <p>This is an 'about' page.</p>
+</template>
+
+<template name="contact">
+  <p>This is an 'contact' page.</p>
+</template>
+
+<template name="register">
+  <p>So you want to register...</p>
+</template>
+
+<template name="usersIndex">
+  <p>An overview of all the users.</p>
+</template>
+
+<template name="usersById">
+  <p>Looking at user with id {{targetId}}.</p>
+</template>
+
+<template name="usersContactById">
+  <p>You want to contact user with id {{targetId}}.</p>
 </template>

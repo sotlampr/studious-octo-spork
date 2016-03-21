@@ -14,6 +14,19 @@ if (Meteor.isClient) {
       Session.set('counter', Session.get('counter') + 1);
     }
   });
+
+  Template.usersById.helpers({
+    targetId: function () {
+      return FlowRouter.getParam('id');
+    }
+  });
+
+  Template.usersContactById.helpers({
+    targetId: function () {
+      return FlowRouter.getParam('id');
+    }
+  });
+
 }
 
 if (Meteor.isServer) {
