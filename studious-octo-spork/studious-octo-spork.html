@@ -12,6 +12,11 @@
 
 <template name="hello">
   <h1>Welcome to studious-octo-spork</h1>
+  <p>
+    {{#if currentUser}}
+      {{> loginButtons}}
+    {{/if}}
+  </p>
   <button>Click Me</button>
   <p>You've pressed the button {{counter}} times.</p>
 </template>
@@ -26,6 +31,7 @@
 
 <template name="register">
   <p>So you want to register...</p>
+  <p>{{> loginButtons}}</p>
 </template>
 
 <template name="usersIndex">
