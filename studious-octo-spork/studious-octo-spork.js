@@ -15,6 +15,12 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.usersIndex.helpers({
+    users: function () {
+      return Meteor.users.find();
+    }
+  });
+
   Template.usersById.helpers({
     targetId: function () {
       return FlowRouter.getParam('id');
