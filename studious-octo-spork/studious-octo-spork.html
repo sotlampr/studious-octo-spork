@@ -34,14 +34,38 @@
   <p>{{> loginButtons}}</p>
 </template>
 
+<template name="dashboard">
+	{{#if user.id}}
+		<p>This is the users' dashboard. Your user id is {{user.id}} and your
+		email is {{user.email}}.</p>
+		{{#if user.username}}
+			<p>Your current username is: {{user.username}}</p>
+		{{else}}
+			<p>You haven't chosen a username yet!</p>
+		{{/if}}
+	{{else}}
+		<p>You are not registered yet.</p>
+	{{/if}}
+</template>
+
 <template name="usersIndex">
   <p>An overview of all the users.</p>
 </template>
 
 <template name="usersById">
-  <p>Looking at user with id {{targetId}}.</p>
+	{{#if user}}
+		<h3>{{user.username}}</h3>
+		<p>email: {{user.email}}</p>
+	{{else}}
+		<p>User {{targetId}} does not exist.</p>
+	{{/if}}
 </template>
 
 <template name="usersContactById">
-  <p>You want to contact user with id {{targetId}}.</p>
+	{{#if user}}
+		<p>Contact {{user.username}} at {{user.email}}</p>
+	{{else}}
+		<p>User {{targetId}} does not exist.</p>
+	{{/if}}
 </template>
+

@@ -15,15 +15,46 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.dashboard.helpers({
+    'user': function () {
+      return {
+        id: Meteor.userId(),
+        email: Meteor.user().emails[0].address,
+        username: Meteor.user().username
+      };
+    }
+  });
+
   Template.usersById.helpers({
-    targetId: function () {
+    'targetId': function() {
       return FlowRouter.getParam('id');
+    },
+
+    'user': function () {
+      var targetUsername = FlowRouter.getParam('id');
+      var targetUser = Meteor.users.findOne({username: targetUsername});
+      if (targetUser) {
+        return {
+          email: targetUser.emails[0].address,
+          username: targetUser.username
+        };
+      }
     }
   });
 
   Template.usersContactById.helpers({
-    targetId: function () {
+    'targetId': function () {
       return FlowRouter.getParam('id');
+    },
+    'user': function () {
+      var targetUsername = FlowRouter.getParam('id');
+      var targetUser = Meteor.users.findOne({username: targetUsername});
+      if (targetUser) {
+        return {
+          email: targetUser.emails[0].address,
+          username: targetUser.username
+        };
+      }
     }
   });
 

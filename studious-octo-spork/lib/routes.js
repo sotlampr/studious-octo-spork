@@ -26,6 +26,11 @@ FlowRouter.route('/register', {
   action: renderTemplate('register')
 });
 
+FlowRouter.route('/dashboard', {
+  name: 'Dashboard',
+  action: renderTemplate('dashboard')
+});
+
 // GROUP ROUTES
 var userRoutes = FlowRouter.group({
   prefix: '/users',
