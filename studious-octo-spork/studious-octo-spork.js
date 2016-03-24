@@ -16,19 +16,19 @@ if (Meteor.isClient) {
   });
 
   Template.usersIndex.helpers({
-    'users': function () {
+    users: function () {
       return Meteor.users.find();
     }
   });
 
   Template.usersById.helpers({
-    'targetId': function () {
+    targetId: function () {
       return FlowRouter.getParam('id');
     }
   });
 
   Template.usersContactById.helpers({
-    'targetId': function () {
+    targetId: function () {
       return FlowRouter.getParam('id');
     }
   });
