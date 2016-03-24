@@ -22,6 +22,30 @@ if (Meteor.isClient) {
         email: Meteor.user().emails[0].address,
         username: Meteor.user().username
       };
+    },
+
+    formData: function () {
+      user = Meteor.users.findOne(Meteor.userId());
+      if (user) {
+        return {
+          id: user._id,
+          username: user.username,
+          occupation: user.occupation,
+          description: user.description
+        };
+      }
+    }
+  });
+
+  Template.dashboard.events({
+    'submit .update-profile': function (event) {
+      event.preventDefault();
+      Meteor.call('updateUserProfile', {
+        id: Meteor.userId(),
+        username: event.target.username.value,
+        occupation: event.target.occupation.value,
+        description: event.target.description.value
+      });
     }
   });
 
@@ -72,3 +96,18 @@ if (Meteor.isServer) {
     // code to run on server at startup
   });
 }
+
+Meteor.methods({
+  updateUserProfile: function (data) {
+    // Verify that the profile to update matches the logged in user
+    if (Meteor.userId() !== data.id) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Meteor.users.update(data.id, {$set: {
+      username: data.username,
+      occupation: data.occupation,
+      description: data.description
+    }}, {validate: false});
+  }
+});
+

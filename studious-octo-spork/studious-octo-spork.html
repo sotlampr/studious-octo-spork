@@ -35,14 +35,20 @@
 </template>
 
 <template name="dashboard">
-	{{#if user.id}}
-		<p>This is the users' dashboard. Your user id is {{user.id}} and your
-		email is {{user.email}}.</p>
-		{{#if user.username}}
-			<p>Your current username is: {{user.username}}</p>
-		{{else}}
-			<p>You haven't chosen a username yet!</p>
-		{{/if}}
+	{{#if formData}}
+		{{#with formData}}
+			<form class="update-profile" method="post">
+				<label>Username: </label>
+				<input type="text" name="username" value={{username}}><br />
+
+				<label>Occupation: </label>
+				<input type="text" name="occupation" value={{occupation}}><br />
+
+				<label>Description: </label>
+				<input type="text" name="description" value={{description}}><br />
+				<input type="submit" value="Save">
+			</form>
+		{{/with}}
 	{{else}}
 		<p>You are not registered yet.</p>
 	{{/if}}
