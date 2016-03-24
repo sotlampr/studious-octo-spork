@@ -36,6 +36,13 @@
 
 <template name="usersIndex">
   <p>An overview of all the users.</p>
+	{{# if users}}
+		<ul>
+		{{#each users}}
+			<li>{{_id}}</li>
+		{{/each}}
+		</ul>
+	{{/if}}
 </template>
 
 <template name="usersById">
