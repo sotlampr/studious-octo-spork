@@ -28,13 +28,14 @@
           <li><a href='/'>Home</a></li>
           <li><a href="/about">About</a></li>
           <li><a href="/users">Users</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
         {{#if currentUser}}
           <div class="nav navbar-right dropdown">
             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">{{currentUser.username}}<span class="caret"></span></button>
             <ul class="dropdown-menu">
-              <li><p>Signed in as <strong>{{currentUser.username}}</strong></p></li>
+              <li><a href="">Signed in as <strong>{{currentUser.username}}</strong></a></li>
               <li class="divider"></li>
               <li><a href="">Your profile</a></li>
               <li><a href="">Help</a></li>
@@ -44,8 +45,9 @@
             </ul>
           </div>
         {{else}}
-          <ul class="nav navbar-right">
-            <li><a class="btn btn-md btn-success" href="/register">Register</a></li>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sing Up</a></li>
+            <li><a href="/register"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           </ul>
         {{/if}}
       </div>
@@ -152,16 +154,30 @@
     <div class="container-fluid">
       {{#if formData}}
         {{#with formData}}
-          <form class="update-profile" method="post">
-            <label>Username: </label>
-            <input type="text" name="username" value={{username}}><br />
-
-            <label>Occupation: </label>
-            <input type="text" name="occupation" value={{occupation}}><br />
-
-            <label>Description: </label>
-            <input type="text" name="description" value={{description}}><br />
-            <input type="submit" value="Save">
+          <form role="form" class="form-horizontal update-profile" method="post">
+            <div class="form-group">
+              <label for="username" class="control-label col-sm-1">Username: </label>
+              <div class="col-sm-2">
+                <input type="text" class="form-control" id="username" name="username" value={{username}}>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="occupation" class="control-label col-sm-1">Occupation: </label>
+              <div class="col-sm-2">
+                <input type="text" class="form-control" id="occupation" name="occupation" value={{occupation}}>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description" class="control-label col-sm-1">Description: </label>
+              <div class="col-sm-2">
+                <input type="text" class="form-control" id="description" name="description" value={{description}}>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-2 col-sm-8">
+                <button type="submit" class="btn btn-default">Save</button>
+              </div>
+            </div>
           </form>
         {{/with}}
       {{else}}
