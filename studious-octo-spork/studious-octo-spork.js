@@ -1,5 +1,5 @@
 if (Meteor.isClient) {
-  // counter starts at 0
+  // When we remove this?
   Session.setDefault('counter', 0);
 
   Template.hello.helpers({
@@ -16,15 +16,8 @@ if (Meteor.isClient) {
   });
 
   Template.dashboard.helpers({
-    'user': function () {
-      return {
-        id: Meteor.userId(),
-        email: Meteor.user().emails[0].address,
-        username: Meteor.user().username
-      };
-    },
-
     formData: function () {
+      // Data for pre-filling the dashboard form
       user = Meteor.users.findOne(Meteor.userId());
       if (user) {
         return {
@@ -39,6 +32,7 @@ if (Meteor.isClient) {
 
   Template.dashboard.events({
     'submit .update-profile': function (event) {
+      // Handle the updating logic, call updateUserProfile afterwards
       event.preventDefault();
       Meteor.call('updateUserProfile', {
         id: Meteor.userId(),
@@ -99,18 +93,16 @@ if (Meteor.isServer) {
 
   Accounts.onCreateUser(function (options, user) {
     user.profile = user.profile || {};
-    user.username = 'test';
-    user.profile.occupation = 'test';
-    user.profile.description = 'test';
+    user.username = '';
+    user.profile.occupation = '';
+    user.profile.description = '';
     return user;
   });
 }
 
-
-
 Meteor.methods({
   updateUserProfile: function (data) {
-    // Verify that the profile to update matches the logged in user
+    // Handle updating of user profile
     if (Meteor.userId() !== data.id) {
       throw new Meteor.Error('not-authorized');
     }
@@ -121,4 +113,3 @@ Meteor.methods({
     }}, {validate: false});
   }
 });
-
