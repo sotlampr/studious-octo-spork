@@ -30,9 +30,24 @@
           <li><a href="/users">Users</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
-        <ul class="nav navbar-right">
-          <li><a class="btn btn-lg btn-success" href="/register">Register</a></li>
-        </ul>
+        {{#if currentUser}}
+          <div class="nav navbar-right dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">{{currentUser.username}}<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li>Signed in as <strong>{{currentUser.username}}</strong></li>
+              <li class="divider"></li>
+              <li><a href="">Your profile</a></li>
+              <li><a href="">Help</a></li>
+              <li class="divider"></li>
+              <li><a href="">Settings</a></li>
+              <li><a href="">Sign out</a></li>
+            </ul>
+          </div>
+        {{else}}
+          <ul class="nav navbar-right">
+            <li><a class="btn btn-md btn-success" href="/register">Register</a></li>
+          </ul>
+        {{/if}}
       </div>
     </div>
   </nav>
