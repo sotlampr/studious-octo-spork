@@ -137,7 +137,6 @@
 </template>
 
 <template name="usersIndex">
-<<<<<<< HEAD
   <div class="jumbotron">
     <div class="container-fluid">
       <p>
@@ -145,16 +144,16 @@
       </p>
     </div>
   </div>
-=======
-  <p>An overview of all the users.</p>
-	{{# if users}}
-		<ul>
-		{{#each users}}
-			<li>{{_id}}</li>
-		{{/each}}
-		</ul>
-	{{/if}}
->>>>>>> ed77de9bb73ffa75fe09019aa8b8bb040b7c3b8d
+  <div class="container">
+    <p>An overview of all the users.</p>
+	  {{# if users}}
+		  <ul>
+		  {{#each users}}
+			  <li>{{_id}}</li>
+		  {{/each}}
+		  </ul>
+	  {{/if}}
+  </div>
 </template>
 
 <template name="usersById">
