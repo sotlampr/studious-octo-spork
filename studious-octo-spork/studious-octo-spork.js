@@ -1,5 +1,4 @@
 if (Meteor.isClient) {
-  Meteor.subscribe('userProfiles');
   // counter starts at 0
   Session.setDefault('counter', 0);
 
@@ -31,8 +30,8 @@ if (Meteor.isClient) {
         return {
           id: user._id,
           username: user.username,
-          occupation: user.occupation,
-          description: user.description
+          occupation: user.profile.occupation,
+          description: user.profile.description
         };
       }
     }
@@ -90,6 +89,7 @@ if (Meteor.isClient) {
       FlowRouter.go("/");
     }
   });
+
 }
 
 if (Meteor.isServer) {
@@ -97,11 +97,16 @@ if (Meteor.isServer) {
     // code to run on server at startup
   });
 
-  Meteor.publish('userProfiles', function() {
-    if (!Meteor.userId()) return null;
-    return Meteor.users.find(Meteor.userId());
+  Accounts.onCreateUser(function (options, user) {
+    user.profile = user.profile || {};
+    user.username = 'test';
+    user.profile.occupation = 'test';
+    user.profile.description = 'test';
+    return user;
   });
 }
+
+
 
 Meteor.methods({
   updateUserProfile: function (data) {
@@ -111,8 +116,8 @@ Meteor.methods({
     }
     Meteor.users.update(data.id, {$set: {
       username: data.username,
-      occupation: data.occupation,
-      description: data.description
+      'profile.occupation': data.occupation,
+      'profile.description': data.description
     }}, {validate: false});
   }
 });
