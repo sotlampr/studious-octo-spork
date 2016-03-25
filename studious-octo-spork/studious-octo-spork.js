@@ -15,6 +15,14 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.App_body.events({
+    'click .signout': function () {
+      // logout
+      Meteor.logout();
+      FlowRouter.go('/');
+    }
+  });
+
   Template.usersIndex.helpers({
     users: function () {
       return Meteor.users.find();
@@ -86,6 +94,10 @@ if (Meteor.isClient) {
     }
   });
 
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_AND_EMAIL"
+  });
+
   Accounts.onLogin( function () {
     var path = FlowRouter.current().path;
     // Redirecting after successful login
@@ -103,7 +115,6 @@ if (Meteor.isServer) {
 
   Accounts.onCreateUser(function (options, user) {
     user.profile = user.profile || {};
-    user.username = '';
     user.profile.occupation = '';
     user.profile.description = '';
     return user;

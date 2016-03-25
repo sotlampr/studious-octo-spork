@@ -34,13 +34,13 @@
           <div class="nav navbar-right dropdown">
             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">{{currentUser.username}}<span class="caret"></span></button>
             <ul class="dropdown-menu">
-              <li>Signed in as <strong>{{currentUser.username}}</strong></li>
+              <li><p>Signed in as <strong>{{currentUser.username}}</strong></p></li>
               <li class="divider"></li>
               <li><a href="">Your profile</a></li>
               <li><a href="">Help</a></li>
               <li class="divider"></li>
               <li><a href="">Settings</a></li>
-              <li><a href="">Sign out</a></li>
+              <li><a class="signout">Sign out</a></li>
             </ul>
           </div>
         {{else}}
