@@ -136,6 +136,30 @@
   </div>
 </template>
 
+<template name="dashboard">
+  <div class="jumbotron">
+    <div class="container-fluid">
+      {{#if formData}}
+        {{#with formData}}
+          <form class="update-profile" method="post">
+            <label>Username: </label>
+            <input type="text" name="username" value={{username}}><br />
+
+            <label>Occupation: </label>
+            <input type="text" name="occupation" value={{occupation}}><br />
+
+            <label>Description: </label>
+            <input type="text" name="description" value={{description}}><br />
+            <input type="submit" value="Save">
+          </form>
+        {{/with}}
+      {{else}}
+        <p>You are not registered yet.</p>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
 <template name="usersIndex">
   <div class="jumbotron">
     <div class="container-fluid">
@@ -157,9 +181,18 @@
 </template>
 
 <template name="usersById">
-  <p>Looking at user with id {{targetId}}.</p>
+	{{#if user}}
+		<h3>{{user.username}}</h3>
+		<p>email: {{user.email}}</p>
+	{{else}}
+		<p>User {{targetId}} does not exist.</p>
+	{{/if}}
 </template>
 
 <template name="usersContactById">
-  <p>You want to contact user with id {{targetId}}.</p>
+	{{#if user}}
+		<p>Contact {{user.username}} at {{user.email}}</p>
+	{{else}}
+		<p>User {{targetId}} does not exist.</p>
+	{{/if}}
 </template>
