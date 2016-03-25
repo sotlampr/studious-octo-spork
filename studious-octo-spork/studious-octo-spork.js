@@ -18,6 +18,9 @@ if (Meteor.isClient) {
   Template.usersIndex.helpers({
     users: function () {
       return Meteor.users.find();
+    },
+    path: function (username) {
+      return FlowRouter.path('/users/:username', {username: username});
     }
   });
 
@@ -59,8 +62,9 @@ if (Meteor.isClient) {
       var targetUser = Meteor.users.findOne({username: targetUsername});
       if (targetUser) {
         return {
-          email: targetUser.emails[0].address,
-          username: targetUser.username
+          username: targetUser.username,
+          occupation: targetUser.profile.occupation,
+          description: targetUser.profile.description
         };
       }
     }

@@ -171,7 +171,9 @@
 	  {{# if users}}
 		  <ul>
 		  {{#each users}}
-			  <li>{{_id}}</li>
+        <a href="{{path(username)}}">
+          <li>{{username}}: {{profile.occupation}}</li>
+        </a>
 		  {{/each}}
 		  </ul>
 	  {{/if}}
@@ -181,7 +183,16 @@
 <template name="usersById">
 	{{#if user}}
 		<h3>{{user.username}}</h3>
-		<p>email: {{user.email}}</p>
+    <p>
+    {{#if user.occupation}}
+      Occupation: {{user.occupation}}<br />
+    {{else}}
+      User has not registered an occupation yet.<br />
+    {{/if}}
+    {{#if user.description}}
+      {{user.description}}<br />
+    {{/if}}
+    </p>
 	{{else}}
 		<p>User {{targetId}} does not exist.</p>
 	{{/if}}
