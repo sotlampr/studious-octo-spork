@@ -15,6 +15,12 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.usersIndex.helpers({
+    users: function () {
+      return Meteor.users.find();
+    }
+  });
+
   Template.dashboard.helpers({
     formData: function () {
       // Data for pre-filling the dashboard form

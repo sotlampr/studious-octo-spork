@@ -1,61 +1,184 @@
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="">
+  <meta name="author" content="">
+
   <title>studious-octo-spork</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 
 <template name="App_body">
-  <h3>Studious Octo Spork</h3>
+  <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+    <div class="container">
+    	<div class="navbar-header">
+      	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        	<span class="sr-only">Toggle navigation</span>
+        	<span class="icon-bar"></span>
+        	<span class="icon-bar"></span>
+        	<span class="icon-bar"></span>
+      	</button>
+        <a class="navbar-brand" href="/">Studious Octo Spork</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href='/'>Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/users">Users</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+        <ul class="nav navbar-right">
+          <li><a class="btn btn-lg btn-success" href="/register">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   {{> Template.dynamic template=main}}
   <footer>
-    <p><i>by >touch_ code</i></p>
+    <p>© 2016 by <strong>&gt;touch_code</strong></p>
   </footer>
 </template>
 
 <template name="hello">
-  <h1>Welcome to studious-octo-spork</h1>
-  <p>
-    {{#if currentUser}}
-      {{> loginButtons}}
-    {{/if}}
-  </p>
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Welcome to studious-octo-spork!</h1>
+      <p>
+        This is a time bank.
+      </p>
+      <p>
+        <a class="btn btn-primary btn-lg" href="/about" role="button">Learn more »</a>
+      </p>
+    </div>
+  </div>
+  <div class="container">
+    <p>
+      {{#if currentUser}}
+        {{> loginButtons}}
+      {{/if}}
+    </p>
+    <button>Click Me</button>
+    <p>You've pressed the button {{counter}} times.</p>
+  </div>
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Heading</h2>
+        <p>
+          Donec id elit non mi porta gravida at eget metus.
+          Fusce dapibus, tellus ac cursus commodo,
+          tortor mauris condimentum nibh,
+          ut fermentum massa justo sit amet risus.
+          Etiam porta sem malesuada magna mollis euismod.
+          Donec sed odio dui.
+        </p>
+        <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+      </div>
+      <div class="col-md-4">
+        <h2>Heading</h2>
+        <p>
+          Donec id elit non mi porta gravida at eget metus.
+          Fusce dapibus, tellus ac cursus commodo,
+          tortor mauris condimentum nibh,
+          ut fermentum massa justo sit amet risus.
+          Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+        </p>
+        <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>
+            Donec sed odio dui. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam.
+            Vestibulum id ligula porta felis euismod semper.
+            Fusce dapibus, tellus ac cursus commodo,
+            tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+          </p>
+          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+        </div>
+      </div>
+      <hr>
+  </div>
 </template>
 
 <template name="about">
-  <p>This is an 'about' page.</p>
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <p>
+        <p>This is an 'about' page.</p>
+      </p>
+    </div>
+  </div>
 </template>
 
 <template name="contact">
-  <p>This is an 'contact' page.</p>
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <p>
+        <p>This is an 'contact' page.</p>
+      </p>
+    </div>
+  </div>
 </template>
 
 <template name="register">
-  <p>So you want to register...</p>
-  <p>{{> loginButtons}}</p>
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <p>
+        <p>This is a 'register' page.</p>
+        {{> loginButtons}}
+      </p>
+    </div>
+  </div>
 </template>
 
 <template name="dashboard">
-	{{#if formData}}
-		{{#with formData}}
-			<form class="update-profile" method="post">
-				<label>Username: </label>
-				<input type="text" name="username" value={{username}}><br />
+  <div class="jumbotron">
+    <div class="container-fluid">
+      {{#if formData}}
+        {{#with formData}}
+          <form class="update-profile" method="post">
+            <label>Username: </label>
+            <input type="text" name="username" value={{username}}><br />
 
-				<label>Occupation: </label>
-				<input type="text" name="occupation" value={{occupation}}><br />
+            <label>Occupation: </label>
+            <input type="text" name="occupation" value={{occupation}}><br />
 
-				<label>Description: </label>
-				<input type="text" name="description" value={{description}}><br />
-				<input type="submit" value="Save">
-			</form>
-		{{/with}}
-	{{else}}
-		<p>You are not registered yet.</p>
-	{{/if}}
+            <label>Description: </label>
+            <input type="text" name="description" value={{description}}><br />
+            <input type="submit" value="Save">
+          </form>
+        {{/with}}
+      {{else}}
+        <p>You are not registered yet.</p>
+      {{/if}}
+    </div>
+  </div>
+
 </template>
 
 <template name="usersIndex">
-  <p>An overview of all the users.</p>
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <p>
+        <p>This is a 'users' page.</p>
+      </p>
+    </div>
+  </div>
+  <div class="container">
+    <p>An overview of all the users.</p>
+	  {{# if users}}
+		  <ul>
+		  {{#each users}}
+			  <li>{{_id}}</li>
+		  {{/each}}
+		  </ul>
+	  {{/if}}
+  </div>
 </template>
 
 <template name="usersById">
