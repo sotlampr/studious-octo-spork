@@ -22,4 +22,4 @@
 
 ## Requests
 
-(S)->(P): Give some style to /dashboard
+~~(S)->(P): Give some style to /dashboard~~
