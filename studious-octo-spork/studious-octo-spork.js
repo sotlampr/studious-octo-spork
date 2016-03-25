@@ -1,4 +1,5 @@
 if (Meteor.isClient) {
+  Meteor.subscribe('userProfiles');
   // counter starts at 0
   Session.setDefault('counter', 0);
 
@@ -94,6 +95,11 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+  });
+
+  Meteor.publish('userProfiles', function() {
+    if (!Meteor.userId()) return null;
+    return Meteor.users.find(Meteor.userId());
   });
 }
 
