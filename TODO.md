@@ -9,7 +9,7 @@
 - ~~Meteor app~~ (S)
 - ~~UI~~ (T)
 - ~~Routes~~ (S)
-- Email to admin for contact (T)
+- ~~Email to admin for contact~~ (T)
 - ~~User registration, login & logout~~ (T)
 - User profiles (MORE WORK) (S)
 - User indexing / searching (T)
@@ -22,4 +22,4 @@
 
 ## Requests
 
-~~(S)->(P): Give some style to /dashboard~~
+~~(S)->(T): Give some style to /dashboard~~
