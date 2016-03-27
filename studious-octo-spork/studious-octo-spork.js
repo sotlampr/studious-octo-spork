@@ -14,6 +14,20 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.contact.events({
+    'submit .testemail': function (event) {
+      event.preventDefault();
+      Meteor.call('sendTestEmail',{
+        name: event.target.name.value,
+        email: event.target.email.value,
+        comment: event.target.comments.value
+      });
+      event.target.name.value = '';
+      event.target.email.value = '';
+      event.target.comments.value = '';
+    }
+  });
+
   Template.usersIndex.helpers({
     users: function () {
       return Meteor.users.find();
@@ -102,6 +116,10 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+    // USERNAME: Complete email address (website@gmail.com)
+    // PASSWORD: Email password (gmail password)
+    // HOST: Smtp server address (for gmail is stmp.gmail.com, for hotmail is stmp.live.com, ...)
+    process.env.MAIL_URL = 'smtp://USERNAME:PASSWORD@HOST:587';
   });
 
   Accounts.onCreateUser(function (options, user) {
@@ -109,6 +127,18 @@ if (Meteor.isServer) {
     user.profile.occupation = '';
     user.profile.description = '';
     return user;
+  });
+
+  Meteor.methods({
+    sendTestEmail: function (data) {
+      var bodytext = "Someone '" + data.name + "' with email: " + data.email + " sent you the comment: " + data.comment + " !";
+      Email.send({
+        from: "", // form web site email (website@gmail.com)
+        to: "",   // to admin email (admin@something.com)
+        subject: "Subject test",
+        text: bodytext
+      });
+    }
   });
 }
 

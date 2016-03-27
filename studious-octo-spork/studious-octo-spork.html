@@ -133,7 +133,7 @@
 
 <template name="contact">
   <div class="jumbotron">
-    <div id="contact" class="container">
+    <form role="form" id="cntct" class="container testemail">
       <h3 class="text-center">Contact us and we'll get back to you within 24 hours.</h3>
       <br>
       <div class="row">
@@ -145,10 +145,10 @@
         <div class="col-md-8">
           <div class="row">
             <div class="col-sm-6 form-group">
-              <input class="form-control" id="name" placeholder="Name" type="text" required>
+              <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
             </div>
             <div class="col-sm-6 form-group">
-              <input class="form-control" id="email" placeholder="Email" type="text" required>
+              <input class="form-control" id="email" name="email" placeholder="Email" type="text" required>
             </div>
             <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
             <div class="row">
@@ -157,10 +157,32 @@
               </div>
             </div>
           </div>
+          <p class='thnx'></p>
         </div>
       </div>
-    </div>
+    </form>
   </div>
+  <script type='text/javascript'>
+    $(document).ready( function() {
+      $( 'form' ).submit( function() {
+        var noempty = true;
+        if ( this.name.value == null || this.name.value == "" ) {
+          noempty = false;
+        }
+        if ( this.email.value == null || this.email.value == "" ) {
+          noempty = false;
+        }
+        if ( this.comments.value == null || this.comments.value == "" ) {
+          noempty = false;
+        }
+        if ( !noempty ) {
+          alert("There is empty input");
+          return noempty;
+        }
+        $( '.thnx' ).html( '<strong>Your comment has just received, Thank you!</strong>' ).show().fadeOut( 10000 );
+      });
+    });
+  </script>
 </template>
 
 <template name="register">
