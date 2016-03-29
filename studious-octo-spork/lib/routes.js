@@ -42,13 +42,13 @@ userRoutes.route('/', {
   action: renderTemplate('usersIndex')
 });
 
-userRoutes.route('/:id', {
-  name: 'Users.by_id',
-  action: renderTemplate('usersById')
+userRoutes.route('/:username', {
+  name: 'Users.by_username',
+  action: renderTemplate('usersByUsername')
 });
 
-userRoutes.route('/:id/contact', {
-  name: 'Users.by_id.contact',
-  action: renderTemplate('usersContactById')
+userRoutes.route('/:username/contact', {
+  name: 'Users.by_username.contact',
+  action: renderTemplate('usersContactByUsername')
 });
 

@@ -65,13 +65,13 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.usersById.helpers({
-    'targetId': function() {
-      return FlowRouter.getParam('id');
+  Template.usersByUsername.helpers({
+    targetUsername: function() {
+      return FlowRouter.getParam('username');
     },
 
-    'user': function () {
-      var targetUsername = FlowRouter.getParam('id');
+    userData: function () {
+      var targetUsername = FlowRouter.getParam('username');
       var targetUser = Meteor.users.findOne({username: targetUsername});
       if (targetUser) {
         return {
@@ -83,18 +83,20 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.usersContactById.helpers({
-    'targetId': function () {
-      return FlowRouter.getParam('id');
+  Template.usersContactByUsername.helpers({
+    targetUsername: function() {
+      return FlowRouter.getParam('username');
     },
-    'user': function () {
-      var targetUsername = FlowRouter.getParam('id');
+
+    userData: function () {
+      var targetUsername = FlowRouter.getParam('username');
       var targetUser = Meteor.users.findOne({username: targetUsername});
       if (targetUser) {
-        return {
-          email: targetUser.emails[0].address,
-          username: targetUser.username
+        var userData = {
+            email: targetUser.emails[0].address,
+            username: targetUser.username
         };
+        return userData;
       }
     }
   });

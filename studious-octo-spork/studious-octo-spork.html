@@ -237,9 +237,7 @@
 <template name="usersIndex">
   <div class="jumbotron">
     <div class="container-fluid">
-      <p>
-        <p>This is a 'users' page.</p>
-      </p>
+      <h2>Get your job done.<br />In a fair manner.</h2>
     </div>
   </div>
   <div class="container">
@@ -256,32 +254,49 @@
   </div>
 </template>
 
-<template name="usersById">
+<template name="usersByUsername">
   <div class="jumbotron">
     <div class="container">
-      {{#if user}}
-        <h3>user {{user.username}}</h3>
-        <p>
-        {{#if user.occupation}}
-          Occupation: {{user.occupation}}<br />
-        {{else}}
-          User has not registered an occupation yet.<br />
-        {{/if}}
-        {{#if user.description}}
-          {{user.description}}<br />
-        {{/if}}
-        </p>
+      {{#if userData}}
+        {{#with userData}}
+          <h3>user {{username}}</h3>
+          <p>
+            {{#if occupation}}
+              Occupation: {{occupation}}<br />
+            {{else}}
+              User has not registered an occupation yet.<br />
+            {{/if}}
+            {{#if description}}
+              {{description}}<br />
+            {{/if}}
+            <a href="/users/{{targetUsername}}/contact">contact user</a>
+          </p>
+        {{/with}}
       {{else}}
-        <p>User {{targetId}} does not exist.</p>
+        <p>User {{targetUsername}} does not exist.</p>
       {{/if}}
     </div>
-    </div>
+  </div>
 </template>
 
-<template name="usersContactById">
-	{{#if user}}
-		<p>Contact {{user.username}} at {{user.email}}</p>
-	{{else}}
-		<p>User {{targetId}} does not exist.</p>
-	{{/if}}
+<template name="usersContactByUsername">
+  {{#if currentUser}}
+    <div class="jumbotron">
+      <div class="container">
+        {{#if userData}}
+          {{#with userData}}
+            <p>Contact <a href="/users/{{username}}">{{username}}</a> at {{email}}</p>
+          {{/with}}
+        {{else}}
+          <h2>Sorry, user {{targetUsername}} does not exist</h2>
+        {{/if}}
+      </div>
+    </div>
+  {{else}}
+    <div class="jumbotron">
+      <div class="container">
+        <h2>Sorry, you need to login to access this page</h2>
+      </div>
+    </div>
+  {{/if}}
 </template>
