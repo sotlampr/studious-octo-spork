@@ -179,7 +179,7 @@
           alert("There is empty input");
           return noempty;
         }
-        $( '.thnx' ).html( '<strong>Your comment has just received, Thank you!</strong>' ).show().fadeOut( 10000 );
+        $( '.thnx' ).html( '<strong>Your comment has been received, Thank you!</strong>' ).show().fadeOut( 10000 );
       });
     });
   </script>
@@ -257,21 +257,25 @@
 </template>
 
 <template name="usersById">
-	{{#if user}}
-		<h3>{{user.username}}</h3>
-    <p>
-    {{#if user.occupation}}
-      Occupation: {{user.occupation}}<br />
-    {{else}}
-      User has not registered an occupation yet.<br />
-    {{/if}}
-    {{#if user.description}}
-      {{user.description}}<br />
-    {{/if}}
-    </p>
-	{{else}}
-		<p>User {{targetId}} does not exist.</p>
-	{{/if}}
+  <div class="jumbotron">
+    <div class="container">
+      {{#if user}}
+        <h3>user {{user.username}}</h3>
+        <p>
+        {{#if user.occupation}}
+          Occupation: {{user.occupation}}<br />
+        {{else}}
+          User has not registered an occupation yet.<br />
+        {{/if}}
+        {{#if user.description}}
+          {{user.description}}<br />
+        {{/if}}
+        </p>
+      {{else}}
+        <p>User {{targetId}} does not exist.</p>
+      {{/if}}
+    </div>
+    </div>
 </template>
 
 <template name="usersContactById">
