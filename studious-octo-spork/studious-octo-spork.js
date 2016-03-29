@@ -97,18 +97,20 @@ if (Meteor.isClient) {
     targetUsername: function() {
       return FlowRouter.getParam('username');
     },
+  });
 
-    userData: function () {
-      var targetUsername = FlowRouter.getParam('username');
-      var targetUser = Meteor.users.findOne({username: targetUsername});
-      if (targetUser) {
-        var userData = {
-            email: targetUser.emails[0].address,
-            username: targetUser.username
-        };
-        return userData;
-      }
+  Template.usersContactByUsername.events({
+    'submit .send-message': function (event) {
+      // Dump a new message on the Messages Collection
+      event.preventDefault();
+      Meteor.call('saveMessage', {
+        to: FlowRouter.getParam('username'),
+        from: Meteor.user().username,
+        message: event.target.message.value,
+        read: false
+      });
     }
+
   });
 
   Accounts.ui.config({
@@ -165,5 +167,15 @@ Meteor.methods({
       'profile.occupation': data.occupation,
       'profile.description': data.description
     }}, {validate: false});
+  },
+
+  saveMessage: function (data) {
+    if (Meteor.user().username !== data.from) {
+      throw new Meteor.Error('not-authorized');
+    }
+    if (!Meteor.users.findOne({username: data.to})) {
+      throw new Meteor.Error('user-not-exist');
+    }
+    Messages.insert(data);
   }
 });

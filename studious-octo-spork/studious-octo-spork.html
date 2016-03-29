@@ -290,23 +290,27 @@
 </template>
 
 <template name="usersContactByUsername">
-  {{#if currentUser}}
-    <div class="jumbotron">
-      <div class="container">
-        {{#if userData}}
-          {{#with userData}}
-            <p>Contact <a href="/users/{{username}}">{{username}}</a> at {{email}}</p>
-          {{/with}}
-        {{else}}
-          <h2>Sorry, user {{targetUsername}} does not exist</h2>
-        {{/if}}
-      </div>
-    </div>
-  {{else}}
-    <div class="jumbotron">
-      <div class="container">
+  <div class="jumbotron">
+    <div class="container">
+      {{#if currentUser}}
+        <form role="form" class="form-horizontal send-message" method="post">
+          <div class="form-group">
+            <label for="message" class="control-label col-sm-1">
+              Your Message for {{targetUsername}}:
+            </label>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" id="message" name="message" value="Hello {{targetUsername}}, ">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-2 col-sm-8">
+              <button type="submit" class="btn btn-default">Send</button>
+            </div>
+          </div>
+        </form>
+      {{else}}
         <h2>Sorry, you need to login to access this page</h2>
-      </div>
+      {{/if}}
     </div>
-  {{/if}}
+  </div>
 </template>
