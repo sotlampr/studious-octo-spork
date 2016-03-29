@@ -1,3 +1,5 @@
+Messages = new Mongo.Collection("messages");
+
 if (Meteor.isClient) {
 
   Template.hello.helpers({
@@ -48,6 +50,14 @@ if (Meteor.isClient) {
           occupation: user.profile.occupation,
           description: user.profile.description
         };
+      }
+    },
+    userMessages: function () {
+      // See if we have any messages for this user
+      if (Meteor.user()) {
+        var reciever = Meteor.user().username;
+        var userMessages = Messages.find({to: reciever});
+        return userMessages;
       }
     }
   });

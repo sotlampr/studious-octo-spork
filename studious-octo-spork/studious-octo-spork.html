@@ -232,6 +232,16 @@
       {{/if}}
     </div>
   </div>
+  {{#if currentUser}}
+    <div class="container">
+      <h3>Messages</h3>
+      <ul>
+        {{#each userMessages}}
+          <li>{{from}}: {{message}} | Read? {{read}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
 </template>
 
 <template name="usersIndex">
