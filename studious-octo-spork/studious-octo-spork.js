@@ -30,13 +30,30 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.usersIndex.events({
+    'submit .findOccupation': function (event) {
+      event.preventDefault();
+      var work = event.target.work.value;
+      event.target.work.value = '';
+      Session.set('work', work);
+    },
+  });
+
   Template.usersIndex.helpers({
     users: function () {
       return Meteor.users.find();
     },
+
     path: function (username) {
       return FlowRouter.path('/users/:username', {username: username});
-    }
+    },
+
+    usersSearchWithOccupation: function () {
+      var work = Session.get('work');
+      if (work) {
+        return Meteor.users.find({'profile.occupation': work});
+      }
+    },
   });
 
   Template.dashboard.helpers({

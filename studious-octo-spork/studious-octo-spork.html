@@ -58,7 +58,7 @@
   {{> Template.dynamic template=main}}
 
   <footer>
-    <p>2016 by <strong>&gt;touch_code</strong></p>
+    <p class='text-center'>2016 by <strong>&gt;touch_code</strong></p>
   </footer>
 </template>
 
@@ -278,6 +278,22 @@
 		  {{/each}}
 		  </ul>
 	  {{/if}}
+  </div>
+  <div class='container'>
+    <form class='findOccupation'>
+      <input class="col-md-4" type='text' name='work' placeholder='Are you looking for an occupation?' />
+    </form>
+  </div>
+  <div class='container'>
+	  {{# if usersSearchWithOccupation}}
+		  <ul>
+		  {{#each usersSearchWithOccupation}}
+        <a href="{{path(username)}}">
+          <li>{{username}}: {{profile.occupation}}</li>
+        </a>
+		  {{/each}}
+		  </ul>
+    {{/if}}
   </div>
 </template>
 
