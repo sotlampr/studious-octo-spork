@@ -11,10 +11,10 @@
 - ~~Routes~~ (S)
 - ~~Email to admin for contact~~ (T)
 - ~~User registration, login & logout~~ (T)
-- User profiles (MORE WORK) (S)
+- ~~User profiles (MORE WORK)~~ (S)
 - User indexing / searching (T)
 - Work offer logging & suggestions (T)
-- Personal messages (S)
+- ~~Personal messages~~ (S)
 
 ### Miscellaneous
 - Find a name
@@ -23,3 +23,4 @@
 ## Requests
 
 ~~(S)->(T): Give some style to /dashboard~~
+(S) -> (T): Provide appropriate visual feedback when user sends a personal message please!
