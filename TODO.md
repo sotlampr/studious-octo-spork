@@ -12,7 +12,7 @@
 - ~~Email to admin for contact~~ (T)
 - ~~User registration, login & logout~~ (T)
 - ~~User profiles (MORE WORK)~~ (S)
-- User indexing / searching (T)
+- ~~User indexing / searching~~ (T)
 - Work offer logging & suggestions (T)
 - ~~Personal messages~~ (S)
 
