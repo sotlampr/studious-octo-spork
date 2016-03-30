@@ -280,20 +280,40 @@
 	  {{/if}}
   </div>
   <div class='container'>
-    <form class='findOccupation'>
-      <input class="col-md-4" type='text' name='work' placeholder='Are you looking for an occupation?' />
-    </form>
+    <div class='col-md-6'>
+      <form class='findOccupation'>
+        <input class="col-md-6" type='text' name='work' placeholder='Are you looking for an occupation?' />
+      </form>
+    </div>
+    <div class='col-md-6'>
+      <form class='findDescription'>
+        <input class="col-md-6" type='text' name='description' placeholder='Give me a description!' />
+      </form>
+    </div>
   </div>
   <div class='container'>
-	  {{# if usersSearchWithOccupation}}
-		  <ul>
-		  {{#each usersSearchWithOccupation}}
-        <a href="{{path(username)}}">
-          <li>{{username}}: {{profile.occupation}}</li>
-        </a>
-		  {{/each}}
-		  </ul>
-    {{/if}}
+    <div class='col-md-6'>
+	    {{#if usersSearchWithOccupation}}
+	      <ul>
+		      {{#each usersSearchWithOccupation}}
+            <a href="{{path(username)}}">
+              <li>{{username}}: {{profile.occupation}}</li>
+            </a>
+          {{/each}}
+		    </ul>
+      {{/if}}
+    </div>
+    <div class='col-md-6'>
+	    {{#if usersSearchWithDescription}}
+		    <ul>
+	        {{#each usersSearchWithDescription}}
+            <a href="{{path(username)}}">
+              <li>{{username}}: {{profile.occupation}}</li>
+            </a>
+		      {{/each}}
+		    </ul>
+      {{/if}}
+    </div>
   </div>
 </template>
 

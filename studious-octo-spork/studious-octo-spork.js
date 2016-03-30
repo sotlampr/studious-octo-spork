@@ -37,6 +37,13 @@ if (Meteor.isClient) {
       event.target.work.value = '';
       Session.set('work', work);
     },
+
+    'submit .findDescription': function (event) {
+      event.preventDefault();
+      var description = event.target.description.value;
+      event.target.description.value = '';
+      Session.set('description', description);
+    },
   });
 
   Template.usersIndex.helpers({
@@ -48,10 +55,30 @@ if (Meteor.isClient) {
       return FlowRouter.path('/users/:username', {username: username});
     },
 
+    //  ---EXAMPLE---
+    // There is a dog with
+    // username: jack
+    // occupation: hunter
+    // description: birds cats rabbits
+    //
+    // Searching with occupation:
+    //  -success: hunter, hun, HuNTe
+    // Searching with description:
+    //  -success: birds cats rabbits, CAt, Ts Rab
+    //  -fail: rabbits cats
     usersSearchWithOccupation: function () {
       var work = Session.get('work');
+      var workSearch = new RegExp(work, 'i');
       if (work) {
-        return Meteor.users.find({'profile.occupation': work});
+        return Meteor.users.find({'profile.occupation': workSearch});
+      }
+    },
+
+    usersSearchWithDescription: function () {
+      var description = Session.get('description');
+      var descriptionSearch = new RegExp(description, 'i');
+      if (description) {
+        return Meteor.users.find({'profile.description': descriptionSearch });
       }
     },
   });
