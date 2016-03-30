@@ -56,7 +56,9 @@ if (Meteor.isClient) {
       // See if we have any messages for this user
       if (Meteor.user()) {
         var reciever = Meteor.user().username;
-        var userMessages = Messages.find({to: reciever});
+        var userMessages = Messages.find(
+            {to: reciever, visible:true},
+            {sort: {read: -1, dateCreated: -1}});
         return userMessages;
       }
     }
@@ -72,6 +74,12 @@ if (Meteor.isClient) {
         occupation: event.target.occupation.value,
         description: event.target.description.value
       });
+    },
+    'click .toggle-read': function() {
+      Messages.update({_id: this._id}, {$set: {read: !this.read}});
+    },
+    'click .delete': function () {
+      Messages.update({_id: this._id}, {$set: {visible: false}});
     }
   });
 
@@ -107,7 +115,9 @@ if (Meteor.isClient) {
         to: FlowRouter.getParam('username'),
         from: Meteor.user().username,
         message: event.target.message.value,
-        read: false
+        dateCreated: new Date(),
+        read: false,
+        visible: true
       });
     }
 

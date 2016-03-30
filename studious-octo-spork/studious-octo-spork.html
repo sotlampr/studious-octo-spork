@@ -133,7 +133,7 @@
 
 <template name="contact">
   <div class="jumbotron">
-    <form role="form" id="cntct" class="container testemail">
+    <form role="form" id="cntct" class="container-fluid testemail">
       <h3 class="text-center">Contact us and we'll get back to you within 24 hours.</h3>
       <br>
       <div class="row">
@@ -233,11 +233,28 @@
     </div>
   </div>
   {{#if currentUser}}
-    <div class="container">
+    <div class="container-fluid">
       <h3>Messages</h3>
       <ul>
         {{#each userMessages}}
-          <li>{{from}}: {{message}} | Read? {{read}}</li>
+          <li>
+            {{from}}: {{message}}
+            <button class="toggle-read">
+              {{#if read}}
+                <span class="glyphicon glyphicon-eye-open"></span>
+              {{else}}
+                <span class="glyphicon glyphicon-eye-close"></span>
+              {{/if}}
+            </button>
+            <button>
+              <a href="/users/{{from}}/contact">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </a>
+            </button>
+            <button class="delete">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </li>
         {{/each}}
       </ul>
     </div>
@@ -250,7 +267,7 @@
       <h2>Get your job done.<br />In a fair manner.</h2>
     </div>
   </div>
-  <div class="container">
+  <div class="container-fluid">
     <p>An overview of all the users.</p>
 	  {{# if users}}
 		  <ul>
@@ -266,7 +283,7 @@
 
 <template name="usersByUsername">
   <div class="jumbotron">
-    <div class="container">
+    <div class="container-fluid">
       {{#if userData}}
         {{#with userData}}
           <h3>user {{username}}</h3>
@@ -291,7 +308,7 @@
 
 <template name="usersContactByUsername">
   <div class="jumbotron">
-    <div class="container">
+    <div class="container-fluid">
       {{#if currentUser}}
         <form role="form" class="form-horizontal send-message" method="post">
           <div class="form-group">
