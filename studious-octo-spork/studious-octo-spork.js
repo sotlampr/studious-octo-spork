@@ -84,6 +84,19 @@ if (Meteor.isClient) {
   });
 
   Template.dashboard.helpers({
+    settings: function () {
+      return {
+        position: "top",
+        limit: 5,
+        rules: [
+          {
+            collection: Meteor.users,
+            field: "profile.occupation",
+            template: Template.autocomplete
+          },
+        ]
+      };
+    },
     formData: function () {
       // Data for pre-filling the dashboard form
       user = Meteor.users.findOne(Meteor.userId());

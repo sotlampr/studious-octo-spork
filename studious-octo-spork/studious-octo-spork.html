@@ -196,6 +196,10 @@
   </div>
 </template>
 
+<template name="autocomplete">
+  {{profile.occupation}}
+</template>
+
 <template name="dashboard">
   <div class="jumbotron">
     <div class="container-fluid">
@@ -211,7 +215,7 @@
             <div class="form-group">
               <label for="occupation" class="control-label col-sm-1">Occupation: </label>
               <div class="col-sm-2">
-                <input type="text" class="form-control" id="occupation" name="occupation" value={{occupation}}>
+                {{>inputAutocomplete settings=settings id='occupation' class='form-control' name='occupation' value=occupation }}
               </div>
             </div>
             <div class="form-group">
