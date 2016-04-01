@@ -2,12 +2,6 @@ Messages = new Mongo.Collection("messages");
 
 if (Meteor.isClient) {
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
-
   Template.App_body.events({
     'click .signout': function () {
       // logout
