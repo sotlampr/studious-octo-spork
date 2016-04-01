@@ -176,6 +176,7 @@ if (Meteor.isClient) {
         read: false,
         visible: true
       });
+      event.target.message.value = '';
     }
 
   });

@@ -352,22 +352,38 @@
       {{#if currentUser}}
         <form role="form" class="form-horizontal send-message" method="post">
           <div class="form-group">
-            <label for="message" class="control-label col-sm-1">
+            <label for="message" class="control-label col-sm-3">
               Your Message for {{targetUsername}}:
             </label>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
               <input type="text" class="form-control" id="message" name="message" value="Hello {{targetUsername}}, ">
             </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-2 col-sm-8">
+            <div class="col-sm-offset-3 col-sm-4">
               <button type="submit" class="btn btn-default">Send</button>
             </div>
           </div>
         </form>
+        <p class='received text-center'></p>
       {{else}}
         <h2>Sorry, you need to login to access this page</h2>
       {{/if}}
     </div>
   </div>
+  <script type='text/javascript'>
+    $(document).ready( function() {
+      $( 'form' ).submit( function() {
+        var noempty = true;
+        if ( this.message.value == null || this.message.value == "" ) {
+          noempty = false;
+        }
+        if ( !noempty ) {
+          alert("Your message is empty");
+          return noempty;
+        }
+        $( '.received' ).html( '<strong>Your message has been received</strong>' ).show().fadeOut( 10000 );
+      });
+    });
+  </script>
 </template>
