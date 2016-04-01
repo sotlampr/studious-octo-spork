@@ -22,5 +22,5 @@
 
 ## Requests
 
-~~(S)->(T): Give some style to /dashboard~~
-(S) -> (T): Provide appropriate visual feedback when user sends a personal message please!
+(S)->(T): ~~Give some style to /dashboard~~
+(S)->(T): ~~Provide appropriate visual feedback when user sends a personal message please!~~
