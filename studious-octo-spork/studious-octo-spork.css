@@ -1,1 +1,13 @@
 /* CSS declarations go here */
+body {
+  line-height: 1.8;
+}
+
+h2 {
+  margin-bottom: 30px;
+}
+
+.bg-1 {
+  margin-bottom: 45px;
+  margin-top: 25px;
+}
