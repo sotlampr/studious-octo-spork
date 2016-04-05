@@ -37,7 +37,7 @@ if (Meteor.isClient) {
       var description = event.target.description.value;
       event.target.description.value = '';
       Session.set('description', description);
-    },
+    }
   });
 
   Template.usersIndex.helpers({
@@ -74,7 +74,7 @@ if (Meteor.isClient) {
       if (description) {
         return Meteor.users.find({'profile.description': descriptionSearch });
       }
-    },
+    }
   });
 
   Template.dashboard.helpers({
@@ -87,7 +87,7 @@ if (Meteor.isClient) {
             collection: Meteor.users,
             field: "profile.occupation",
             template: Template.autocomplete
-          },
+          }
         ]
       };
     },
@@ -155,7 +155,7 @@ if (Meteor.isClient) {
   Template.usersContactByUsername.helpers({
     targetUsername: function() {
       return FlowRouter.getParam('username');
-    },
+    }
   });
 
   Template.usersContactByUsername.events({
