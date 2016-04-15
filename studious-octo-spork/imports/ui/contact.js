@@ -3,8 +3,6 @@ import { Template } from 'meteor/templating';
 
 import './contact.html';
 
-import { sendTestEmail } from '../api/email/methods.js';
-
 Template.contact.events({
   'submit .testemail': function (event) {
     event.preventDefault();
