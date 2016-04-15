@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
-import { Messages } from '../api//messaging/messaging.js';
+import { Messages } from '../api/messaging/messaging.js';
+
+import { updateUserProfile } from '../api/users/methods.js';
 
 import './dashboard.html';
 
@@ -47,7 +49,7 @@ Template.dashboard.events({
   'submit .update-profile': function (event) {
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();
-    Meteor.call('updateUserProfile', {
+   updateUserProfile.call({
       id: Meteor.userId(),
       username: event.target.username.value,
       occupation: event.target.occupation.value,
