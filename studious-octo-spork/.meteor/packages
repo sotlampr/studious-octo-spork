@@ -27,3 +27,4 @@ standard-minifier-css
 standard-minifier-js
 mizzao:autocomplete
 practicalmeteor:mocha
+mdg:validated-method

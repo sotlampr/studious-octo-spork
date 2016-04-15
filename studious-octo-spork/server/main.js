@@ -1,8 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
 
-import { Messages } from '../imports/api/messaging.js';
-
 import '../imports/startup/server';
 
 
@@ -28,14 +26,4 @@ Meteor.methods({
       'profile.description': data.description
     }}, {validate: false});
   },
-
-  saveMessage: function (data) {
-    if (Meteor.user().username !== data.from) {
-      throw new Meteor.Error('not-authorized');
-    }
-    if (!Meteor.users.findOne({username: data.to})) {
-      throw new Meteor.Error('user-not-exist');
-    }
-    Messages.insert(data);
-  }
 });

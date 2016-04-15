@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
-import { Messages } from '../api/messaging.js';
+import { Messages } from '../api//messaging/messaging.js';
 
 import './dashboard.html';
 

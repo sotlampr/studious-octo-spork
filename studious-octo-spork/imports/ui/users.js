@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './users.html';
+import { saveMessage } from '../api/messaging/methods.js'
 
 Template.usersIndex.events({
   'submit .findOccupation': function (event) {
@@ -85,7 +86,7 @@ Template.usersContactByUsername.events({
   'submit .send-message': function (event) {
     // Dump a new message on the Messages Collection
     event.preventDefault();
-    Meteor.call('saveMessage', {
+    saveMessage.call({
       to: FlowRouter.getParam('username'),
       from: Meteor.user().username,
       message: event.target.message.value,
