@@ -88,11 +88,7 @@ Template.usersContactByUsername.events({
     event.preventDefault();
     saveMessage.call({
       toUser: FlowRouter.getParam('username'),
-      fromUser: Meteor.user().username,
       message: event.target.message.value,
-      dateCreated: new Date(),
-      read: false,
-      visible: true
     });
     event.target.message.value = '';
   }

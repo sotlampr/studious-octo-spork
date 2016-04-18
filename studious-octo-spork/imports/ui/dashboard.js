@@ -4,6 +4,8 @@ import { Template } from 'meteor/templating';
 import { Messages } from '../api/messaging/messaging.js';
 
 import { updateUserProfile } from '../api/users/methods.js';
+import { toggleRead } from '../api/messaging/methods.js';
+import { deleteMessage } from '../api/messaging/methods.js';
 
 import './dashboard.html';
 
@@ -57,9 +59,9 @@ Template.dashboard.events({
     });
   },
   'click .toggle-read': function() {
-    Messages.update({_id: this._id}, {$set: {read: !this.read}});
+    toggleRead.call(this._id);
   },
   'click .delete': function () {
-    Messages.update({_id: this._id}, {$set: {visible: false}});
+    deleteMessage.call(this._id);
   }
 });
