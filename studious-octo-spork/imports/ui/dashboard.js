@@ -38,13 +38,17 @@ Template.dashboard.helpers({
   userMessages: function () {
     // See if we have any messages for this user
     if (Meteor.user()) {
-      var reciever = Meteor.user().username;
       var userMessages = Messages.find(
-          {toUser: reciever, visible:true},
-          {sort: {read: -1, dateCreated: -1}});
+          {toId: Meteor.user()._id, visible:true},
+          {sort: {read: 1, dateCreated: -1}});
       return userMessages;
-    }
-  }
+    };
+  },
+  usernameFromId: function (id) {
+    let user = Meteor.users.findOne(id);
+    if (user)
+      return user.username;
+  },
 });
 
 Template.dashboard.events({

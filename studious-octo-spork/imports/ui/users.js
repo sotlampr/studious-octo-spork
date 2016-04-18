@@ -79,15 +79,16 @@ Template.usersByUsername.helpers({
 Template.usersContactByUsername.helpers({
   targetUsername: function() {
     return FlowRouter.getParam('username');
-  }
+  },
 });
 
 Template.usersContactByUsername.events({
   'submit .send-message': function (event) {
     // Dump a new message on the Messages Collection
     event.preventDefault();
+    username = FlowRouter.getParam('username');
     saveMessage.call({
-      toUser: FlowRouter.getParam('username'),
+      toId: Meteor.users.findOne({username: username})._id,
       message: event.target.message.value,
     });
     event.target.message.value = '';

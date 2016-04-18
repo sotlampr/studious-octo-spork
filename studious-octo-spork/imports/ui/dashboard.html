@@ -40,7 +40,7 @@
       <ul>
         {{#each userMessages}}
           <li>
-            {{fromUser}}: {{message}}
+            {{usernameFromId fromId}}: {{message}}
             <button class="toggle-read">
               {{#if read}}
                 <span class="glyphicon glyphicon-eye-open"></span>
@@ -49,7 +49,7 @@
               {{/if}}
             </button>
             <button>
-              <a href="/users/{{fromUser}}/contact">
+              <a href="/users/{{usernameFromId fromId}}/contact">
                 <span class="glyphicon glyphicon-pencil"></span>
               </a>
             </button>

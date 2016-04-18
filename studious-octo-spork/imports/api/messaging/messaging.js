@@ -9,11 +9,13 @@ Messages.deny({
 });
 
 Messages.schema = new SimpleSchema({
-  toUser: {
+  toId: {
     type: String,
+    regEx: SimpleSchema.RegEx.Id,
   },
-  fromUser: {
+  fromId: {
     type: String,
+    regEx: SimpleSchema.RegEx.Id,
   },
   message: {
     type: String,
@@ -36,8 +38,8 @@ Messages.attachSchema(Messages.schema)
 
 // Fields that should be published
 Messages.publicFields = {
-  toUser: 1,
-  fromUser: 1,
+  toId: 1,
+  fromId: 1,
   message: 1,
   dateCreated: 1,
   read: 1,
