@@ -38,7 +38,7 @@ Template.dashboard.helpers({
     if (Meteor.user()) {
       var reciever = Meteor.user().username;
       var userMessages = Messages.find(
-          {to: reciever, visible:true},
+          {toUser: reciever, visible:true},
           {sort: {read: -1, dateCreated: -1}});
       return userMessages;
     }

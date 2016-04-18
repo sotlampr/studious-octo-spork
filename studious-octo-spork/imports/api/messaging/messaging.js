@@ -2,7 +2,6 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 export const Messages = new Mongo.Collection('messages');
-
 Messages.deny({
   insert() { return true; },
   update() { return true; },
@@ -10,13 +9,11 @@ Messages.deny({
 });
 
 Messages.schema = new SimpleSchema({
-  toId: {
+  toUser: {
     type: String,
-    regEx: SimpleSchema.RegEx.Id,
   },
-  fromId: {
+  fromUser: {
     type: String,
-    regEx: SimpleSchema.RegEx.Id,
   },
   message: {
     type: String,
@@ -37,4 +34,12 @@ Messages.schema = new SimpleSchema({
 
 Messages.attachSchema(Messages.schema)
 
-
+// Fields that should be published
+Messages.publicFields = {
+  toUser: 1,
+  fromUser: 1,
+  message: 1,
+  dateCreated: 1,
+  read: 1,
+  visible: 1,
+};

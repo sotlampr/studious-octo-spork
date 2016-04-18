@@ -87,8 +87,8 @@ Template.usersContactByUsername.events({
     // Dump a new message on the Messages Collection
     event.preventDefault();
     saveMessage.call({
-      to: FlowRouter.getParam('username'),
-      from: Meteor.user().username,
+      toUser: FlowRouter.getParam('username'),
+      fromUser: Meteor.user().username,
       message: event.target.message.value,
       dateCreated: new Date(),
       read: false,
