@@ -4,8 +4,14 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 export const updateUserProfile = new ValidatedMethod({
   name: 'users.updateUserProfile',
-  // TODO: validation!
-  validate: null,
+
+  validate: new SimpleSchema({
+    id: { type: String },
+    username: { type: String },
+    occupation: { type: String },
+    description: { type: String }
+  }).validator(),
+
   run (data) {
     // Handle updating of user profile
     if (Meteor.userId() !== data.id) {
