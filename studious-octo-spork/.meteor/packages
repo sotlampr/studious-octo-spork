@@ -31,3 +31,4 @@ mdg:validated-method
 mdg:validation-error
 aldeed:simple-schema
 aldeed:collection2
+xolvio:cleaner
