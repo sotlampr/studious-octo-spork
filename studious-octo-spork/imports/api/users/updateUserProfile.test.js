@@ -24,17 +24,6 @@ if (Meteor.isClient) {
             'occupation': 'hunter',
             'description': 'birds'
           }
-        }, function (err) {
-          if (err) {
-            console.log(err);
-          }
-          else {
-            Meteor.loginWithPassword('jack', '1234', function (e) {
-              if (e) {
-                console.log(e);
-              }
-            });
-          }
         });
 
         updateUserProfile.call({
