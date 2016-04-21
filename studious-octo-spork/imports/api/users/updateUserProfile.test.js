@@ -11,20 +11,32 @@ if (Meteor.isClient) {
   describe('Update user profile', () => {
     describe('methods', () => {
 
-      beforeEach( () => {
+      before( () => {
         resetDatabase();
       });
 
-      it('updateUserProfile', () => {
+      after( () => {
+        Meteor.logout();
+      })
 
-        Accounts.createUser({
-          "username": 'jack',
-          "password": '1234',
-          'profile': {
-            'occupation': 'hunter',
-            'description': 'birds'
-          }
-        });
+      Accounts.createUser({
+        "username": 'jack',
+        "password": '1234',
+        'profile': {
+          'occupation': 'hunter',
+          'description': 'birds'
+        }
+      });
+
+      it('createUser()', () => {
+        assert.equal(Meteor.users.find({'profile': {'occupation': 'hunter', 'description': 'birds'}}).count(), 1);
+      });
+
+      it('userId()', () => {
+        assert.notEqual(Meteor.userId(), null);
+      });
+
+      it('updateUserProfile()', () => {
 
         updateUserProfile.call({
           id: Meteor.userId(),
