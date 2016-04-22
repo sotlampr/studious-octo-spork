@@ -17,6 +17,7 @@ if (Meteor.isClient) {
 
       after( () => {
         Meteor.logout();
+        resetDatabase();
       })
 
       Accounts.createUser({
