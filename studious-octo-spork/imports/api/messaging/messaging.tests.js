@@ -4,20 +4,13 @@ import { assert } from 'meteor/practicalmeteor:chai';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Messages } from './messaging.js';
 import { saveMessage } from './methods.js';
+import { toggleRead } from './methods.js';
+import { deleteMessage } from './methods';
 import { Accounts } from 'meteor/accounts-base';
 
 if (Meteor.isClient) {
   describe('Messaging', () => {
     describe('methods', () => {
-
-      before( () => {
-        resetDatabase();
-      });
-
-      after( () => {
-        Meteor.logout();
-        resetDatabase();
-      });
 
       it('createUser()', () => {
         assert.equal(Meteor.users.find({'profile': {'occupation': 'hunter', 'description': 'birds'}}).count(), 1);
@@ -41,6 +34,23 @@ if (Meteor.isClient) {
         assert.equal(Messages.find().count(), 1);
       });
 
+      it('message with read: false', () => {
+        assert.equal(Messages.find({'read': false}).count(), 1)
+      })
+
+      it('toggleRead()', () => {
+        toggleRead.call(Messages.find().fetch()[0]['_id']);
+        assert.equal(Messages.find({'read': true}).count(), 1)
+      })
+
+      it('message with visible: true', () => {
+        assert.equal(Messages.find({'visible': true}).count(), 1);
+      });
+
+      it('deleteMessage()', () => {
+        deleteMessage.call(Messages.find().fetch()[0]['_id']);
+        assert.equal(Messages.find({'visible': false}).count(), 1);
+      });
     });
   });
 }

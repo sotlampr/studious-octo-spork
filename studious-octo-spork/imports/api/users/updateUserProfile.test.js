@@ -11,15 +11,6 @@ if (Meteor.isClient) {
   describe('Update user profile', () => {
     describe('methods', () => {
 
-      before( () => {
-        resetDatabase();
-      });
-
-      after( () => {
-        Meteor.logout();
-        resetDatabase();
-      })
-
       Accounts.createUser({
         "username": 'jack',
         "password": '1234',
