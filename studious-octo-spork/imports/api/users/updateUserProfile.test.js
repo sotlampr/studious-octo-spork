@@ -1,47 +1,56 @@
 /* eslint-env mocha */
 
 import { Meteor } from 'meteor/meteor';
-import { assert } from 'meteor/practicalmeteor:chai';
-import { updateUserProfile } from './methods.js';
-import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Accounts } from 'meteor/accounts-base';
+import { Random } from 'meteor/random';
+import { assert } from 'meteor/practicalmeteor:chai';
 
-/* PARHS
-if (Meteor.isClient) {
+require('./methods.js');
 
-  describe('Update user profile', () => {
-    describe('methods', () => {
+if (Meteor.isServer) {
+  describe('Users', () => {
+    let userId;
 
-      Accounts.createUser({
-        "username": 'jack',
-        "password": '1234',
-        'profile': {
-          'occupation': 'hunter',
-          'description': 'birds'
-        }
-      });
+    beforeEach((done) => {
+      userId = Accounts.createUser({username: "tester"});
+      done();
+    });
 
-      it('createUser()', () => {
-        assert.equal(Meteor.users.find({'profile': {'occupation': 'hunter', 'description': 'birds'}}).count(), 1);
-      });
+    afterEach((done) => {
+      Meteor.users.remove({});
+      done();
+    });
 
-      it('userId()', () => {
-        assert.notEqual(Meteor.userId(), null);
-      });
-
-      it('updateUserProfile()', () => {
-
-        updateUserProfile.call({
-          id: Meteor.userId(),
-          username: 'jack',
-          occupation: 'friend',
-          description: '4-legs'
-        });
-
-        assert.equal(Meteor.users.find({'profile': {'occupation': 'friend', 'description': '4-legs'}}).count(), 1);
-      });
+    it('Update user profile', (done) => {
+      const updateUserProfile =
+        Meteor.server.method_handlers['users.updateUserProfile'];
+      const invocation = { userId };
+      updateUserProfile.apply(invocation, [{
+        id: userId,
+        username: 'testerer',
+        occupation: 'Newist',
+        description: 'Cutting-edge'
+      }]);
+      userObject = Meteor.users.findOne();
+      assert.equal(userObject.username, 'testerer');
+      assert.equal(userObject.profile.occupation, 'Newist');
+      assert.equal(userObject.profile.description, 'Cutting-edge');
+      done();
+    });
+    it('Reject update another user profile', (done) => {
+      const updateUserProfile =
+        Meteor.server.method_handlers['users.updateUserProfile'];
+      const invocation = { userId };
+      const updateAttempt = () => {
+        updateUserProfile.apply(invocation, [{
+          id: Random.Id,
+          username: 'testerer',
+          occupation: 'Newist',
+          description: 'Cutting-edge'
+        }]);
+      };
+      assert.throws(updateAttempt, Meteor.Error);
+      done();
     });
   });
-
 }
-*/

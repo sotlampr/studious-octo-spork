@@ -14,7 +14,7 @@ export const updateUserProfile = new ValidatedMethod({
 
   run (data) {
     // Handle updating of user profile
-    if (Meteor.userId() !== data.id) {
+    if (this.userId !== data.id) {
       throw new Meteor.Error('not-authorized');
     }
     Meteor.users.update(data.id, {$set: {
