@@ -17,7 +17,7 @@ export const saveMessage = new ValidatedMethod({
     Messages.insert({
       toId: data.toId,
       message: data.message,
-      fromId: Meteor.user()._id,
+      fromId: this.userId,
       dateCreated: new Date(),
       read: false,
       visible: true

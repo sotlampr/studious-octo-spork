@@ -1,13 +1,17 @@
 /* eslint-env mocha */
 import { Meteor } from 'meteor/meteor';
-import { assert } from 'meteor/practicalmeteor:chai';
-import { resetDatabase } from 'meteor/xolvio:cleaner';
+// import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Messages } from './messaging.js';
-import { saveMessage } from './methods.js';
-import { toggleRead } from './methods.js';
-import { deleteMessage } from './methods';
+import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
+import { assert } from 'meteor/practicalmeteor:chai';
+// import { saveMessage } from './methods.js';
+// import { toggleRead } from './methods.js';
+// import { deleteMessage } from './methods';
 
+require('./methods.js')
+
+/* PARHS
 if (Meteor.isClient) {
   describe('Messaging', () => {
     describe('methods', () => {
@@ -53,4 +57,60 @@ if (Meteor.isClient) {
       });
     });
   });
+}
+*/
+
+if (Meteor.isServer) {
+  describe('Messaging', () => {
+    describe('saveMessage', () => {
+      let userId;
+      let toId;
+
+      beforeEach((done) => {
+        userId = Random.id();
+        toId = Accounts.createUser({username: 'tester'});
+        done();
+      });
+
+      afterEach((done) => {
+        Meteor.users.remove({});
+        Messages.remove({});
+        done();
+      });
+
+      it('Save a message', (done) => {
+        const saveMessage =
+          Meteor.server.method_handlers['messaging.saveMessage'];
+        const invocation = { userId };
+
+        saveMessage.apply(invocation, [{
+          toId: toId,
+          message: "A test message"
+        }]);
+
+        assert.equal(Messages.find().count(), 1);
+
+        done();
+
+      });
+
+      it('Reject message with invalid recipient', (done) => {
+        const saveMessage =
+          Meteor.server.method_handlers['messaging.saveMessage'];
+        const invocation = { userId };
+
+        const newMessageAttempt = () => {
+          saveMessage.apply(invocation, [{
+            toId: Random.id(),
+            message: "A test message"
+          }]);
+        }
+
+        assert.throws(newMessageAttempt, Meteor.Error);
+
+        done()
+
+      });
+    })
+  })
 }

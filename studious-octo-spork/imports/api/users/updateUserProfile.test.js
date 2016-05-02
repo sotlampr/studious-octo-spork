@@ -6,6 +6,7 @@ import { updateUserProfile } from './methods.js';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Accounts } from 'meteor/accounts-base';
 
+/* PARHS
 if (Meteor.isClient) {
 
   describe('Update user profile', () => {
@@ -43,3 +44,4 @@ if (Meteor.isClient) {
   });
 
 }
+*/
