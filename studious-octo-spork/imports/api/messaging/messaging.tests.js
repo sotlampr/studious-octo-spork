@@ -1,15 +1,11 @@
 /* eslint-env mocha */
 import { Meteor } from 'meteor/meteor';
-// import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Messages } from './messaging.js';
 import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 import { assert } from 'meteor/practicalmeteor:chai';
-// import { saveMessage } from './methods.js';
-// import { toggleRead } from './methods.js';
-// import { deleteMessage } from './methods';
 
-require('./methods.js')
+require('./methods.js');
 
 if (Meteor.isServer) {
   describe('Messaging', () => {
@@ -33,34 +29,26 @@ if (Meteor.isServer) {
         const saveMessage =
           Meteor.server.method_handlers['messaging.saveMessage'];
         const invocation = { userId };
-
         saveMessage.apply(invocation, [{
           toId: toId,
           message: "A test message"
         }]);
-
         assert.equal(Messages.find().count(), 1);
-
         done();
-
       });
 
       it('Reject message with invalid recipient', (done) => {
         const saveMessage =
           Meteor.server.method_handlers['messaging.saveMessage'];
         const invocation = { userId };
-
         const newMessageAttempt = () => {
           saveMessage.apply(invocation, [{
             toId: Random.id(),
             message: "A test message"
           }]);
-        }
-
+        };
         assert.throws(newMessageAttempt, Meteor.Error);
-
-        done()
-
+        done();
       });
     });
 
@@ -91,16 +79,15 @@ if (Meteor.isServer) {
           Meteor.server.method_handlers['messaging.toggleRead'];
         const invocation = { userId };
 
-        let readStatusBefore = Messages.findOne()['read'];
+        let readStatusBefore = Messages.findOne().read;
         let readStatusAfter;
 
         for (let i=0; i<5; i++) {
           toggleRead.apply(invocation, [messageId]);
-          readStatusAfter = Messages.findOne()['read'];
+          readStatusAfter = Messages.findOne().read;
           assert.equal(readStatusAfter, !readStatusBefore);
           readStatusBefore = readStatusAfter;
         }
-
         done();
       });
 
@@ -110,7 +97,7 @@ if (Meteor.isServer) {
         const invocation = { userId };
         const toggleAttempt = () => {
           toggleRead.apply(invocation, [Random.id()]);
-        }
+        };
         assert.throws(toggleAttempt, Meteor.Error);
         done();
       });
@@ -121,7 +108,7 @@ if (Meteor.isServer) {
         const invocation = { userId: Random.id() };
         const toggleAttempt = () => {
           toggleRead.apply(invocation, [messageId]);
-        }
+        };
         assert.throws(toggleAttempt, Meteor.Error);
         done();
       });
@@ -133,7 +120,7 @@ if (Meteor.isServer) {
         Messages.update({_id: messageId}, {$set: {visible: false}});
         const toggleAttempt = () => {
           toggleRead.apply(invocation, [messageId]);
-        }
+        };
         assert.throws(toggleAttempt, Meteor.Error);
         done();
       });
@@ -177,7 +164,7 @@ if (Meteor.isServer) {
         const invocation = { userId };
         const deleteAttempt = () => {
           deleteMessage.apply(invocation, [messageId]);
-        }
+        };
         // Delete the message for real
         deleteAttempt();
         assert.throws(deleteAttempt, Meteor.Error);
@@ -190,7 +177,7 @@ if (Meteor.isServer) {
         const invocation = { userId };
         const deleteAttempt = () => {
           deleteMessage.apply(invocation, [Random.id()]);
-        }
+        };
         assert.throws(deleteAttempt, Meteor.Error);
         done();
       });
@@ -201,7 +188,7 @@ if (Meteor.isServer) {
         const invocation = { userId: Random.id() };
         const deleteAttempt = () => {
           deleteMessage.apply(invocation, [messageId]);
-        }
+        };
         assert.throws(deleteAttempt, Meteor.Error);
         done();
       });

@@ -13,7 +13,7 @@ export const saveMessage = new ValidatedMethod({
   run (data) {
     if (!Meteor.users.findOne(data.toId)) {
       throw new Meteor.Error('user-not-exist');
-    };
+    }
     Messages.insert({
       toId: data.toId,
       message: data.message,
@@ -30,14 +30,14 @@ export const toggleRead = new ValidatedMethod({
   validate: null,
   run (messageId) {
     if (!Messages.findOne(messageId)) {
-      throw new Meteor.Error('message-not-found')
-    };
+      throw new Meteor.Error('message-not-found');
+    }
     if (!Messages.findOne(messageId).visible) {
-      throw new Meteor.Error('message-deleted')
-    };
+      throw new Meteor.Error('message-deleted');
+    }
     if (Messages.findOne(messageId).toId !== this.userId) {
-      throw new Meteor.Error('message-not-yours')
-    };
+      throw new Meteor.Error('message-not-yours');
+    }
     reversed = !Messages.findOne(messageId).read;
     Messages.update({_id: messageId}, {$set: {read: reversed}});
   },
@@ -48,14 +48,14 @@ export const deleteMessage = new ValidatedMethod({
   validate: null,
   run (messageId) {
     if (!Messages.findOne(messageId)) {
-      throw new Meteor.Error('message-not-found')
-    };
+      throw new Meteor.Error('message-not-found');
+    }
     if (!Messages.findOne(messageId).visible) {
-      throw new Meteor.Error('message-deleted')
-    };
+      throw new Meteor.Error('message-deleted');
+    }
     if (Messages.findOne(messageId).toId !== this.userId) {
-      throw new Meteor.Error('message-not-yours')
-    };
+      throw new Meteor.Error('message-not-yours');
+    }
     Messages.update({_id: messageId}, {$set: {visible: false}});
   },
 });

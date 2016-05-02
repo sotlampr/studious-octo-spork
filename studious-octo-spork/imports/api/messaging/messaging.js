@@ -34,7 +34,7 @@ Messages.schema = new SimpleSchema({
   },
 });
 
-Messages.attachSchema(Messages.schema)
+Messages.attachSchema(Messages.schema);
 
 // Fields that should be published
 Messages.publicFields = {
