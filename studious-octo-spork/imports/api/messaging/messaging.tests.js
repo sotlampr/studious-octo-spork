@@ -11,55 +11,6 @@ import { assert } from 'meteor/practicalmeteor:chai';
 
 require('./methods.js')
 
-/* PARHS
-if (Meteor.isClient) {
-  describe('Messaging', () => {
-    describe('methods', () => {
-
-      it('createUser()', () => {
-        assert.equal(Meteor.users.find({'profile': {'occupation': 'hunter', 'description': 'birds'}}).count(), 1);
-      });
-
-      it('empty Messages db', () => {
-        assert.equal(Messages.find().count(), 0);
-      });
-
-      it('userId()', () => {
-        assert.notEqual(Meteor.userId(), null);
-      });
-
-
-      it('saveMessage()', () => {
-        saveMessage.call({
-          toId: Meteor.userId(),
-          message: 'Where are you bolek, bolek asked himself',
-        });
-
-        assert.equal(Messages.find().count(), 1);
-      });
-
-      it('message with read: false', () => {
-        assert.equal(Messages.find({'read': false}).count(), 1)
-      })
-
-      it('toggleRead()', () => {
-        toggleRead.call(Messages.find().fetch()[0]['_id']);
-        assert.equal(Messages.find({'read': true}).count(), 1)
-      })
-
-      it('message with visible: true', () => {
-        assert.equal(Messages.find({'visible': true}).count(), 1);
-      });
-
-      it('deleteMessage()', () => {
-        deleteMessage.call(Messages.find().fetch()[0]['_id']);
-        assert.equal(Messages.find({'visible': false}).count(), 1);
-      });
-    });
-  });
-}
-*/
-
 if (Meteor.isServer) {
   describe('Messaging', () => {
     describe('saveMessage', () => {
@@ -111,6 +62,149 @@ if (Meteor.isServer) {
         done()
 
       });
-    })
-  })
+    });
+
+    describe('toggleRead', () => {
+      let messageId;
+      let userId;
+
+      beforeEach((done) => {
+        userId = Random.id();
+        messageId = Messages.insert({
+          toId: userId,
+          message: "A test message",
+          fromId: Random.id(),
+          dateCreated: new Date(),
+          read: false,
+          visible: true
+        });
+        done();
+      });
+
+      afterEach((done) => {
+        Messages.remove({});
+        done();
+      });
+
+      it('Toggle read 5 times test', (done) => {
+        const toggleRead =
+          Meteor.server.method_handlers['messaging.toggleRead'];
+        const invocation = { userId };
+
+        let readStatusBefore = Messages.findOne()['read'];
+        let readStatusAfter;
+
+        for (let i=0; i<5; i++) {
+          toggleRead.apply(invocation, [messageId]);
+          readStatusAfter = Messages.findOne()['read'];
+          assert.equal(readStatusAfter, !readStatusBefore);
+          readStatusBefore = readStatusAfter;
+        }
+
+        done();
+      });
+
+      it('Reject invalid message id', (done) => {
+        const toggleRead =
+          Meteor.server.method_handlers['messaging.toggleRead'];
+        const invocation = { userId };
+        const toggleAttempt = () => {
+          toggleRead.apply(invocation, [Random.id()]);
+        }
+        assert.throws(toggleAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject unauthorized user', (done) => {
+        const toggleRead =
+          Meteor.server.method_handlers['messaging.toggleRead'];
+        const invocation = { userId: Random.id() };
+        const toggleAttempt = () => {
+          toggleRead.apply(invocation, [messageId]);
+        }
+        assert.throws(toggleAttempt, Meteor.Error);
+        done();
+      });
+
+     it('Reject toggle hidden message', (done) => {
+        const toggleRead =
+          Meteor.server.method_handlers['messaging.toggleRead'];
+        const invocation = { userId };
+        Messages.update({_id: messageId}, {$set: {visible: false}});
+        const toggleAttempt = () => {
+          toggleRead.apply(invocation, [messageId]);
+        }
+        assert.throws(toggleAttempt, Meteor.Error);
+        done();
+      });
+    });
+
+  describe('deleteMessage', () => {
+      let messageId;
+      let userId;
+
+      beforeEach((done) => {
+        userId = Random.id();
+        messageId = Messages.insert({
+          toId: userId,
+          message: "A test message",
+          fromId: Random.id(),
+          dateCreated: new Date(),
+          read: false,
+          visible: true
+        });
+        done();
+      });
+
+      afterEach((done) => {
+        Messages.remove({});
+        done();
+      });
+
+      it('Hide a message', (done) => {
+        const deleteMessage =
+          Meteor.server.method_handlers['messaging.deleteMessage'];
+        const invocation = { userId };
+
+        deleteMessage.apply(invocation, [messageId]);
+        assert.equal(Messages.find({visible: true}).count(), 0);
+        done();
+      });
+
+      it('Reject removing an already removed message', (done) => {
+        const deleteMessage =
+          Meteor.server.method_handlers['messaging.deleteMessage'];
+        const invocation = { userId };
+        const deleteAttempt = () => {
+          deleteMessage.apply(invocation, [messageId]);
+        }
+        // Delete the message for real
+        deleteAttempt();
+        assert.throws(deleteAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject invalid message id', (done) => {
+        const deleteMessage =
+          Meteor.server.method_handlers['messaging.deleteMessage'];
+        const invocation = { userId };
+        const deleteAttempt = () => {
+          deleteMessage.apply(invocation, [Random.id()]);
+        }
+        assert.throws(deleteAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject unauthorized user', (done) => {
+        const deleteMessage =
+          Meteor.server.method_handlers['messaging.deleteMessage'];
+        const invocation = { userId: Random.id() };
+        const deleteAttempt = () => {
+          deleteMessage.apply(invocation, [messageId]);
+        }
+        assert.throws(deleteAttempt, Meteor.Error);
+        done();
+      });
+    });
+  });
 }

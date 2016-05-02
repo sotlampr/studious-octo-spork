@@ -35,7 +35,7 @@ export const toggleRead = new ValidatedMethod({
     if (!Messages.findOne(messageId).visible) {
       throw new Meteor.Error('message-deleted')
     };
-    if (Messages.findOne(messageId).toId !== Meteor.user()._id) {
+    if (Messages.findOne(messageId).toId !== this.userId) {
       throw new Meteor.Error('message-not-yours')
     };
     reversed = !Messages.findOne(messageId).read;
@@ -53,7 +53,7 @@ export const deleteMessage = new ValidatedMethod({
     if (!Messages.findOne(messageId).visible) {
       throw new Meteor.Error('message-deleted')
     };
-    if (Messages.findOne(messageId).toId !== Meteor.user()._id) {
+    if (Messages.findOne(messageId).toId !== this.userId) {
       throw new Meteor.Error('message-not-yours')
     };
     Messages.update({_id: messageId}, {$set: {visible: false}});
