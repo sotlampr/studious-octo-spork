@@ -42,7 +42,7 @@ Template.dashboard.helpers({
           {toId: Meteor.user()._id, visible:true},
           {sort: {read: 1, dateCreated: -1}});
       return userMessages;
-    };
+    }
   },
   usernameFromId: function (id) {
     let user = Meteor.users.findOne(id);

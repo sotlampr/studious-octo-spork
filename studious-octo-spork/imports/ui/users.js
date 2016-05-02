@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './users.html';
-import { saveMessage } from '../api/messaging/methods.js'
+import { saveMessage } from '../api/messaging/methods.js';
 
 Template.usersIndex.events({
   'submit .findOccupation': function (event) {

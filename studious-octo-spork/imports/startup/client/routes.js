@@ -2,7 +2,7 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
-import '../../ui/body.js'
+import '../../ui/body.js';
 
 // Helper function for boilerplate code
 var renderTemplate = function (name) {
