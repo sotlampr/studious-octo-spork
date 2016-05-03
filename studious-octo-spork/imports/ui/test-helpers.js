@@ -1,8 +1,10 @@
+import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { Blaze } from 'meteor/blaze';
 import { Tracker } from 'meteor/tracker';
+import { Fake } from 'meteor/anti:fake';
 
 const SYMBOLS = _.keys(Mongo.Collection.prototype);
 
@@ -63,4 +65,26 @@ export const StubCollections = {
     _.each(StubCollections._pairs, restorePair);
     StubCollections._pairs = {};
   }
+};
+
+export const generateUsers = (userCount) => {
+  let usersData = [];
+  let usersIdArray = [];
+
+  StubCollections.stub(Meteor.users);
+  for (let i=0; i < userCount; i++) {
+    let tempData = {
+      username: Fake.user({ fields: ['username'] }).username,
+      profile: {
+        occupation: Fake.word(),
+        description: Fake.sentence(3)
+      }
+    };
+    usersData.push(tempData);
+  }
+  _.each(usersData, (data) => {
+    usersIdArray.push(Meteor.users.insert(data));
+  });
+
+  return { usersData, usersIdArray };
 };

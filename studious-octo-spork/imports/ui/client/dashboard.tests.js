@@ -10,45 +10,20 @@ import '../dashboard.js';
 import { Messages } from '../../api/messaging/messaging.js';
 import { withRenderedTemplate } from '../test-helpers.js';
 import { StubCollections } from '../test-helpers.js';
+import { generateUsers } from '../test-helpers.js';
 
 describe('Dashboard', function() {
   let usersData;
   let usersIdArray;
 
-  beforeEach((done) => {
-    StubCollections.stub(Meteor.users);
-    usersIdArray = []
-    usersData = ([
-      {
-        username: 'bill',
-        profile: {
-          occupation: 'mechanic',
-          description: 'Je suis un mechanic'
-        }
-      },
-      {
-        username: 'john',
-        profile: {
-          occupation: 'artist',
-          description: 'John Ross'
-        }
-      },
-      {
-        username: 'mary',
-        profile: {
-          occupation: 'martial arts',
-          description: 'Exarcheia resident'
-        }
-      }
-    ]);
-    _.each(usersData, (data) => {
-      usersIdArray.push(Meteor.users.insert(data));
-    });
-    Template.registerHelper('_', key => key);
+  beforeEach(function(done) {
+    tempUsers = generateUsers(3);
+    usersIdArray = tempUsers.usersIdArray;
+    usersData = tempUsers.usersData;
     done();
   });
 
-  afterEach((done) => {
+  afterEach(function(done) {
     StubCollections.restore();
     Template.deregisterHelper('_');
     done();
@@ -63,7 +38,7 @@ describe('Dashboard', function() {
   });
 
   it('Display appropriate data when logged in', function (done) {
-    sinon.stub(Meteor, 'userId', () => { return usersIdArray[0] });
+    sinon.stub(Meteor, 'userId', () => { return usersIdArray[0]; });
     withRenderedTemplate('dashboard', {}, el => {
       assert.equal($(el).find('#username').val(), usersData[0].username);
       assert.equal($(el).find('#occupation').val(), usersData[0].profile.occupation);
@@ -74,8 +49,10 @@ describe('Dashboard', function() {
   });
 
   it('Display messages', function (done) {
-    sinon.stub(Meteor, 'userId', () => { return usersIdArray[0] });
-    sinon.stub(Meteor, 'user', () => { return Meteor.users.findOne(usersIdArray[0])});
+    sinon.stub(Meteor, 'userId', () => { return usersIdArray[0]; });
+    sinon.stub(Meteor, 'user', () => {
+      return Meteor.users.findOne(usersIdArray[0]);
+    });
     StubCollections.stub(Messages);
     Messages.insert({
       toId: usersIdArray[0],
@@ -92,7 +69,6 @@ describe('Dashboard', function() {
         ' ' + usersData[1].username + ': A test message '
       );
     });
-    StubCollections.restore();
     Meteor.userId.restore();
     done();
   });
