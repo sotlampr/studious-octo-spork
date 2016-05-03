@@ -7,7 +7,7 @@
   <div class="container-fluid">
     <p>An overview of all the users.</p>
 	  {{# if users}}
-		  <ul>
+		  <ul id='users'>
 		  {{#each users}}
         <a href="{{path(username)}}">
           <li>{{username}}: {{profile.occupation}}</li>
@@ -31,7 +31,7 @@
   <div class='container'>
     <div class='col-md-6'>
 	    {{#if usersSearchWithOccupation}}
-	      <ul>
+	      <ul id='occupations'>
 		      {{#each usersSearchWithOccupation}}
             <a href="{{path(username)}}">
               <li>{{username}}: {{profile.occupation}}</li>
@@ -42,7 +42,7 @@
     </div>
     <div class='col-md-6'>
 	    {{#if usersSearchWithDescription}}
-		    <ul>
+		    <ul id='descriptions'>
 	        {{#each usersSearchWithDescription}}
             <a href="{{path(username)}}">
               <li>{{username}}: {{profile.occupation}}</li>
