@@ -7,6 +7,7 @@ import { $ } from 'meteor/jquery';
 import { sinon } from 'meteor/practicalmeteor:sinon';
 
 import '../dashboard.js';
+import { Messages } from '../../api/messaging/messaging.js';
 import { withRenderedTemplate } from '../test-helpers.js';
 import { StubCollections } from '../test-helpers.js';
 
@@ -68,6 +69,31 @@ describe('Dashboard', function() {
       assert.equal($(el).find('#occupation').val(), usersData[0].profile.occupation);
       assert.equal($(el).find('#description').val(), usersData[0].profile.description);
     });
+    Meteor.userId.restore();
+    done();
+  });
+
+  it('Display messages', function (done) {
+    sinon.stub(Meteor, 'userId', () => { return usersIdArray[0] });
+    sinon.stub(Meteor, 'user', () => { return Meteor.users.findOne(usersIdArray[0])});
+    StubCollections.stub(Messages);
+    Messages.insert({
+      toId: usersIdArray[0],
+      fromId: usersIdArray[1],
+      message: "A test message",
+      dateCreated: new Date(),
+      read: false,
+      visible: true
+    });
+
+    withRenderedTemplate('dashboard', {}, el => {
+      assert.equal(
+        $(el).find('#message').text().replace(/\s+/g, ' '),
+        ' ' + usersData[1].username + ': A test message '
+      );
+    });
+    StubCollections.restore();
+    Meteor.userId.restore();
     done();
   });
 });

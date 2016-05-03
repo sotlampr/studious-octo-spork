@@ -39,7 +39,7 @@
       <h3>Messages</h3>
       <ul>
         {{#each userMessages}}
-          <li>
+          <li id="message">
             {{usernameFromId fromId}}: {{message}}
             <button class="toggle-read">
               {{#if read}}
