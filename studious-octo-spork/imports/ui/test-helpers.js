@@ -68,6 +68,21 @@ export const StubCollections = {
 };
 
 export const generateUsers = (userCount) => {
+  /* Function to generate an arbitary number of users.
+   *  Usage:
+   *    tempData = generateUsers(10);
+   *    usersData = tempData.usersData;
+   *    usersIdArray = tempData.usersIdArray;
+   *
+   *    Meteor.users.find() <-- Our fake users are there!!!
+   *
+   *  Side effect:
+   *    Stubs Meteor.users and inserts the users in the stubbed database
+   *  Returns:
+   *    { usersData: Object, usersIdArray: Object }
+   *    where usersData stores the user profiles (i.e. usersData[0].username])
+   *    and usersIdArray stores the user Id's for later access
+   */
   let usersData = [];
   let usersIdArray = [];
 
