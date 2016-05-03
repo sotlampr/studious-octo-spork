@@ -57,10 +57,7 @@ describe('Users page', () => {
   });
 
   it('Displays name and occupation for all 3 default users', () => {
-    const data = {
-      users: Meteor.users.find()
-    };
-    withRenderedTemplate('usersIndex', data, el => {
+    withRenderedTemplate('usersIndex', {}, el => {
       let users = $(el).find('li');
       assert.equal(users[0].innerText, 'bill: mechanic');
       assert.equal(users[1].innerText, 'john: artist');
