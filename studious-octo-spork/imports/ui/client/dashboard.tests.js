@@ -4,7 +4,9 @@ import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 import { Random } from 'meteor/random';
 import { $ } from 'meteor/jquery';
+import { _ } from 'meteor/underscore';
 import { sinon } from 'meteor/practicalmeteor:sinon';
+import { Fake } from 'meteor/anti:fake';
 
 import '../dashboard.js';
 import { Messages } from '../../api/messaging/messaging.js';
@@ -48,26 +50,40 @@ describe('Dashboard', function() {
     done();
   });
 
-  it('Display messages', function (done) {
+  it('Display 5 messages', function (done) {
+    let rawMessages = [];
+    // Generate random messages
+    for (let i=0; i<5; i++) {
+      tempData = {
+        toId: usersIdArray[0],
+        fromId: usersIdArray[i%2+1],
+        message: Fake.sentence(5),
+        dateCreated: new Date(),
+        read: false,
+        visible: true
+      };
+      rawMessages.push(tempData);
+    }
+    StubCollections.stub(Messages);
+    _.each(rawMessages, (data) => {
+      Messages.insert(data);
+    });
+
+    // Pesudologin as a user
     sinon.stub(Meteor, 'userId', () => { return usersIdArray[0]; });
     sinon.stub(Meteor, 'user', () => {
       return Meteor.users.findOne(usersIdArray[0]);
     });
-    StubCollections.stub(Messages);
-    Messages.insert({
-      toId: usersIdArray[0],
-      fromId: usersIdArray[1],
-      message: "A test message",
-      dateCreated: new Date(),
-      read: false,
-      visible: true
-    });
 
     withRenderedTemplate('dashboard', {}, el => {
-      assert.equal(
-        $(el).find('#message').text().replace(/\s+/g, ' '),
-        ' ' + usersData[1].username + ': A test message '
-      );
+      let messages = $(el).find('.message');
+      assert.equal(messages.length, 5);
+        for (let i=0; i<5; i++) {
+          assert.equal(
+            messages[i].innerText.replace(/\s+/g, ' '),
+            ' ' + Meteor.users.findOne(rawMessages[i].fromId).username +
+              ': ' + rawMessages[i].message + ' ');
+        }
     });
     Meteor.userId.restore();
     done();
