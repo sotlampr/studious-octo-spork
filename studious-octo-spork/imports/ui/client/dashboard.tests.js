@@ -86,6 +86,32 @@ describe('Dashboard', function() {
         }
     });
     Meteor.userId.restore();
+    Meteor.user.restore();
     done();
   });
+
+  it('Do not display invisible message', function(done) {
+    StubCollections.stub(Messages);
+    Messages.insert({
+      toId: usersIdArray[0],
+      fromId: usersIdArray[1],
+      message: Fake.sentence(5),
+      dateCreated: new Date(),
+      read: false,
+      visible:false
+    });
+
+    sinon.stub(Meteor, 'userId', () => { return usersIdArray[0]; });
+    sinon.stub(Meteor, 'user', () => {
+      return Meteor.users.findOne(usersIdArray[0]);
+    });
+
+    withRenderedTemplate('dashboard', {}, el => {
+      let messages = $(el).find('.message');
+      assert.equal(messages.length, 0);
+    });
+    Meteor.userId.restore();
+    Meteor.user.restore();
+    done();
+  })
 });
