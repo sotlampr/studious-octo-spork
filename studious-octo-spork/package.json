@@ -2,7 +2,11 @@
   "name": "studious-octo-spork",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
+    "test:watch": "TEST_WATCH=1 meteor test --once --driver-package dispatch:mocha-phantomjs",
+    "test:web": "meteor test --driver-package practicalmeteor:mocha --port 3030",
+    "jshint": "jshint --exclude ./node_modules ."
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0"
