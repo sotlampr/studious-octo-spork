@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs --driver 3050",
+    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3050",
     "test:watch": "TEST_WATCH=1 meteor test --once --driver-package dispatch:mocha-phantomjs --port 3030",
     "test:web": "meteor test --driver-package practicalmeteor:mocha --port 3030",
     "jshint": "jshint --exclude ./node_modules ."
