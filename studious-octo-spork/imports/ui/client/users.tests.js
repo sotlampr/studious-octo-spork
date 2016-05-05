@@ -91,5 +91,5 @@ describe('Users Index', function() {
       });
       done();
     });
-  })
+  });
 });

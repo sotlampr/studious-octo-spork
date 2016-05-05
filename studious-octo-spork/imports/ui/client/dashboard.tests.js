@@ -113,5 +113,5 @@ describe('Dashboard', function() {
     Meteor.userId.restore();
     Meteor.user.restore();
     done();
-  })
+  });
 });
