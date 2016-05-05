@@ -89,7 +89,7 @@ export const generateUsers = (userCount) => {
   StubCollections.stub(Meteor.users);
   for (let i=0; i < userCount; i++) {
     let tempData = {
-      username: Fake.user({ fields: ['username'] }).username,
+      username: Fake.user({ fields: ['username'] }).username.split('@')[0],
       profile: {
         occupation: Fake.word(),
         description: Fake.sentence(3)

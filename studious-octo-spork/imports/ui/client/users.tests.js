@@ -9,7 +9,7 @@ import { withRenderedTemplate } from '../test-helpers.js';
 import { StubCollections } from '../test-helpers.js';
 import { generateUsers } from '../test-helpers.js';
 
-describe('Users page', () => {
+describe('Users Index', function() {
   let usersData;
   let usersIdArray;
 
@@ -27,44 +27,69 @@ describe('Users page', () => {
     done();
   });
 
-  it('Displays 3 default users', function(done) {
-    const data = {
-      users: Meteor.users.find()
-    };
-    withRenderedTemplate('usersIndex', data, el => {
-      assert.equal($(el).find('#users li').length, 3);
+  describe('Layout and Data', function() {
+    it('Displays 3 default users', function(done) {
+      const data = {
+        users: Meteor.users.find()
+      };
+      withRenderedTemplate('usersIndex', data, el => {
+        assert.equal($(el).find('#users li').length, 3);
+      });
+      done();
     });
-    done();
-  });
 
-  it('Displays name and occupation for all 3 default users', function(done) {
-    withRenderedTemplate('usersIndex', {}, el => {
-      let users = $(el).find('#users li');
-      for (let i=0; i < 3; i++) {
+    it('Displays name and occupation for all 3 default users', function(done) {
+      withRenderedTemplate('usersIndex', {}, el => {
+        let users = $(el).find('#users li');
+        for (let i=0; i < 3; i++) {
+          assert.equal(
+              users[i].innerText,
+              usersData[i].username + ': ' + usersData[i].profile.occupation
+          );
+        }
+      });
+      done();
+    });
+
+    it('Displays results after searching for occupation', function(done) {
+      Session.set('work', usersData[0].profile.occupation);
+      withRenderedTemplate('usersIndex', {}, el => {
+        let user = $(el).find('#occupations li');
         assert.equal(
-            users[i].innerText,
-            usersData[i].username + ': ' + usersData[i].profile.occupation
+            user[0].innerText,
+            usersData[0].username + ': ' + usersData[0].profile.occupation
         );
-      }
+      });
+      Session.set('work', '');
+      done();
     });
-    done();
+
+    it('Displays results after searching for description',function(done) {
+      Session.set('description', usersData[0].profile.description);
+      withRenderedTemplate('usersIndex', {}, el => {
+        let user = $(el).find('#descriptions li');
+        assert.equal(user[0].innerText,
+            usersData[0].username + ': ' + usersData[0].profile.occupation
+        );
+      });
+      Session.set('description', '');
+      done();
+    });
   });
 
-  it('Displays results after searching for occupation', () => {
-    Session.set('work', usersData[0].profile.occupation);
-    withRenderedTemplate('usersIndex', {}, el => {
-      let user = $(el).find('#occupations li');
-      assert.equal(user[0].innerText, usersData[0].username + ': ' + usersData[0].profile.occupation);
+  describe('Redirects', function(){
+    it('Clicking on a User redirects appropriately', function(done) {
+      withRenderedTemplate('usersIndex', {}, el => {
+        const users = $(el).find('ul#users').find('a');
+        for (let i=0; i<3; i++) {
+          users[i].click();
+          assert.equal(
+            decodeURIComponent(FlowRouter.current().path),
+            '/users/' + encodeURIComponent(usersData[i].username)
+          );
+        }
+      });
+      done();
     });
-    Session.set('work', '');
-  });
-
-  it('Displays results after searching for description', () => {
-    Session.set('description', usersData[0].profile.description);
-    withRenderedTemplate('usersIndex', {}, el => {
-      let user = $(el).find('#descriptions li');
-      assert.equal(user[0].innerText, usersData[0].username + ': ' + usersData[0].profile.occupation);
-    });
-    Session.set('description', '');
-  });
+  })
 });
