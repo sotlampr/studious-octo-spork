@@ -5,21 +5,29 @@
         {{#with formData}}
           <form role="form" class="form-horizontal update-profile" method="post">
             <div class="form-group">
-              <label for="username" class="control-label col-sm-1">Username: </label>
+              <label for="username" class="control-label col-sm-1">
+                Username:
+              </label>
               <div class="col-sm-2">
-                <input type="text" class="form-control" id="username" name="username" value={{username}}>
+                <input type="text" class="form-control" id="username"
+                       name="username" value={{username}}>
               </div>
             </div>
             <div class="form-group">
-              <label for="occupation" class="control-label col-sm-1">Occupation: </label>
+              <label for="occupation" class="control-label col-sm-1">
+                Occupation:
+              </label>
               <div class="col-sm-2">
                 {{>inputAutocomplete settings=settings id='occupation' class='form-control' name='occupation' value=occupation }}
               </div>
             </div>
             <div class="form-group">
-              <label for="description" class="control-label col-sm-1">Description: </label>
+              <label for="description" class="control-label col-sm-1">
+                Description:
+              </label>
               <div class="col-sm-2">
-                <input type="text" class="form-control" id="description" name="description" value={{description}}>
+                <input type="text" class="form-control" id="description"
+                       name="description" value={{description}}>
               </div>
             </div>
             <div class="form-group">
@@ -62,4 +70,3 @@
     </div>
   {{/if}}
 </template>
-

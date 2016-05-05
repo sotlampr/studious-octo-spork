@@ -19,12 +19,14 @@
   <div class='container'>
     <div class='col-md-6'>
       <form class='findOccupation'>
-        <input class="col-md-6" type='text' name='work' placeholder='Are you looking for an occupation?' />
+        <input class="col-md-6" type='text' name='work'
+               placeholder='Are you looking for an occupation?' />
       </form>
     </div>
     <div class='col-md-6'>
       <form class='findDescription'>
-        <input class="col-md-6" type='text' name='description' placeholder='Give me a description!' />
+        <input class="col-md-6" type='text' name='description'
+               placeholder='Give me a description!' />
       </form>
     </div>
   </div>
@@ -89,7 +91,8 @@
               Your Message for {{targetUsername}}:
             </label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="message" name="message" value="Hello {{targetUsername}}, ">
+              <input type="text" class="form-control" id="message"
+                     name="message" value="Hello {{targetUsername}}, ">
             </div>
           </div>
           <div class="form-group">
@@ -115,7 +118,10 @@
           alert("Your message is empty");
           return noempty;
         }
-        $( '.received' ).html( '<strong>Your message has been received</strong>' ).show().fadeOut( 10000 );
+        $( '.received' )
+          .html( '<strong>Your message has been received</strong>' )
+          .show()
+          .fadeOut( 10000 );
       });
     });
   </script>
