@@ -9,6 +9,9 @@ import { deleteMessage } from '../api/messaging/methods.js';
 
 import './dashboard.html';
 
+import { Suggestions } from './suggestions.js'
+import { saveSuggestion } from '../api/users/methods.js';
+
 Template.dashboard.helpers({
   settings: function () {
     return {
@@ -16,8 +19,8 @@ Template.dashboard.helpers({
       limit: 5,
       rules: [
         {
-          collection: Meteor.users,
-          field: "profile.occupation",
+          collection: Suggestions,
+          field: "suggestion",
           template: Template.autocomplete
         }
       ]
@@ -55,12 +58,14 @@ Template.dashboard.events({
   'submit .update-profile': function (event) {
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();
-   updateUserProfile.call({
+    updateUserProfile.call({
       id: Meteor.userId(),
       username: event.target.username.value,
       occupation: event.target.occupation.value,
       description: event.target.description.value
     });
+    saveSuggestion.call({suggestion: event.target.occupation.value});
+
   },
   'click .toggle-read': function() {
     toggleRead.call(this._id);
