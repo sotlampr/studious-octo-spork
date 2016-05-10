@@ -1,4 +1,8 @@
 // Routes for studious-octo-spork app
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+
+import '../../ui/body.js';
 
 // Helper function for boilerplate code
 var renderTemplate = function (name) {
@@ -51,4 +55,3 @@ userRoutes.route('/:username/contact', {
   name: 'Users.by_username.contact',
   action: renderTemplate('usersContactByUsername')
 });
-

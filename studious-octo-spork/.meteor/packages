@@ -26,3 +26,12 @@ email
 standard-minifier-css
 standard-minifier-js
 mizzao:autocomplete
+practicalmeteor:mocha
+mdg:validated-method
+mdg:validation-error
+aldeed:simple-schema
+aldeed:collection2
+xolvio:cleaner
+practicalmeteor:sinon
+anti:fake
+dispatch:mocha-phantomjs
