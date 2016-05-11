@@ -9,7 +9,7 @@ import { deleteMessage } from '../api/messaging/methods.js';
 
 import './dashboard.html';
 
-import { Suggestions } from './suggestions.js'
+import { Suggestions } from './suggestions.js';
 import { saveSuggestion } from '../api/users/methods.js';
 
 Template.dashboard.helpers({
