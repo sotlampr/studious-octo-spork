@@ -9,23 +9,23 @@
   <title>studious-octo-spork</title>
 
   <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 
 <template name="App_body">
   <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container">
-    	<div class="navbar-header">
-      	<button type="button" class="navbar-toggle collapsed"
-                data-toggle="collapse" data-target="#navbar"
-                aria-expanded="false" aria-controls="navbar">
-        	<span class="sr-only">Toggle navigation</span>
-        	<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-      	</button>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+          data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a class="navbar-brand"
-           href="{{#if currentUser}}/dashboard{{else}}/{{/if}}">
+          href="{{#if currentUser}}/dashboard{{else}}/{{/if}}">
           Studious Octo Spork
         </a>
       </div>
@@ -40,7 +40,7 @@
         {{#if currentUser}}
           <div class="nav navbar-right dropdown">
             <button class="btn btn-info dropdown-toggle" type="button"
-                    data-toggle="dropdown">
+              data-toggle="dropdown">
               {{currentUser.username}}
               <span class="caret"></span>
             </button>
@@ -56,7 +56,7 @@
               <li><a class="signout">Sign out</a></li>
             </ul>
           </div>
-        {{else}}
+          {{else}}
           <ul class="nav navbar-nav navbar-right">
             <li>
               <a id='signUpInPg' href="/register">
@@ -70,7 +70,7 @@
               </a>
             </li>
           </ul>
-        {{/if}} </div>
+      {{/if}} </div>
     </div>
   </nav>
   <br>
@@ -215,11 +215,11 @@
 
 <template name="hello">
   <div class="jumbotron">
-    <div class="container-fluid bg-1 text-center">
-      <h2>Welcome to Time Ride!</h2>
+    <div class="container bg-1 text-center">
+      <h1>Time Ride!</h1>
       <img src="bike.jpg" class="img-circle" alt="Bike"
-                          width='300' height='300'>
-      <h3>A bank time</h3>
+      width='300' height='300'>
+      <h2>Welcome at a bank time</h2>
       <p>
         <a class="btn btn-primary btn-lg" href="/about" role="button">
           Learn more »
@@ -227,57 +227,226 @@
       </p>
     </div>
   </div>
+
   <div class="container">
+    <h2>About Time Ride</h2>
+    <h3>What is a Time Bank?</h3>
     <p>
-      {{> loginButtons}}
+      Time Banks have been established in 34 countries, with at least 300
+      Time Banks established in 40 US states and 300 throughout the United
+      Kingdom. Time Banks also have a significant presence in Japan,
+      South Korea, New Zealand, Taiwan, Senegal, Argentina, Israel, Greece,
+      and Spain. Time Banks have been used to reduce recidivism rates with
+      diversionary programs for first-time juvenile offenders; facilitate
+      re-entry of for ex-convicts; deliver health care, job training and
+      social services in public housing complexes; facilitate substance abuse
+      recovery; prevent institutionalization of severely disabled children
+      through parental support networks; provide transportation for
+      homebound seniors in rural areas; deliver elder care, community health
+      services and hospice care; and foster women's rights initiatives in
+      Senegal.
     </p>
+    <h3>What is timing banking?</h3>
+    <p>
+      Time banking is a pattern of reciprocal service exchange that uses
+      units of time as currency.  It is an example of a complementary
+      monetary system.  A time bank, also known as a service exchange,
+      is a community that practices time banking. The unit of currency,
+      always valued at an hour's worth of any person's labor, used by these
+      groups has various names, but is generally known as a time dollar in
+      the USA and a time credit in the UK.  Time banking is primarily used
+      to provide incentives and rewards for work such as mentoring children,
+      caring for the elderly, being neighborly—work usually done on a
+      volunteer basis—which a pure market system devalues.  Essentially,
+      the "time" one spends providing these types of community services
+      earns "time" that one can spend to receive services.  As well as
+      gaining credits, participating individuals, particularly those more
+      used to being recipients in other parts of their lives, can potentially
+      gain confidence, social contact and skills through giving to others.
+      Communities therefore use time banking as a tool to forge stronger
+      intra-community connections, a process known as "building social
+      capital". Time banking had its intellectual genesis in the USA in the
+      early 1980s. By 1990, the Robert Wood Johnson Foundation had invested
+      USD 1.2 million to pilot time banking in the context of senior care.
+      Today, 26 countries have active Time Banks. There are 250 Time Banks
+      active in the UK and over 276 Time Banks in the U.S.
+    </p>
+    <h3>Philosophy</h3>
+    <p>
+      Time Banking is a community development tool and works by facilitating
+      the exchange of skills and experience within a community. It aims to
+      build the 'core economy' of family and community by valuing and
+      rewarding the work done in it. The world's first time bank was started
+      in Japan by Teruko Mizushima in 1973 with the idea that participants
+      could earn time credits which they could spend any time during their
+      lives. She based her bank on the simple concept that each hour of time
+      given as services to others could earn reciprocal hours of services for
+      the giver at some stage in the future, particularly in old age when
+      they might need it most. In the 1940s, Mizushima had already foreseen
+      the emerging problems of an ageing society such as seen today. In the
+      1990s the movement took off in the USA, with Dr Edgar Cahn pioneering
+      it there, and in the United Kingdom, with Martin Simon from
+      Timebanking UK.
+    </p>
+    <p>
+      According to Edgar S. Cahn, time banking had its roots in a time when
+      "money for social programs [had] dried up" and no dominant approach to
+      social service in the U.S. was coming up with creative ways to solve
+      the problem. He would later write that "Americans face at least three
+      interlocking sets of problems: growing inequality in access by those
+      at the bottom to the most basic goods and services; increasing social
+      problems stemming from the need to rebuild family, neighborhood and
+      community; and a growing disillusion with public programs designed to
+      address these problems" and that "the crisis in support for efforts to
+      address social problems stems directly from the failure of
+      . . . piecemeal efforts to rebuild genuine community." In particular
+      Cahn focused on the top-down attitude prevalent in social services.
+      He believed that one of the major failings of many social service
+      organizations was their unwillingness to enroll the help of those
+      people they were trying to help. He called this a deficit based approach
+      to social service, where organizations view the people they were
+      trying to help only in terms of their needs, as opposed to an asset
+      based approach, which focuses on the contributions towards their
+      communities that everyone can make. He theorized that a system like
+      time banking could "[rebuild] the infrastructure of trust and caring
+      that can strengthen families and communities." He hoped that the
+      system "would enable individuals and communities to become more
+      self-sufficient, to insulate themselves from the vagaries of politics
+      and to tap the capacity of individuals who were in effect being
+      relegated to the scrap heap and dismissed as freeloaders."
+    </p>
+    <p>
+      As a philosophy, time banking, also known as Time Trade is founded
+      upon five principles, known as Time Banking's Core Values:
+    </p>
+    <ul>
+      <li>Everyone is an asset</li>
+      <li>Some work is beyond a monetary price</li>
+      <li>Reciprocity in helping</li>
+      <li>Social networks are necessary</li>
+      <li>A respect for all human beings</li>
+    </ul>
+    <p>
+      Ideally, time banking builds community. Time Bank members sometimes
+      refer to this as a return to simpler times when the community was there
+      for its individuals. An interview at a time bank in the Gorbals
+      neighbourhood of Glasgow revealed the following sentiment:
+    </p>
+    <p>
+      <div class='col-sm-offset-3 col-sm-6'>
+        [the time bank] involves everybody coming together as a community
+        . . . the Gorbals has never — not for a long time — had a lot of
+        community spirit. Way back, years ago, it had a lot of community
+        spirit, but now you see that in some areas, people won't even go to
+        the chap next door for a some sugar . . . that's what I think the
+        project's doing, trying to bring that back, that community sense . . .
+      </div>
+    </p>
+    <div class='col-sm-6'>
+      <p>For more information
+        <a href="https://en.wikipedia.org/wiki/Time_banking">here</a>
+      </p>
+    </div>
   </div>
-  <div class="container">
-    <!-- Example row of columns -->
+
+  <div class='container'>
+    <h2>Random Users</h2>
+    <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+        <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+        <li data-target="#myCarousel" data-slide-to="2" class="active"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item">
+          <h4>"Username1"<br><span style="font-style:normal;">Occupation1, Description1</span></h4>
+        </div>
+        <div class="item active left">
+          <h4>"Username2"<br><span style="font-style:normal;">Occupation2, Description2</span></h4>
+        </div>
+        <div class="item next left">
+          <h4>"Username3"<br><span style="font-style:normal;">Occupation3, Description3</span></h4>
+        </div>
+      </div>
+
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+
+  <form role="form" id="cntct" class="container testemail">
+    <h2 class="text-center">CONTACT</h2>
     <div class="row">
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>
-          Donec id elit non mi porta gravida at eget metus.
-          Fusce dapibus, tellus ac cursus commodo,
-          tortor mauris condimentum nibh,
-          ut fermentum massa justo sit amet risus.
-          Etiam porta sem malesuada magna mollis euismod.
-          Donec sed odio dui.
-        </p>
-        <p>
-          <a class="btn btn-default" href="#" role="button">View details »</a>
-        </p>
+      <div class="col-md-5">
+        <p>Contact us and we'll get back to you within 24 hours.</p>
+        <p><span class="glyphicon glyphicon-map-marker"></span> Athens, GR</p>
+        <p><span class="glyphicon glyphicon-phone"></span> Phone: +30 6912345678</p>
+        <p><span class="glyphicon glyphicon-envelope"></span> Email: mail@mail.com</p>
       </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>
-          Donec id elit non mi porta gravida at eget metus.
-          Fusce dapibus, tellus ac cursus commodo,
-          tortor mauris condimentum nibh,
-          ut fermentum massa justo sit amet risus.
-          Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-        </p>
-        <p>
-          <a class="btn btn-default" href="#" role="button">View details »</a>
-        </p>
+      <div class="col-md-7">
+        <div class="row">
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="name" name="name"
+            placeholder="Name" type="text" required>
+          </div>
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="email" name="email"
+            placeholder="Email" type="text" required>
+          </div>
         </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>
-            Donec sed odio dui. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam.
-            Vestibulum id ligula porta felis euismod semper.
-            Fusce dapibus, tellus ac cursus commodo,
-            tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-          </p>
-          <p>
-            <a class="btn btn-default" href="#" role="button">View details »</a>
-          </p>
+        <textarea class="form-control" id="comments" name="comments"
+            placeholder="Comment" rows="5"></textarea><br>
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <button class="btn btn-default pull-right" type="submit">Send</button>
+          </div>
         </div>
+        <p class='thnx'></p>
       </div>
-      <hr>
-  </div>
+    </div>
+  </form>
+
+  <script type='text/javascript'>
+    $(document).ready( function() {
+      $( 'form' ).submit( function() {
+        var noempty = true;
+        if ( this.name.value == null || this.name.value == "" ) {
+          noempty = false;
+        }
+        if ( this.email.value == null || this.email.value == "" ) {
+          noempty = false;
+        }
+        if ( this.comments.value == null || this.comments.value == "" ) {
+          noempty = false;
+        }
+        if ( !noempty ) {
+          alert("There is empty input");
+          return noempty;
+        }
+
+        var patt = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+        if ( !patt.test(this.email.value) ){
+          alert("Wrong email format");
+          return false;
+        }
+
+        $( '.thnx' )
+          .html( '<strong>Your comment has been received, Thank you!</strong>' )
+          .show()
+          .fadeOut( 10000 );
+      });
+    });
+  </script>
 </template>
 
 <template name="register">
