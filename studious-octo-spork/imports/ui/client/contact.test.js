@@ -19,7 +19,7 @@ describe('Contact page', () => {
   it('Title contact form on h3', (done) => {
     withRenderedTemplate('contact', {}, el => {
       let targetText = $(el).find('h3.text-center').text();
-      assert.include(targetText, "Contact us and we'll get back to you within 24 hours.");
+      assert.include(targetText, "CONTACT");
       done();
     });
   });
