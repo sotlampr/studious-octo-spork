@@ -64,7 +64,7 @@ describe('Users Index', function() {
       done();
     });
 
-    it('Displays results after searching for description',function(done) {
+    it('Displays results after searching for description', function(done) {
       Session.set('description', usersData[0].profile.description);
       withRenderedTemplate('usersIndex', {}, el => {
         let user = $(el).find('#descriptions li');

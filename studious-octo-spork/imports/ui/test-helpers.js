@@ -13,6 +13,7 @@ const withDiv = function withDiv(callback) {
   document.body.appendChild(el);
   try {
     callback(el);
+    return;
   } finally {
     document.body.removeChild(el);
   }
