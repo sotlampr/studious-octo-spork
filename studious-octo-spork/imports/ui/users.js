@@ -6,18 +6,19 @@ import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
 
 Template.usersIndex.events({
-  'submit .findOccupation': function (event) {
+  'submit .find': function (event) {
     event.preventDefault();
-    var work = event.target.work.value;
-    event.target.work.value = '';
-    Session.set('work', work);
-  },
-
-  'submit .findDescription': function (event) {
-    event.preventDefault();
-    var description = event.target.description.value;
-    event.target.description.value = '';
-    Session.set('description', description);
+    var id = event.target.getAttribute('id');
+    if (id === 'occupation' ) {
+      var work = event.target.work.value;
+      event.target.work.value = '';
+      Session.set('work', work);
+    }
+    if (id === 'description') {
+      var description = event.target.description.value;
+      event.target.description.value = '';
+      Session.set('description', description);
+    }
   }
 });
 
