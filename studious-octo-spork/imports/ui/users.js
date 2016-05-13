@@ -14,7 +14,7 @@ Template.usersIndex.events({
       event.target.work.value = '';
       Session.set('work', work);
     }
-    if (id === 'description') {
+    else {
       var description = event.target.description.value;
       event.target.description.value = '';
       Session.set('description', description);
