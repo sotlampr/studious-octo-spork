@@ -8,15 +8,15 @@ import { saveMessage } from '../api/messaging/methods.js';
 Template.usersIndex.events({
   'submit .find': function (event) {
     event.preventDefault();
-    var id = event.target.getAttribute('id');
+    var tar = event.target;
+    var id = tar.getAttribute('id');
     if (id === 'occupation' ) {
-      var work = event.target.work.value;
-      event.target.work.value = '';
+      var work = tar.work.value;
+      tar.work.value = '';
       Session.set('work', work);
-    }
-    else {
-      var description = event.target.description.value;
-      event.target.description.value = '';
+    } else {
+      var description = tar.description.value;
+      tar.description.value = '';
       Session.set('description', description);
     }
   }
