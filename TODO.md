@@ -1,26 +1,21 @@
 # TODO
 
-### Research
-- ~~CSS (bootstrap or smthing else)~~ (T)
-- MongoDB & Models (T)
-- ~~Routes~~ (S)
+#### New functionality
 
-### Features to Implement
-- ~~Meteor app~~ (S)
-- ~~UI~~ (T)
-- ~~Routes~~ (S)
-- ~~Email to admin for contact~~ (T)
-- ~~User registration, login & logout~~ (T)
-- ~~User profiles (MORE WORK)~~ (S)
-- ~~User indexing / searching~~ (T)
-- ~~Work offer logging & suggestions~~ (T)
-- ~~Personal messages~~ (S)
+- calendar
+  - register available dates (user)
+  - view availabilities
+  - book some other user
+   
+- Trading Unit
+  - each user has a "wallet"
+  - transactions between users
+  - confirmation that transaction took place
+  
+- reviews system
+  - two-way reviews for transactions
 
-### Miscellaneous
-- Find a name
-- Prepare for milestone 0.0a
+- real time chat 
 
-## Requests
 
-(S)->(T): ~~Give some style to /dashboard~~
-(S)->(T): ~~Provide appropriate visual feedback when user sends a personal message please!~~
+*waiting for your suggestions*
