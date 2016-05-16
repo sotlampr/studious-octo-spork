@@ -11,13 +11,11 @@ Template.usersIndex.events({
     var tar = event.target;
     var id = tar.getAttribute('id');
     if (id === 'occupation' ) {
-      var work = tar.work.value;
+      Session.set('work', tar.work.value);
       tar.work.value = '';
-      Session.set('work', work);
     } else {
-      var description = tar.description.value;
+      Session.set('description', tar.description.value);
       tar.description.value = '';
-      Session.set('description', description);
     }
   }
 });
