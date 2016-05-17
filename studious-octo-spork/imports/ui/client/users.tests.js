@@ -54,7 +54,7 @@ describe('Users Index', function() {
     it('Displays results after searching for occupation', function(done) {
       Session.set('work', usersData[0].profile.occupation);
       withRenderedTemplate('usersIndex', {}, el => {
-        let user = $(el).find('#occupations li');
+        let user = $(el).find('#searchResults li');
         assert.equal(
             user[0].innerText,
             usersData[0].username + ': ' + usersData[0].profile.occupation
@@ -67,7 +67,7 @@ describe('Users Index', function() {
     it('Displays results after searching for description', function(done) {
       Session.set('description', usersData[0].profile.description);
       withRenderedTemplate('usersIndex', {}, el => {
-        let user = $(el).find('#descriptions li');
+        let user = $(el).find('#searchResults li');
         assert.equal(user[0].innerText,
             usersData[0].username + ': ' + usersData[0].profile.occupation
         );

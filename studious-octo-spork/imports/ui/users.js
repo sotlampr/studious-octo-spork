@@ -10,6 +10,8 @@ Template.usersIndex.events({
     event.preventDefault();
     var tar = event.target;
     var id = tar.getAttribute('id');
+    Session.set('work', '');
+    Session.set('description', '');
     if (id === 'occupation' ) {
       Session.set('work', tar.work.value);
       tar.work.value = '';
@@ -40,18 +42,14 @@ Template.usersIndex.helpers({
   // Searching with description:
   //  -success: birds cats rabbits, CAt, Ts Rab
   //  -fail: rabbits cats
-  usersSearchWithOccupation: function () {
+  usersSearch: function () {
     var work = Session.get('work');
     var workSearch = new RegExp(work, 'i');
-    if (work) {
-      return Meteor.users.find({'profile.occupation': workSearch});
-    }
-  },
-
-  usersSearchWithDescription: function () {
     var description = Session.get('description');
     var descriptionSearch = new RegExp(description, 'i');
-    if (description) {
+    if (work && work !== '') {
+      return Meteor.users.find({'profile.occupation': workSearch});
+    } else if (description && description !== '') {
       return Meteor.users.find({'profile.description': descriptionSearch });
     }
   }
