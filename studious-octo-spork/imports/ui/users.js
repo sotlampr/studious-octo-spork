@@ -5,6 +5,10 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
 
+Template.usersIndex.onCreated(function usersIndexOnCreated() {
+  this.subscribe('users');
+})
+
 Template.usersIndex.events({
   'submit .find': function (event) {
     event.preventDefault();
@@ -55,6 +59,10 @@ Template.usersIndex.helpers({
   }
 });
 
+Template.usersByUsername.onCreated(function usersByUsernameOnCreated() {
+  this.subscribe('users');
+});
+
 Template.usersByUsername.helpers({
   targetUsername: function() {
     return FlowRouter.getParam('username');
@@ -71,6 +79,10 @@ Template.usersByUsername.helpers({
       };
     }
   }
+});
+
+Template.usersContactByUsername.onCreated(function usersContactByUsernameOnCreated() {
+  this.subscribe('users');
 });
 
 Template.usersContactByUsername.helpers({

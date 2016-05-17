@@ -12,6 +12,11 @@ import './dashboard.html';
 import { Suggestions } from './suggestions.js';
 import { saveSuggestion } from '../api/users/methods.js';
 
+Template.dashboard.onCreated(function dashboardOnCreated() {
+  this.subscribe('messages.user');
+  this.subscribe('users');
+});
+
 Template.dashboard.helpers({
   settings: function () {
     return {
