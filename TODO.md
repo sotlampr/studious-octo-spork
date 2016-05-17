@@ -2,20 +2,19 @@
 
 #### New functionality
 
-- calendar
+- calendar (P)
   - register available dates (user)
   - view availabilities
   - book some other user
    
-- Trading Unit
+- Trading Unit (S)
   - each user has a "wallet"
   - transactions between users
   - confirmation that transaction took place
   
-- reviews system
+- reviews system (P)
   - two-way reviews for transactions
 
-- real time chat 
+- real time chat (S)
 
 
-*waiting for your suggestions*
