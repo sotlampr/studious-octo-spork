@@ -44,6 +44,10 @@
   </div>
   {{#if currentUser}}
     <div class="container-fluid">
+      <h3>Activity</h3>
+      <p><b>Balance:</b> {{currentUser.profile.balance}}</p>
+    </div>
+    <div class="container-fluid">
       <h3>Messages</h3>
       <ul>
         {{#each userMessages}}
