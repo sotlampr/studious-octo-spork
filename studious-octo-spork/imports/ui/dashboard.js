@@ -57,6 +57,11 @@ Template.dashboard.helpers({
     if (user)
       return user.username;
   },
+  options: function() {
+    return {
+      defaultView: 'month'
+    };
+  }
 });
 
 Template.dashboard.events({
