@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import { Messages } from '../api/messaging/messaging.js';
+import { Logbook } from '../api/transactions/logbook.js';
 
 import { updateUserProfile } from '../api/users/methods.js';
 import { toggleRead } from '../api/messaging/methods.js';
@@ -14,6 +15,7 @@ import { saveSuggestion } from '../api/users/methods.js';
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
+  this.subscribe('logbook.user');
   this.subscribe('users');
 });
 
@@ -50,6 +52,15 @@ Template.dashboard.helpers({
           {toId: Meteor.user()._id, visible:true},
           {sort: {read: 1, dateCreated: -1}});
       return userMessages;
+    }
+  },
+  userTransactions: function () {
+    // Retrieve the last 5 user transactions
+    if (Meteor.user()) {
+      var userTransactions = Logbook.find(
+          {}, {sort: {dateCreated: -1}, limit: 5}
+      );
+      return userTransactions;
     }
   },
   usernameFromId: function (id) {

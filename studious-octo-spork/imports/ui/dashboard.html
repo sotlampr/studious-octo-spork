@@ -45,7 +45,34 @@
   {{#if currentUser}}
     <div class="container-fluid">
       <h3>Activity</h3>
-      <p><b>Balance:</b> {{currentUser.profile.balance}}</p>
+      <div class="col-sm-6">
+        <h4>Wallet</h4>
+        <p><b>Balance:</b> {{currentUser.profile.balance}} Units</p>
+      </div>
+      <div class="col-sm-6">
+        <h4>History</h4>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Employer</th>
+              <th>Worker</th>
+              <th>Description</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+        {{#each userTransactions}}
+            <tr>
+              <td>{{usernameFromId employerId}}</td>
+              <td>{{usernameFromId workerId}}</td>
+              <td>{{description}}</td>
+              <td>{{cost}}</td>
+            </tr>
+        {{/each}}
+          </tbody>
+        </table>
+
+      </div>
     </div>
     <div class="container-fluid">
       <h3>Messages</h3>

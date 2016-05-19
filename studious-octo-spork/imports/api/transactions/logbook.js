@@ -46,6 +46,7 @@ Logbook.publicFields = {
   workerId: 1,
   date: 1,
   cost: 1,
+  description: 1,
   employerOk: 1,
   workerOk: 1,
 };

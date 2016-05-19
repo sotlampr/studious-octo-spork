@@ -4,6 +4,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
+import { saveTransaction } from '../api/transactions/methods.js';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
@@ -78,6 +79,22 @@ Template.usersByUsername.helpers({
         description: targetUser.profile.description
       };
     }
+  }
+});
+
+Template.usersByUsername.events({
+  'submit #claim-session': function (event) {
+    // Handle the updating logic, call updateUserProfile afterwards
+    event.preventDefault();
+    let data = {
+      employerOk: event.target.employerOk.checked,
+      workerOk: event.target.workerOk.checked,
+      fromUsername: Meteor.user().username,
+      toUsername: FlowRouter.getParam('username'),
+      description: event.target.sessionDescription.value,
+      cost: Number(event.target.sessionCost.value),
+    };
+    saveTransaction.call(data);
   }
 });
 
