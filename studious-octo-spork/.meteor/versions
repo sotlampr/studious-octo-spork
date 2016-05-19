@@ -66,6 +66,7 @@ mobile-experience@1.0.4
 mobile-status-bar@1.0.12
 modules@0.6.1
 modules-runtime@0.6.3
+momentjs:moment@2.8.4
 mongo@1.1.7
 mongo-id@1.0.4
 npm-bcrypt@0.8.5
@@ -86,6 +87,7 @@ reactive-var@1.0.9
 reload@1.1.8
 retry@1.0.7
 routepolicy@1.0.10
+rzymek:fullcalendar@2.7.1
 service-configuration@1.0.9
 session@1.1.5
 sha@1.0.7
