@@ -7,6 +7,7 @@ import { Logbook } from '../api/transactions/logbook.js';
 import { updateUserProfile } from '../api/users/methods.js';
 import { toggleRead } from '../api/messaging/methods.js';
 import { deleteMessage } from '../api/messaging/methods.js';
+import { approveTransaction } from '../api/transactions/methods.js';
 
 import './dashboard.html';
 
@@ -90,3 +91,15 @@ Template.dashboard.events({
     deleteMessage.call(this._id);
   }
 });
+
+Template.renderApprovalStatus.helpers({
+  equals: function(a, b) {
+    return a == b;
+  },
+})
+
+Template.renderApprovalStatus.events({
+  'click #approve': function(event) {
+    approveTransaction.call(this);
+  }
+})

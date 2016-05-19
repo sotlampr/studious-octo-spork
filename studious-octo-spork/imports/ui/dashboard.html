@@ -63,8 +63,14 @@
           <tbody>
         {{#each userTransactions}}
             <tr>
-              <td>{{usernameFromId employerId}}</td>
-              <td>{{usernameFromId workerId}}</td>
+              <td>{{usernameFromId employerId}}
+                {{> renderApprovalStatus targetUser=employerId targetOk=employerOk targetTransaction=_id}}
+              </td>
+
+              <td>{{usernameFromId workerId}}
+                {{> renderApprovalStatus targetUser=workerId targetOk=workerOk targetTransaction=_id}}
+              </td>
+
               <td>{{description}}</td>
               <td>{{cost}}</td>
             </tr>
@@ -99,5 +105,27 @@
         {{/each}}
       </ul>
     </div>
+  {{/if}}
+</template>
+
+<template name="renderApprovalStatus">
+  {{#if equals targetUser currentUser._id}}
+    {{#if targetOk}}
+      <span class="glyphicon glyphicon-ok-sign" data-toggle="tooltip"
+            title="You already approved this transaction"></span>
+    {{else}}
+    <a class="icon" id=approve data-toggle="tooltip"
+         title="Click to approve transaction">
+        <span class="glyphicon glyphicon-question-sign"></span>
+      </a>
+    {{/if}}
+  {{else}}
+    {{#if targetOk}}
+      <span class="glyphicon glyphicon-ok-sign" data-toggle="tooltip"
+            title="User has approved this transaction!"></span>
+    {{else}}
+      <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+            title="Awaiting approval from user"></span>
+    {{/if}}
   {{/if}}
 </template>
