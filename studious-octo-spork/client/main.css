@@ -1,13 +1,32 @@
 /* CSS declarations go here */
 body {
+  margin: 0px;
+  padding: 0px;
   line-height: 1.8;
 }
 
-h2 {
-  margin-bottom: 30px;
+.jumbotron {
+  background-color: #fff;
+}
+
+.dark {
+  background-color: #2d2d30;
+  color: #fff;
+}
+
+.box {
+  padding: 80px 120px;
+}
+
+.box2 {
+  padding: 0px 120px 80px 120px;
 }
 
 .bg-1 {
-  margin-bottom: 45px;
+  margin-bottom: 25px;
   margin-top: 25px;
+}
+
+h2 {
+  margin: 30px 0px;
 }
