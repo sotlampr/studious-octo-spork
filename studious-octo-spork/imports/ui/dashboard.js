@@ -59,7 +59,12 @@ Template.dashboard.helpers({
   },
   options: function() {
     return {
-      defaultView: 'month'
+      defaultView: 'month',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      }
     };
   }
 });
