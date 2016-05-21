@@ -34,3 +34,4 @@ practicalmeteor:sinon
 anti:fake
 dispatch:mocha-phantomjs
 rzymek:fullcalendar
+momentjs:moment
