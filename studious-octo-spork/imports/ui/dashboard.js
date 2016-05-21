@@ -89,3 +89,7 @@ Template.dashboard.events({
     deleteMessage.call(this._id);
   }
 });
+
+Template.dashboard.onRendered( function () {
+  $('#calendar').fullCalendar();
+})
