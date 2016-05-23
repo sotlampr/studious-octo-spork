@@ -1,6 +1,5 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { moment } from 'momentjs/moment';
 
 export const Events = new Mongo.Collection('events');
 
@@ -26,11 +25,12 @@ Events.schema = new SimpleSchema({
   },
   start: {
     type: String,
-    max: 50,
+    max: 30,
     label: 'When this event will start.'
   },
   end: {
     type: String,
+    max: 30,
     label: 'When this event will end.'
   }
 });
@@ -43,9 +43,4 @@ Events.publicFields = {
   title: 1,
   start: 1,
   end: 1,
-};
-
-let isPast = function (date) {
-  let today = moment().format();
-  return moment(today).isAfter(date);
 };

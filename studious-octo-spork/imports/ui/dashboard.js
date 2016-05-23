@@ -11,10 +11,12 @@ import './dashboard.html';
 
 import { Suggestions } from './suggestions.js';
 import { saveSuggestion } from '../api/users/methods.js';
+import { Events } from '../api/events/events.js';
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
   this.subscribe('users');
+  this.subscribe('events');
 });
 
 Template.dashboard.helpers({
@@ -91,5 +93,21 @@ Template.dashboard.events({
 });
 
 Template.dashboard.onRendered( function () {
-  $('#calendar').fullCalendar();
-})
+  $('#calendar').fullCalendar({
+    events(start, end, timezone, callback) {
+      let data = Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch().map( function (evnt) {
+        //evnt.editable = !isPast(evnt.start);
+        return evnt;
+      });
+
+      if (data) {
+        callback(data);
+      }
+    }
+  });
+
+  Tracker.autorun( function () {
+    Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch();
+    $('#calendar').fullCalendar('refetchEvents');
+  });
+});
