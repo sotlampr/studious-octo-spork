@@ -59,16 +59,6 @@ Template.dashboard.helpers({
     if (user)
       return user.username;
   },
-  options: function() {
-    return {
-      defaultView: 'month',
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      }
-    };
-  }
 });
 
 Template.dashboard.events({
@@ -94,6 +84,11 @@ Template.dashboard.events({
 
 Template.dashboard.onRendered( function () {
   $('#calendar').fullCalendar({
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
     events(start, end, timezone, callback) {
       let data = Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch().map( function (evnt) {
         //evnt.editable = !isPast(evnt.start);
