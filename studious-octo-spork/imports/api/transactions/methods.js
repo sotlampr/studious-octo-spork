@@ -35,7 +35,7 @@ export const saveTransaction = new ValidatedMethod({
 });
 
 export const approveTransaction = new ValidatedMethod({
-  name: 'transaction.approveTransaction',
+  name: 'transactions.approveTransaction',
   validate: new SimpleSchema({
     targetUser: { type: String },
     targetTransaction: { type: String },
@@ -52,13 +52,12 @@ export const approveTransaction = new ValidatedMethod({
       Logbook.update({_id: data.targetTransaction}, {$set: {toOk: true}});
     }
     Meteor.users.update(
-
         { _id: transaction.fromId },
         { $inc: { 'profile.balance': -transaction.cost }}
-    )
+    );
     Meteor.users.update(
         { _id: transaction.toId },
         { $inc: { 'profile.balance': transaction.cost }}
-    )
+    );
   }
 })

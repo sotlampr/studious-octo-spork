@@ -9,45 +9,144 @@ require('./methods.js');
 
 if (Meteor.isServer) {
   describe('Transactions', () => {
-    // Helper variables and functions
-    let userId;
-    let toId;
-    let data;
+    describe('saveTransaction', function () {
+      // Helper variables and functions
+      let userId;
+      let toId;
+      let data;
 
-    const invokeSaveAs = function(userId, data) {
-     const saveTransaction =
-        Meteor.server.method_handlers['transactions.saveTransaction'];
-      const invocation = { userId };
-      saveTransaction.apply(invocation, [data]);
-    };
-
-    // Before and after routines
-    beforeEach((done) => {
-      userId = Random.id();
-      toId = Accounts.createUser({username: 'tester'});
-      data = {
-        fromOk: true,
-        toOk: false,
-        fromId: userId,
-        toId: toId,
-        description: "test transaction",
-        cost: 100.
+      const invokeSaveAs = function(userId, data) {
+       const saveTransaction =
+          Meteor.server.method_handlers['transactions.saveTransaction'];
+        const invocation = { userId };
+        saveTransaction.apply(invocation, [data]);
       };
 
-      done();
+      // Before and after routines
+      beforeEach((done) => {
+        userId = Random.id();
+        toId = Accounts.createUser({username: 'tester'});
+        data = {
+          fromOk: true,
+          toOk: false,
+          fromId: userId,
+          toId: toId,
+          description: "test transaction",
+          cost: 100.
+        };
+        done();
+      });
+
+      afterEach((done) => {
+        Meteor.users.remove({});
+        Logbook.remove({});
+        done();
+      });
+
+
+      it('Save a new transaction', function(done) {
+        invokeSaveAs(userId, data);
+        assert.equal(Logbook.find().count(), 1);
+        done();
+      });
+
+      it('Reject transaction with invalid userId', function(done) {
+        let invocationAttempt = function () {
+          invokeSaveAs(toId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject a transaction noone approved', function(done) {
+        data.fromOk = false;
+        let invocationAttempt = function () {
+          invokeSaveAs(userId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject a transaction both users approved', function(done) {
+        data.toOk = true;
+        let invocationAttempt = function () {
+          invokeSaveAs(userId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Test transaction as employer', function(done) {
+        invokeSaveAs(userId, data);
+        let entry = Logbook.findOne();
+        assert.equal(entry.fromId, userId);
+        done();
+      });
+
+      it('Test transaction as worker', function(done) {
+        data.toOk = true;
+        data.fromOk = false;
+        invokeSaveAs(userId, data);
+        let entry = Logbook.findOne();
+        assert.equal(entry.toId, userId);
+        done();
+      });
     });
 
-    afterEach((done) => {
-      Meteor.users.remove({});
-      Logbook.remove({});
-      done();
-    });
+    describe('approveTransaction', function () {
+      let transactionId;
+      let userId;
+      let toId;
+      let data;
 
-    // Tests
-    it('Save a new transaction', function(done) {
-      invokeSaveAs(userId, data);
-      assert.equal(Logbook.find().count(), 1);
-      done();
-    })
+      const invokeApproveAs = function (userId, data) {
+        const approveTransaction =
+          Meteor.server.method_handlers['transactions.approveTransaction'];
+        const invocation = { userId };
+        approveTransaction.apply(invocation, [data]);
+      }
+
+      beforeEach((done) => {
+        userId = Random.id();
+        toId = Random.id();
+        transactionId = Logbook.insert({
+          fromOk: true,
+          toOk: false,
+          fromId: userId,
+          toId: toId,
+          description: "test transaction",
+          cost: 100.,
+          date: new Date,
+        });
+        data = {
+          targetUser: userId,
+          targetTransaction: transactionId,
+          targetOk: true
+        };
+        done();
+      });
+
+      afterEach((done) => {
+        Logbook.remove({});
+        done();
+      });
+
+      it('Approve a transaction', function(done) {
+        invokeApproveAs(userId, data);
+        let transaction = Logbook.findOne();
+        assert.isTrue(transaction.toOk);
+        done();
+      });
+
+      it('Reject approval with invalid userId', function(done) {
+        let invocationAttempt = function () {
+          invokeApproveAs(toId, data);
+        }
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+
+    });
   });
 };
