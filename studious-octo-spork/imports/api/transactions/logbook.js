@@ -10,11 +10,11 @@ Logbook.deny({
 });
 
 Logbook.schema = new SimpleSchema({
-  employerId: {
+  fromId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
-  workerId: {
+  toId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
@@ -28,11 +28,11 @@ Logbook.schema = new SimpleSchema({
   cost: {
     type: Number
   },
-  employerOk: {
+  fromOk: {
     type: Boolean,
     defaultValue: false,
   },
-  workerOk: {
+  toOk: {
     type: Boolean,
     defaultValue: false,
   },
@@ -42,11 +42,11 @@ Logbook.attachSchema(Logbook.schema);
 
 // Fields that should be published
 Logbook.publicFields = {
-  employerId: 1,
-  workerId: 1,
+  fromId: 1,
+  toId: 1,
   date: 1,
   cost: 1,
   description: 1,
-  employerOk: 1,
-  workerOk: 1,
+  fromOk: 1,
+  toOk: 1,
 };

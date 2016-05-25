@@ -63,12 +63,12 @@
           <tbody>
         {{#each userTransactions}}
             <tr>
-              <td>{{usernameFromId employerId}}
-                {{> renderApprovalStatus targetUser=employerId targetOk=employerOk targetTransaction=_id}}
+              <td>{{usernameFromId fromId}}
+                {{> renderApprovalStatus targetUser=fromId targetOk=fromOk targetTransaction=_id}}
               </td>
 
-              <td>{{usernameFromId workerId}}
-                {{> renderApprovalStatus targetUser=workerId targetOk=workerOk targetTransaction=_id}}
+              <td>{{usernameFromId toId}}
+                {{> renderApprovalStatus targetUser=toId targetOk=toOk targetTransaction=_id}}
               </td>
 
               <td>{{description}}</td>

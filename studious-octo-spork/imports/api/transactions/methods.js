@@ -7,37 +7,29 @@ import { Logbook } from './logbook.js';
 export const saveTransaction = new ValidatedMethod({
   name: 'transactions.saveTransaction',
   validate: new SimpleSchema({
-    employerOk: { type: Boolean },
-    workerOk: { type: Boolean },
-    fromUsername: { type: String },
-    toUsername: { type: String },
+    fromOk: { type: Boolean },
+    toOk: { type: Boolean },
+    fromId: { type: String },
+    toId: { type: String },
     description: { type: String },
     cost: { type: Number },
   }).validator(),
   run (data) {
-    let fromId = Meteor.users.findOne({ username: data.fromUsername })._id;
-    let toId = Meteor.users.findOne({ username: data.toUsername })._id;
-
-    if (fromId !== this.userId) {
+    if (data.fromId !== this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
     // from represents employer, so flip if necessary
-    if (data.workerOk && !data.employerOk) {
+    if (data.toOk && !data.fromOk) {
       // fromId is worker, flip
-      [fromId, toId] = [toId, fromId];
-    } else if (!data.workerOk && data.employerOk) {
+      [data.fromId, data.toId] = [data.toId, data.fromId];
+    } else if (!data.toOk && data.fromOk) {
       // already in correct position
     } else {
       throw new Meteor.Error('input-error');
     }
 
-    // Process the data to be compatible with Logbook
-    data.employerId = fromId;
-    data.workerId = toId;
     data.date = new Date;
-    delete data.fromUsername;
-    delete data.toUsername;
     Logbook.insert(data);
   },
 });
@@ -54,17 +46,18 @@ export const approveTransaction = new ValidatedMethod({
       throw new Meteor.Error('not-authorized');
     }
     let transaction = Logbook.findOne(data.targetTransaction);
-    if (!transaction.employerOk) {
-      Logbook.update({_id: data.targetTransaction}, {$set: {employerOk: true}});
-    } else if (!transaction.workerOk) {
-      Logbook.update({_id: data.targetTransaction}, {$set: {workerOk: true}});
+    if (!transaction.fromOk) {
+      Logbook.update({_id: data.targetTransaction}, {$set: {fromOk: true}});
+    } else if (!transaction.toOk) {
+      Logbook.update({_id: data.targetTransaction}, {$set: {toOk: true}});
     }
     Meteor.users.update(
-        { _id: transaction.employerId },
+
+        { _id: transaction.fromId },
         { $inc: { 'profile.balance': -transaction.cost }}
     )
     Meteor.users.update(
-        { _id: transaction.workerId },
+        { _id: transaction.toId },
         { $inc: { 'profile.balance': transaction.cost }}
     )
   }

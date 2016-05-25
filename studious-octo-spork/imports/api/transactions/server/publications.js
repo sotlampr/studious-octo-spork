@@ -4,7 +4,7 @@ import { Logbook } from '../logbook.js';
 
 Meteor.publish('logbook.user', function userLogbook() {
   return Logbook.find(
-      {$or: [{ employerId: this.userId }, { workerId: this.userId }]},
+      {$or: [{ fromId: this.userId }, { toId: this.userId }]},
       {fields: Logbook.publicFields}
   );
 })

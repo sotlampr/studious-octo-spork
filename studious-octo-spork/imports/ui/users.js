@@ -87,10 +87,10 @@ Template.usersByUsername.events({
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();
     let data = {
-      employerOk: event.target.employerOk.checked,
-      workerOk: event.target.workerOk.checked,
-      fromUsername: Meteor.user().username,
-      toUsername: FlowRouter.getParam('username'),
+      fromOk: event.target.fromOk.checked,
+      toOk: event.target.toOk.checked,
+      fromId: Meteor.userId(),
+      toId: Meteor.users.findOne({ username: FlowRouter.getParam('username') })._id,
       description: event.target.sessionDescription.value,
       cost: Number(event.target.sessionCost.value),
     };
