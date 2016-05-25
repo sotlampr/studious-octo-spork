@@ -62,3 +62,15 @@ h2 {
   font-size: 12px;
   margin-top: 5px;
 }
+
+.fc-event .eventUserA {
+  color: blue;
+  font-size: 13px;
+  margin: 0px;
+}
+
+.fc-event .eventUserB {
+  color: red;
+  font-size: 13px;
+  margin: 0px;
+}

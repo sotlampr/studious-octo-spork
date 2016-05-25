@@ -89,6 +89,13 @@ Template.dashboard.onRendered( function () {
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
+    eventRender(evnt, element) {
+      element.find('.fc-content').html(
+          '<h4>' + evnt.title + '</h4>' +
+          '<p class="eventUserA">' + Meteor.users.findOne(evnt.userA).username + '</p>' +
+          '<p class="eventUserB">' + Meteor.users.findOne(evnt.userB).username + '</p>'
+          );
+    },
     events(start, end, timezone, callback) {
       let data = Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch().map( function (evnt) {
         //evnt.editable = !isPast(evnt.start);
