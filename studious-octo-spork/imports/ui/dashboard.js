@@ -98,13 +98,21 @@ Template.dashboard.onRendered( function () {
     },
     events(start, end, timezone, callback) {
       let data = Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch().map( function (evnt) {
-        //evnt.editable = !isPast(evnt.start);
         return evnt;
       });
 
       if (data) {
         callback(data);
       }
+    },
+    dayClick(date) {
+      alert('clicked on: ' + date);
+      //Session.set('eventModal', {type: 'add', date: date.format()});
+      //$('#add-edit-event-modal').modal('show');
+    },
+    eventClick(evnt) {
+      Session.set('eventModal', {type: 'edit', evnt: evnt._id});
+      $('#add-edit-event-modal').modal('show');
     }
   });
 
@@ -112,4 +120,67 @@ Template.dashboard.onRendered( function () {
     Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch();
     $('#calendar').fullCalendar('refetchEvents');
   });
+});
+
+Template.addEditEventModal.helpers({
+  modalType: function (type) {
+    let eventModal = Session.get('eventModal');
+    if (eventModal) {
+      return eventModal.type === type;
+    }
+  },
+  modalLabel: function () {
+    let eventModal = Session.get('eventModal');
+    if (eventModal) {
+      return {
+        button: eventModal.type === 'edit' ? 'Edit' : 'Add',
+        label: eventModal.type === 'edit' ? 'Edit' : 'Add an'
+      };
+    }
+  },
+  selected: function (v1, v2) {
+    return v1 === v2;
+  },
+  evnt: function () {
+    let eventModal = Session.get('eventModal');
+
+    if (eventModal) {
+      return eventModal.type === 'edit' ? Events.findOne(eventModal.evnt) : {
+        start: eventModal.date,
+        end: eventModal.date
+      };
+    }
+  }
+});
+
+let closeModal = function () {
+  $('#add-edit-event-modal').modal('hide');
+  $('.modal-backdrop').fadeout();
+};
+
+Template.addEditEventModal.events({
+  'submit form': function (event, template) {
+    event.preventDefault();
+
+    let eventModal = Session.get('eventModal');
+    let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
+    let eventItem = {
+      title: template.find('[name="title"]').value,
+      start: template.find('[name="start"]').value,
+      end: template.find('[name="end"]').value
+    };
+
+    if (submitType === 'editEvent') {
+      eventItem._id = eventModal.evnt;
+    }
+
+    Meteor.call(submitType, eventItem, function (error) {
+      if (error) {
+        alert(error.reason, 'danger');
+      } else {
+        alert('Event ' + eventModal.type + 'ed', 'success');
+        closeModal();
+      }
+    })
+  }
 });
