@@ -89,14 +89,14 @@ Template.dashboard.onRendered( function () {
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
-    eventRender(evnt, element) {
+    eventRender: function (evnt, element) {
       element.find('.fc-content').html(
           '<h4>' + evnt.title + '</h4>' +
           '<p class="eventUserA">' + Meteor.users.findOne(evnt.userA).username + '</p>' +
           '<p class="eventUserB">' + Meteor.users.findOne(evnt.userB).username + '</p>'
           );
     },
-    events(start, end, timezone, callback) {
+    events: function (start, end, timezone, callback) {
       let data = Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch().map( function (evnt) {
         return evnt;
       });
@@ -105,12 +105,11 @@ Template.dashboard.onRendered( function () {
         callback(data);
       }
     },
-    dayClick(date) {
-      alert('clicked on: ' + date);
-      //Session.set('eventModal', {type: 'add', date: date.format()});
-      //$('#add-edit-event-modal').modal('show');
+    dayClick: function (date) {
+      Session.set('eventModal', {type: 'add', date: date.format()});
+      $('#add-edit-event-modal').modal('show');
     },
-    eventClick(evnt) {
+    eventClick: function (evnt) {
       Session.set('eventModal', {type: 'edit', evnt: evnt._id});
       $('#add-edit-event-modal').modal('show');
     }
