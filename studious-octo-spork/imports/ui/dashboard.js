@@ -9,7 +9,7 @@ import { deleteMessage } from '../api/messaging/methods.js';
 
 import './dashboard.html';
 
-import { Suggestions } from './suggestions.js';
+import { Suggestions } from '../api/suggestions/suggestions.js';
 import { saveSuggestion } from '../api/users/methods.js';
 import { Events } from '../api/events/events.js';
 import { Bert } from 'meteor/themeteorchef:bert';
@@ -18,6 +18,7 @@ Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
   this.subscribe('users');
   this.subscribe('events');
+  this.subscribe('suggestions');
 });
 
 Template.dashboard.helpers({
