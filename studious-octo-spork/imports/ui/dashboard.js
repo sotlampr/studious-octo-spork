@@ -12,6 +12,7 @@ import './dashboard.html';
 import { Suggestions } from './suggestions.js';
 import { saveSuggestion } from '../api/users/methods.js';
 import { Events } from '../api/events/events.js';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
@@ -72,7 +73,7 @@ Template.dashboard.events({
       description: event.target.description.value
     });
     saveSuggestion.call({suggestion: event.target.occupation.value});
-
+    Bert.alert('Your profile has been updated ', 'success', 'growl-top-right');
   },
   'click .toggle-read': function() {
     toggleRead.call(this._id);

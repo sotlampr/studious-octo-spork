@@ -4,6 +4,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
@@ -101,5 +102,6 @@ Template.usersContactByUsername.events({
       message: event.target.message.value,
     });
     event.target.message.value = '';
+    Bert.alert('Your message has been received', 'success', 'growl-top-right');
   }
 });
