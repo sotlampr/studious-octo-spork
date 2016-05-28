@@ -35,3 +35,4 @@ anti:fake
 dispatch:mocha-phantomjs
 momentjs:moment
 rzymek:fullcalendar
+themeteorchef:bert
