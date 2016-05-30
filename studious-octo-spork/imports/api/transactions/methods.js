@@ -16,9 +16,15 @@ export const saveTransaction = new ValidatedMethod({
   }).validator(),
   run (data) {
     if (data.fromId !== this.userId) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error('transactions.saveTransaction.notAuthorized');
     }
 
+    if (data.cost <= 0) {
+      throw new Meteor.Error(
+        'transactions.saveTransaction.zeroCost',
+        'Transaction cost should not be zero or negative'
+      );
+    }
     // from represents employer, so flip if necessary
     if (data.toOk && !data.fromOk) {
       // fromId is worker, flip
@@ -26,9 +32,19 @@ export const saveTransaction = new ValidatedMethod({
     } else if (!data.toOk && data.fromOk) {
       // already in correct position
     } else {
-      throw new Meteor.Error('input-error');
+      throw new Meteor.Error(
+        'transactions.saveTransaction.noRelationshishippSelected',
+        'No work relationship selected.'
+      );
     }
-
+    let fromBalance = Meteor.users.findOne({ _id: data.fromId}).profile.balance;
+    let difference = fromBalance - data.cost
+    if (difference < -100) {
+      throw new Meteor.Error(
+        'transactions.saveTransaction.notEnoughBalance',
+        'Target balance is not enough to cover the cost.'
+      );
+    }
     data.date = new Date;
     Logbook.insert(data);
   },
@@ -43,7 +59,7 @@ export const approveTransaction = new ValidatedMethod({
   }).validator(),
   run (data) {
     if (data.targetUser !== this.userId) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
     }
     let transaction = Logbook.findOne(data.targetTransaction);
     if (!transaction.fromOk) {

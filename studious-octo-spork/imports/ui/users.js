@@ -94,7 +94,13 @@ Template.usersByUsername.events({
       description: event.target.sessionDescription.value,
       cost: Number(event.target.sessionCost.value),
     };
-    saveTransaction.call(data);
+    saveTransaction.call(data, (err, res) => {
+      if(err) {
+        alert(err.reason);
+      } else {
+        // success!
+      }
+    });
   }
 });
 

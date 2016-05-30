@@ -24,8 +24,8 @@ if (Meteor.isServer) {
 
       // Before and after routines
       beforeEach((done) => {
-        userId = Random.id();
-        toId = Accounts.createUser({username: 'tester'});
+        userId = Accounts.createUser({username: 'tester1'});
+        toId = Accounts.createUser({username: 'tester2'});
         data = {
           fromOk: true,
           toOk: false,
@@ -34,6 +34,8 @@ if (Meteor.isServer) {
           description: "test transaction",
           cost: 100.
         };
+        Meteor.users.update({ _id: toId}, {$set: {'profile.balance': 0}})
+        Meteor.users.update({ _id: userId}, {$set: {'profile.balance': 0}})
         done();
       });
 
@@ -69,6 +71,15 @@ if (Meteor.isServer) {
 
       it('Reject a transaction both users approved', function(done) {
         data.toOk = true;
+        let invocationAttempt = function () {
+          invokeSaveAs(userId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject transaction user cannot pay', function(done) {
+        data.cost = 101;
         let invocationAttempt = function () {
           invokeSaveAs(userId, data);
         };
