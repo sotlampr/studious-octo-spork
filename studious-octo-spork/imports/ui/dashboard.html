@@ -42,10 +42,12 @@
           <p>You are not registered yet.</p>
         {{/if}}
       </div>
-      <div class='col-sm-6'>
-        {{> addEditEventModal }}
-        <div id="calendar"></div>
-      </div>
+      {{#if currentUser}}
+       <div class='col-sm-6'>
+          {{> addEditEventModal }}
+         <div id="calendar"></div>
+        </div>
+      {{/if}}
     </div>
   </div>
   {{#if currentUser}}

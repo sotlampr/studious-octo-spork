@@ -5,6 +5,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
 import { Bert } from 'meteor/themeteorchef:bert';
+import { Events } from '../api/events/events.js';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
@@ -62,6 +63,7 @@ Template.usersIndex.helpers({
 
 Template.usersByUsername.onCreated(function usersByUsernameOnCreated() {
   this.subscribe('users');
+  this.subscribe('events');
 });
 
 Template.usersByUsername.helpers({
@@ -103,5 +105,108 @@ Template.usersContactByUsername.events({
     });
     event.target.message.value = '';
     Bert.alert('Your message has been received', 'success', 'growl-top-right');
+  }
+});
+
+Template.usersByUsername.onRendered( function () {
+  let usrId = Meteor.users.findOne({username: FlowRouter.getParam('username')})._id;
+  $('#calendar').fullCalendar({
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    eventRender: function (evnt, element) {
+      element.find('.fc-content').html(
+          '<h4>' + evnt.title + '</h4>' +
+          '<p class="eventUserA">' + Meteor.users.findOne(evnt.userA).username + '</p>' +
+          '<p class="eventUserB">' + Meteor.users.findOne(evnt.userB).username + '</p>'
+          );
+    },
+    events: function (start, end, timezone, callback) {
+      let data = Events.find({ $or : [{'userA': usrId}, {'userB': usrId}] }).fetch().map( function (evnt) {
+        return evnt;
+      });
+
+      if (data) {
+        callback(data);
+      }
+    },
+    dayClick: function (date) {
+      Session.set('eventModal', {type: 'add', date: date.format()});
+      $('#add-edit-event-modal').modal('show');
+    },
+    eventClick: function (evnt) {
+      Session.set('eventModal', {type: 'edit', evnt: evnt._id});
+      $('#add-edit-event-modal').modal('show');
+    }
+  });
+
+  Tracker.autorun( function () {
+    Events.find({ $or : [{'userA': usrId}, {'userB': usrId}] }).fetch();
+    $('#calendar').fullCalendar('refetchEvents');
+  });
+});
+
+Template.addEditRequestEventModal.helpers({
+  modalType: function (type) {
+    let eventModal = Session.get('eventModal');
+    if (eventModal) {
+      return eventModal.type === type;
+    }
+  },
+  modalLabel: function () {
+    let eventModal = Session.get('eventModal');
+    if (eventModal) {
+      return {
+        button: eventModal.type === 'edit' ? 'Edit' : 'Add',
+        label: eventModal.type === 'edit' ? 'Edit' : 'Add an'
+      };
+    }
+  },
+  selected: function (v1, v2) {
+    return v1 === v2;
+  },
+  evnt: function () {
+    let eventModal = Session.get('eventModal');
+
+    if (eventModal) {
+      return eventModal.type === 'edit' ? Events.findOne(eventModal.evnt) : {
+        start: eventModal.date,
+        end: eventModal.date
+      };
+    }
+  }
+});
+
+let closeModal = function () {
+  $('#add-edit-event-modal').modal('hide');
+  $('.modal-backdrop').fadeout();
+};
+
+Template.addEditRequestEventModal.events({
+  'submit form': function (event, template) {
+    event.preventDefault();
+
+    let eventModal = Session.get('eventModal');
+    let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
+    let eventItem = {
+      title: template.find('[name="title"]').value,
+      start: template.find('[name="start"]').value,
+      end: template.find('[name="end"]').value
+    };
+
+    if (submitType === 'editEvent') {
+      eventItem._id = eventModal.evnt;
+    }
+
+    Meteor.call(submitType, eventItem, function (error) {
+      if (error) {
+        alert(error.reason, 'danger');
+      } else {
+        alert('Event ' + eventModal.type + 'ed', 'success');
+        closeModal();
+      }
+    })
   }
 });
