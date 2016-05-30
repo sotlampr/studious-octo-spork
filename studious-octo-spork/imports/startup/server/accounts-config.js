@@ -5,5 +5,6 @@ Accounts.onCreateUser(function (options, user) {
     user.profile.occupation = '';
     user.profile.description = '';
     user.profile.balance = 0.0;
+    user.profile.logisticBalance = 0.0;
     return user;
 });

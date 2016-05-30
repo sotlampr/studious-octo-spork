@@ -34,8 +34,12 @@ if (Meteor.isServer) {
           description: "test transaction",
           cost: 100.0
         };
-        Meteor.users.update({ _id: toId}, {$set: {'profile.balance': 0}});
-        Meteor.users.update({ _id: userId}, {$set: {'profile.balance': 0}});
+        Meteor.users.update({ _id: userId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': 0}
+        });
+        Meteor.users.update({ _id: toId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': 0}
+        });
         done();
       });
 
@@ -80,6 +84,16 @@ if (Meteor.isServer) {
 
       it('Reject transaction user cannot pay', function(done) {
         data.cost = 101;
+        let invocationAttempt = function () {
+          invokeSaveAs(userId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject transaction user cannot pay (cumulative)', function(done) {
+        data.cost = 51;
+        invokeSaveAs(userId, data);
         let invocationAttempt = function () {
           invokeSaveAs(userId, data);
         };

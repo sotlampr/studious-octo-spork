@@ -4,6 +4,36 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Logbook } from './logbook.js';
 
+const commitTransaction = function(transaction, type) {
+  if (type === 'final') {
+    Meteor.users.update(
+        { _id: transaction.fromId },
+        { $inc: {
+          'profile.balance': -transaction.cost ,
+          'profile.logisticBalance': transaction.cost
+        }}
+    );
+    Meteor.users.update(
+        { _id: transaction.toId },
+        { $inc: {
+          'profile.balance': transaction.cost,
+          'profile.logisticBalance': -transaction.cost
+        }}
+    );
+  } else if (type === 'logistic') {
+    Meteor.users.update(
+        { _id: transaction.fromId },
+        { $inc: { 'profile.logisticBalance': -transaction.cost } }
+    );
+    Meteor.users.update(
+        { _id: transaction.toId },
+        { $inc: { 'profile.logisticBalance': transaction.cost } }
+    );
+  } else {
+    // do nothing?
+  }
+};
+
 export const saveTransaction = new ValidatedMethod({
   name: 'transactions.saveTransaction',
   validate: new SimpleSchema({
@@ -19,13 +49,15 @@ export const saveTransaction = new ValidatedMethod({
       throw new Meteor.Error('transactions.saveTransaction.notAuthorized');
     }
 
+    // Cannot have a negative cost value!
     if (data.cost <= 0) {
       throw new Meteor.Error(
         'transactions.saveTransaction.zeroCost',
         'Transaction cost should not be zero or negative'
       );
     }
-    // from represents employer, so flip if necessary
+
+    // From represents employer, so flip if necessary
     if (data.toOk && !data.fromOk) {
       // fromId is worker, flip
       [data.fromId, data.toId] = [data.toId, data.fromId];
@@ -37,7 +69,10 @@ export const saveTransaction = new ValidatedMethod({
         'No work relationship selected.'
       );
     }
-    let fromBalance = Meteor.users.findOne({ _id: data.fromId}).profile.balance;
+
+    // Check for availabl balance
+    let employer= Meteor.users.findOne({ _id: data.fromId});
+    let fromBalance = employer.profile.balance + employer.profile.logisticBalance;
     let difference = fromBalance - data.cost;
     if (difference < -100) {
       throw new Meteor.Error(
@@ -46,7 +81,8 @@ export const saveTransaction = new ValidatedMethod({
       );
     }
     data.date = new Date();
-    Logbook.insert(data);
+    let transactionId = Logbook.insert(data);
+    commitTransaction(Logbook.findOne({ _id: transactionId }), 'logistic')
   },
 });
 
@@ -67,13 +103,6 @@ export const approveTransaction = new ValidatedMethod({
     } else if (!transaction.toOk) {
       Logbook.update({_id: data.targetTransaction}, {$set: {toOk: true}});
     }
-    Meteor.users.update(
-        { _id: transaction.fromId },
-        { $inc: { 'profile.balance': -transaction.cost }}
-    );
-    Meteor.users.update(
-        { _id: transaction.toId },
-        { $inc: { 'profile.balance': transaction.cost }}
-    );
+    commitTransaction(transaction, 'final');
   }
 });
