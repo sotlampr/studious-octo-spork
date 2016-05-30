@@ -8,7 +8,7 @@ import { saveTransaction } from '../api/transactions/methods.js';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
-})
+});
 
 Template.usersIndex.events({
   'submit .find': function (event) {

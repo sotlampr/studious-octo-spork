@@ -96,10 +96,10 @@ Template.renderApprovalStatus.helpers({
   equals: function(a, b) {
     return a == b;
   },
-})
+});
 
 Template.renderApprovalStatus.events({
   'click #approve': function(event) {
     approveTransaction.call(this);
   }
-})
+});

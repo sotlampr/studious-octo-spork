@@ -7,4 +7,4 @@ Meteor.publish('logbook.user', function userLogbook() {
       {$or: [{ fromId: this.userId }, { toId: this.userId }]},
       {fields: Logbook.publicFields}
   );
-})
+});

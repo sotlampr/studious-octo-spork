@@ -38,14 +38,14 @@ export const saveTransaction = new ValidatedMethod({
       );
     }
     let fromBalance = Meteor.users.findOne({ _id: data.fromId}).profile.balance;
-    let difference = fromBalance - data.cost
+    let difference = fromBalance - data.cost;
     if (difference < -100) {
       throw new Meteor.Error(
         'transactions.saveTransaction.notEnoughBalance',
         'Target balance is not enough to cover the cost.'
       );
     }
-    data.date = new Date;
+    data.date = new Date();
     Logbook.insert(data);
   },
 });
@@ -76,4 +76,4 @@ export const approveTransaction = new ValidatedMethod({
         { $inc: { 'profile.balance': transaction.cost }}
     );
   }
-})
+});

@@ -32,10 +32,10 @@ if (Meteor.isServer) {
           fromId: userId,
           toId: toId,
           description: "test transaction",
-          cost: 100.
+          cost: 100.0
         };
-        Meteor.users.update({ _id: toId}, {$set: {'profile.balance': 0}})
-        Meteor.users.update({ _id: userId}, {$set: {'profile.balance': 0}})
+        Meteor.users.update({ _id: toId}, {$set: {'profile.balance': 0}});
+        Meteor.users.update({ _id: userId}, {$set: {'profile.balance': 0}});
         done();
       });
 
@@ -115,7 +115,7 @@ if (Meteor.isServer) {
           Meteor.server.method_handlers['transactions.approveTransaction'];
         const invocation = { userId };
         approveTransaction.apply(invocation, [data]);
-      }
+      };
 
       beforeEach((done) => {
         userId = Random.id();
@@ -126,8 +126,8 @@ if (Meteor.isServer) {
           fromId: userId,
           toId: toId,
           description: "test transaction",
-          cost: 100.,
-          date: new Date,
+          cost: 100.0,
+          date: new Date(),
         });
         data = {
           targetUser: userId,
@@ -152,7 +152,7 @@ if (Meteor.isServer) {
       it('Reject approval with invalid userId', function(done) {
         let invocationAttempt = function () {
           invokeApproveAs(toId, data);
-        }
+        };
         assert.throws(invocationAttempt, Meteor.Error);
         done();
       });
@@ -160,4 +160,4 @@ if (Meteor.isServer) {
 
     });
   });
-};
+}

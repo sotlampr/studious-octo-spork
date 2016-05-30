@@ -6,4 +6,4 @@ Meteor.publish('users', function fetchUsers() {
     'profile.occupation': 1,
     'profile.description': 1,
   }});
-})
+});
