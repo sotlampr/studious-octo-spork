@@ -85,7 +85,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="add-edit-event">{{modalLabel.label}} Event</h4>
+					<h4 class="modal-title" id="add-edit-event">{{modalLabel.label}} Request for Event</h4>
 				</div>
 				<form id="add-edit-event-form">
 					<div class="modal-body">
@@ -93,15 +93,31 @@
 							<label for="title">Event Title</label>
 							<input type="text" name="title" class="form-control" value="{{evnt.title}}">
 						</div>
+            <div class='form-group'>
+              <div class='row'>
+                <div class='col-xs-12 col-sm-3'>
+                  <label for='giver'>Giver</label>
+                  <select name='giver' class='form-control'>
+                    {{#each giver}}
+                      <option value='{{username}}'>{{username}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div class='col-xs-12 col-sm-3'>
+                  <label for='recipient'>Recipient</label>
+                  <input disabled type='text' name='recipient' class='form-control' value="{{recipient}}">
+                </div>
+              </div>
+            </div>
 						<div class="form-group">
 							<div class="row">
 								<div class="col-xs-12 col-sm-3">
 									<label for="start">Event Starts</label>
-									<input type="text" name="start" class="form-control" value="{{evnt.start}}">
+									<input disabled type="text" name="start" class="form-control" value="{{evnt.start}}">
 								</div>
 								<div class="col-xs-12 col-sm-3">
 									<label for="end">Event End</label>
-									<input type="text" name="end" class="form-control" value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
+									<input disabled type="text" name="end" class="form-control" value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
 								</div>
 							</div>
 						</div>

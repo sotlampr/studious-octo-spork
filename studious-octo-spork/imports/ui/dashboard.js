@@ -151,7 +151,13 @@ Template.addEditEventModal.helpers({
         end: eventModal.date
       };
     }
-  }
+  },
+  recipient: function () {
+    return Meteor.users.findOne(Meteor.userId()).username;
+  },
+  giver: function () {
+    return Meteor.users.find({_id: {$ne: Meteor.userId()}});
+  },
 });
 
 let closeModal = function () {
