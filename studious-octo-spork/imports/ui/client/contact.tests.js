@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 import '../contact.js';
-import { withRenderedTemplate } from '../test-helpers.js';
+import { withRenderedTemplate } from '../test-helpers.specs.js';
 
 describe('Contact page', () => {
   beforeEach((done) => {

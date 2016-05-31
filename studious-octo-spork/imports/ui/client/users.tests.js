@@ -5,9 +5,9 @@ import { _ } from 'meteor/underscore';
 import { Mongo } from 'meteor/mongo';
 
 import '../users.js';
-import { withRenderedTemplate } from '../test-helpers.js';
-import { StubCollections } from '../test-helpers.js';
-import { generateUsers } from '../test-helpers.js';
+import { withRenderedTemplate } from '../test-helpers.specs.js';
+import { StubCollections } from '../test-helpers.specs.js';
+import { generateUsers } from '../test-helpers.specs.js';
 
 describe('Users Index', function() {
   let usersData;

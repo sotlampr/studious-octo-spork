@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import { Suggestions } from '../../ui/suggestions.js';
+import { Suggestions } from './suggestions.js';
+
 
 export const updateUserProfile = new ValidatedMethod({
   name: 'users.updateUserProfile',
