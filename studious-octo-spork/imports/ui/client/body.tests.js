@@ -4,7 +4,7 @@ import { $ } from 'meteor/jquery';
 
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import '../body.js';
-import { withRenderedTemplate } from '../test-helpers.js';
+import { withRenderedTemplate } from '../test-helpers.specs.js';
 
 describe('Home page', function() {
   beforeEach(function(done) {

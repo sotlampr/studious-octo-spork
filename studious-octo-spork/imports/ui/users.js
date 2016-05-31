@@ -7,7 +7,7 @@ import { saveMessage } from '../api/messaging/methods.js';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
-})
+});
 
 Template.usersIndex.events({
   'submit .find': function (event) {

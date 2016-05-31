@@ -2,19 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import { Messages } from '../api/messaging/messaging.js';
-
-import { updateUserProfile } from '../api/users/methods.js';
 import { toggleRead } from '../api/messaging/methods.js';
 import { deleteMessage } from '../api/messaging/methods.js';
 
-import './dashboard.html';
-
-import { Suggestions } from './suggestions.js';
+import { Suggestions } from '../api/users/suggestions.js';
+import { updateUserProfile } from '../api/users/methods.js';
 import { saveSuggestion } from '../api/users/methods.js';
+
+import './dashboard.html';
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
   this.subscribe('users');
+  this.subscribe('users.suggestions');
 });
 
 Template.dashboard.helpers({

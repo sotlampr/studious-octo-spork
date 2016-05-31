@@ -3,8 +3,12 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import '../../ui/body.js';
+import '../../ui/contact.js';
+import '../../ui/dashboard.js';
+import '../../ui/users.js';
 
 // Helper function for boilerplate code
+//
 var renderTemplate = function (name) {
   return function () { BlazeLayout.render('App_body', {main: name}); };
 };
