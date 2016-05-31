@@ -32,7 +32,11 @@ Events.schema = new SimpleSchema({
     type: String,
     max: 30,
     label: 'When this event will end.'
-  }
+  },
+  validate: {
+    type: Boolean,
+    defaultValue: false,
+  },
 });
 
 Events.attachSchema(Events.schema);
@@ -43,4 +47,5 @@ Events.publicFields = {
   title: 1,
   start: 1,
   end: 1,
+  validate: 1,
 };

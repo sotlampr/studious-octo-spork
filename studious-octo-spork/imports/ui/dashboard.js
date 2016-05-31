@@ -99,7 +99,7 @@ Template.dashboard.onRendered( function () {
           );
     },
     events: function (start, end, timezone, callback) {
-      let data = Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch().map( function (evnt) {
+      let data = Events.find({$and: [{validate: true},  { $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] } ]} ).fetch().map( function (evnt) {
         return evnt;
       });
 
