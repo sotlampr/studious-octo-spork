@@ -64,7 +64,7 @@ Template.dashboard.helpers({
       return user.username;
   },
   requests: function () {
-    return Events.find({$and: [{userA: Meteor.userId()},{validate: false}]});
+    return Events.find({$and: [{giver: Meteor.userId()},{validate: false}]});
   }
 });
 
@@ -105,12 +105,12 @@ Template.dashboard.onRendered( function () {
     eventRender: function (evnt, element) {
       element.find('.fc-content').html(
           '<h4>' + evnt.title + '</h4>' +
-          '<p class="eventUserA">' + Meteor.users.findOne(evnt.userA).username + '</p>' +
-          '<p class="eventUserB">' + Meteor.users.findOne(evnt.userB).username + '</p>'
+          '<p class="giver">' + Meteor.users.findOne(evnt.giver).username + '</p>' +
+          '<p class="receiver">' + Meteor.users.findOne(evnt.receiver).username + '</p>'
           );
     },
     events: function (start, end, timezone, callback) {
-      let data = Events.find({$and: [{validate: true},  { $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] } ]} ).fetch().map( function (evnt) {
+      let data = Events.find({$and: [{validate: true},  { $or : [{'giver': Meteor.userId()}, {'receiver': Meteor.userId()}] } ]} ).fetch().map( function (evnt) {
         return evnt;
       });
 
@@ -129,7 +129,7 @@ Template.dashboard.onRendered( function () {
   });
 
   Tracker.autorun( function () {
-    Events.find({ $or : [{'userA': Meteor.userId()}, {'userB': Meteor.userId()}] }).fetch();
+    Events.find({ $or : [{'giver': Meteor.userId()}, {'receiver': Meteor.userId()}] }).fetch();
     $('#calendar').fullCalendar('refetchEvents');
   });
 });
@@ -163,7 +163,7 @@ Template.addEditEventModal.helpers({
       };
     }
   },
-  recipient: function () {
+  receiver: function () {
     return Meteor.users.findOne(Meteor.userId()).username;
   },
   giver: function () {

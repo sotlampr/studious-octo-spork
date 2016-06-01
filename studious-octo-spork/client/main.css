@@ -63,13 +63,13 @@ h2 {
   margin-top: 5px;
 }
 
-.fc-event .eventUserA {
+.fc-event .giver {
   color: blue;
   font-size: 13px;
   margin: 0px;
 }
 
-.fc-event .eventUserB {
+.fc-event .receiver {
   color: red;
   font-size: 13px;
   margin: 0px;

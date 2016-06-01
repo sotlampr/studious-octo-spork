@@ -10,11 +10,11 @@ Events.deny({
 });
 
 Events.schema = new SimpleSchema({
-  userA: {
+  giver: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
-  userB: {
+  receiver: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
@@ -42,8 +42,8 @@ Events.schema = new SimpleSchema({
 Events.attachSchema(Events.schema);
 
 Events.publicFields = {
-  userA: 1,
-  userB: 1,
+  giver: 1,
+  receiver: 1,
   title: 1,
   start: 1,
   end: 1,
