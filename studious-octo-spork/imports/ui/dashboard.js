@@ -61,6 +61,9 @@ Template.dashboard.helpers({
     if (user)
       return user.username;
   },
+  requests: function () {
+    return Events.find({$and: [{userA: Meteor.userId()},{validate: false}]});
+  }
 });
 
 Template.dashboard.events({

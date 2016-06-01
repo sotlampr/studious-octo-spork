@@ -52,47 +52,85 @@
   </div>
   {{#if currentUser}}
     <div class="container">
-      <h3>Messages</h3>
-      <ul>
-        {{#each userMessages}}
-          <li class="message">
-            {{usernameFromId fromId}}: {{message}}
-            <button class="toggle-read">
-              {{#if read}}
-                <span class="glyphicon glyphicon-eye-open"></span>
-                {{else}}
-                <span class="glyphicon glyphicon-eye-close"></span>
-              {{/if}}
-            </button>
-            <button>
-              <a href="/users/{{usernameFromId fromId}}/contact">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </a>
-            </button>
-            <button class="delete">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-          </li>
-        {{/each}}
-      </ul>
+      <div class='col-sm-6'>
+        <h3>Messages</h3>
+        <ul>
+          {{#each userMessages}}
+            <li class="message">
+              {{usernameFromId fromId}}: {{message}}
+              <button class="toggle-read">
+                {{#if read}}
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  {{else}}
+                  <span class="glyphicon glyphicon-eye-close"></span>
+                {{/if}}
+              </button>
+              <button>
+                <a href="/users/{{usernameFromId fromId}}/contact">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+              </button>
+              <button class="delete">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class='col-sm-6'>
+        <h3>Events Requests</h3>
+        <ul>
+          {{#each requests}}
+            <li class="request">
+              <p>{{title}}</p>
+              <div class='container'>
+                <div class='row'>
+                  <div class='col-sm-4'>
+                    <div class='row'>
+                      <div class='col-sm-4'><p><strong>User</strong></p></div>
+                      <div class='col-sm-4'><p><strong>Start</strong></p></div>
+                      <div class='col-sm-4'><p><strong>End</strong></p></div>
+                    </div>
+                    <div class='row'>
+                      <div class='col-sm-4'><p><a href='/users/{{usernameFromId userB}}/'>{{usernameFromId userB}}</a></p></div>
+                      <div class='col-sm-4'><p>{{start}}</p></div>
+                      <div class='col-sm-4'><p>{{end}}</p></div>
+                    </div>
+                  </div>
+                  <div class='col-sm-1'>
+                    <div class='row'>
+                      <button class='acceptEvent btn btn-success'>
+                        <span class='glyphicon glyphicon-ok'></span>
+                      </button>
+                      <button class='denyEvent btn btn-danger'>
+                        <span class='glyphicon glyphicon-remove'></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
   {{/if}}
 </template>
 
 <template name='addEditEventModal'>
-	<div class="modal fade" id="add-edit-event-modal" tabindex="-1" role="dialog" aria-labelledby="add-edit-event-modal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="add-edit-event">{{modalLabel.label}} Request for Event</h4>
-				</div>
-				<form id="add-edit-event-form">
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="title">Event Title</label>
-							<input type="text" name="title" class="form-control" value="{{evnt.title}}">
-						</div>
+  <div class="modal fade" id="add-edit-event-modal" tabindex="-1" role="dialog" aria-labelledby="add-edit-event-modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="add-edit-event">{{modalLabel.label}} Request for Event</h4>
+        </div>
+        <form id="add-edit-event-form">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="title">Event Title</label>
+              <input type="text" name="title" class="form-control" value="{{evnt.title}}">
+            </div>
             <div class='form-group'>
               <div class='row'>
                 <div class='col-xs-12 col-sm-3'>
@@ -109,28 +147,28 @@
                 </div>
               </div>
             </div>
-						<div class="form-group">
-							<div class="row">
-								<div class="col-xs-12 col-sm-3">
-									<label for="start">Event Starts</label>
-									<input disabled type="text" name="start" class="form-control" value="{{evnt.start}}">
-								</div>
-								<div class="col-xs-12 col-sm-3">
-									<label for="end">Event End</label>
-									<input disabled type="text" name="end" class="form-control" value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						{{#if modalType 'edit'}}
-							<button class="btn btn-danger pull-left delete-event">Delete Event</button>
-						{{/if}}
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-success">{{modalLabel.button}} Event</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-xs-12 col-sm-3">
+                  <label for="start">Event Starts</label>
+                  <input disabled type="text" name="start" class="form-control" value="{{evnt.start}}">
+                </div>
+                <div class="col-xs-12 col-sm-3">
+                  <label for="end">Event End</label>
+                  <input disabled type="text" name="end" class="form-control" value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            {{#if modalType 'edit'}}
+              <button class="btn btn-danger pull-left delete-event">Delete Event</button>
+            {{/if}}
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success">{{modalLabel.button}} Event</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
