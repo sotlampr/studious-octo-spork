@@ -13,6 +13,8 @@ import { Suggestions } from '../api/suggestions/suggestions.js';
 import { saveSuggestion } from '../api/users/methods.js';
 import { Events } from '../api/events/events.js';
 import { Bert } from 'meteor/themeteorchef:bert';
+import { addEvent } from '../api/events/methods.js';
+import { removeRequest } from '../api/events/methods.js';
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
@@ -79,12 +81,18 @@ Template.dashboard.events({
     saveSuggestion.call({suggestion: event.target.occupation.value});
     Bert.alert('Your profile has been updated ', 'success', 'growl-top-right');
   },
-  'click .toggle-read': function() {
+  'click .toggle-read': function () {
     toggleRead.call(this._id);
   },
   'click .delete': function () {
     deleteMessage.call(this._id);
-  }
+  },
+  'click .acceptRequest': function () {
+    addEvent.call({eventId: this._id});
+  },
+  'click .denyRequest': function () {
+    removeRequest.call({eventId: this._id});
+  },
 });
 
 Template.dashboard.onRendered( function () {
