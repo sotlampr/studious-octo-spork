@@ -24,7 +24,7 @@ export const removeRequest = new ValidatedMethod({
   }).validator(),
   run (data) {
     var id = data.eventId;
-    if (!Events.findOne(eventId)) {
+    if (!Events.findOne(id)) {
       throw new Meteor.Error('event-not-found');
     }
     Events.remove({_id: id});

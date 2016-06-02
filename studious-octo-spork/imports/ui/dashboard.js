@@ -79,7 +79,7 @@ Template.dashboard.events({
       description: event.target.description.value
     });
     saveSuggestion.call({suggestion: event.target.occupation.value});
-    Bert.alert('Your profile has been updated ', 'success', 'growl-top-right');
+    Bert.alert('Your profile has been updated', 'success', 'growl-top-right');
   },
   'click .toggle-read': function () {
     toggleRead.call(this._id);
@@ -89,9 +89,11 @@ Template.dashboard.events({
   },
   'click .acceptRequest': function () {
     addEvent.call({eventId: this._id});
+    Bert.alert('The event has been added', 'success', 'growl-top-right');
   },
   'click .denyRequest': function () {
     removeRequest.call({eventId: this._id});
+    Bert.alert('The request has been denied', 'success', 'growl-top-right')
   },
 });
 
