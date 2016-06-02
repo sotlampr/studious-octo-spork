@@ -15,6 +15,7 @@ import { Events } from '../api/events/events.js';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { addEvent } from '../api/events/methods.js';
 import { removeRequest } from '../api/events/methods.js';
+import { addRequest } from '../api/events/methods.js';
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
@@ -182,25 +183,26 @@ Template.addEditEventModal.events({
   'submit form': function (event, template) {
     event.preventDefault();
 
-    let eventModal = Session.get('eventModal');
-    let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
-    let eventItem = {
-      title: template.find('[name="title"]').value,
-      start: template.find('[name="start"]').value,
-      end: template.find('[name="end"]').value
-    };
+    if (template.find('[name="title"]').value === '') {
+      Bert.alert('The title is empty', 'warning', 'growl-top-right');
+    } else {
+      let eventModal = Session.get('eventModal');
+      let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
+      let eventItem = {
+        title: template.find('[name="title"]').value,
+        giver: template.find('[name="giver"]').value,
+        receiver: template.find('[name="receiver"]').value,
+        start: template.find('[name="start"]').value,
+        end: template.find('[name="end"]').value
+      };
 
-    if (submitType === 'editEvent') {
-      eventItem._id = eventModal.evnt;
-    }
-
-    Meteor.call(submitType, eventItem, function (error) {
-      if (error) {
-        alert(error.reason, 'danger');
+      if (submitType === 'editEvent') {
+        eventItem._id = eventModal.evnt;
       } else {
-        alert('Event ' + eventModal.type + 'ed', 'success');
+        addRequest.call(eventItem);
+        Bert.alert('Your request has been added', 'success', 'growl-top-right');
         closeModal();
       }
-    })
+    }
   }
 });

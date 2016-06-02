@@ -30,3 +30,24 @@ export const removeRequest = new ValidatedMethod({
     Events.remove({_id: id});
   },
 });
+
+export const addRequest = new ValidatedMethod({
+  name: 'events.addRequest',
+  validate: new SimpleSchema({
+    title: { type: String },
+    giver: { type: String },
+    receiver: { type: String },
+    start: { type: String },
+    end: { type: String }
+  }).validator(),
+  run (data) {
+    Events.insert({
+      title: data.title,
+      giver: Meteor.users.findOne({username: data.giver})._id,
+      receiver: Meteor.users.findOne({username: data.receiver})._id,
+      start: data.start,
+      end: data.end,
+      validate: false
+    });
+  }
+});
