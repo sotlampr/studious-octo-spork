@@ -33,10 +33,14 @@ Events.schema = new SimpleSchema({
     max: 30,
     label: 'When this event will end.'
   },
-  validate: {
+  giverValidation: {
     type: Boolean,
     defaultValue: false,
   },
+  receiverValidation: {
+    type: Boolean,
+    defaultValue: false,
+  }
 });
 
 Events.attachSchema(Events.schema);
@@ -47,5 +51,6 @@ Events.publicFields = {
   title: 1,
   start: 1,
   end: 1,
-  validate: 1,
+  giverValidation: 1,
+  receiverValidation: 1
 };
