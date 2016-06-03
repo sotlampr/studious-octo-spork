@@ -84,27 +84,66 @@
             <li class="request">
               <p>{{title}}</p>
               <div class='container'>
-                <div class='row'>
-                  <div class='col-sm-4'>
-                    <div class='row'>
-                      <div class='col-sm-4'><p><strong>User</strong></p></div>
-                      <div class='col-sm-4'><p><strong>Start</strong></p></div>
-                      <div class='col-sm-4'><p><strong>End</strong></p></div>
-                    </div>
-                    <div class='row'>
-                      <div class='col-sm-4'><p><a href='/users/{{usernameFromId receiver}}/'>{{usernameFromId receiver}}</a></p></div>
-                      <div class='col-sm-4'><p>{{start}}</p></div>
-                      <div class='col-sm-4'><p>{{end}}</p></div>
-                    </div>
+                <div class='col-sm-6'>
+                  <div class='row'>
+                    <div class='col-sm-1'><p><strong>Start</strong></p></div>
+                    <div class='col-sm-4'><p>{{start}}</p></div>
                   </div>
-                  <div class='col-sm-1'>
-                    <div class='row'>
-                      <button class='acceptRequest btn btn-success'>
-                        <span class='glyphicon glyphicon-ok'></span>
-                      </button>
-                      <button class='denyRequest btn btn-danger'>
-                        <span class='glyphicon glyphicon-remove'></span>
-                      </button>
+                  <div class='row'>
+                    <div class='col-sm-1'><p><strong>End</strong></p></div>
+                    <div class='col-sm-4'><p>{{end}}</p></div>
+                    <div class='col-sm-3 col-sm-offset-1'><p><strong>Giver</strong></p></div>
+                    <div class='col-sm-3'><p><strong>Receiver</strong></p></div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-3 col-sm-offset-6'><p><a href='/users/{{usernameFromId giver}}/'>{{usernameFromId giver}}</a></p></div>
+                    <div class='col-sm-3'><p><a href='/users/{{usernameFromId receiver}}/'>{{usernameFromId receiver}}</a></p></div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-3 col-sm-offset-3'><p><strong>Validate</strong></p></div>
+                    <div class='col-sm-3'>
+                      {{#if isEqual giver logInUser}}
+                        {{#if giverValidation}}
+                          <p>true</p>
+                        {{else}}
+                          <div class='row'>
+                            <button class='acceptRequest btn btn-success'>
+                              <span class='glyphicon glyphicon-ok'></span>
+                            </button>
+                            <button class='denyRequest btn btn-danger'>
+                              <span class='glyphicon glyphicon-remove'></span>
+                            </button>
+                          </div>
+                        {{/if}}
+                      {{else}}
+                        {{#if giverValidation}}
+                          <p>true</p>
+                          {{else}}
+                          <p>not yet</p>
+                        {{/if}}
+                      {{/if}}
+                    </div>
+                    <div class='col-sm-3'>
+                      {{#if isEqual receiver logInUser}}
+                        {{#if receiverValidation}}
+                          <p>true</p>
+                        {{else}}
+                          <div class='row'>
+                            <button class='acceptRequest btn btn-success'>
+                              <span class='glyphicon glyphicon-ok'></span>
+                            </button>
+                            <button class='denyRequest btn btn-danger'>
+                              <span class='glyphicon glyphicon-remove'></span>
+                            </button>
+                          </div>
+                        {{/if}}
+                      {{else}}
+                        {{#if receiverValidation}}
+                          <p>true</p>
+                          {{else}}
+                          <p>not yet</p>
+                        {{/if}}
+                      {{/if}}
                     </div>
                   </div>
                 </div>
@@ -135,15 +174,19 @@
               <div class='row'>
                 <div class='col-xs-12 col-sm-3'>
                   <label for='giver'>Giver</label>
-                  <select name='giver' class='form-control'>
-                    {{#each giver}}
-                      <option value='{{username}}'>{{username}}</option>
-                    {{/each}}
-                  </select>
+                  {{#if modalType 'add'}}
+                    <select name='giver' class='form-control'>
+                      {{#each givers}}
+                        <option value='{{username}}'>{{username}}</option>
+                      {{/each}}
+                    </select>
+                    {{else}}
+                    <input disabled type='text' name='giver' class='form-control' value="{{idToUsername evnt.giver}}">
+                  {{/if}}
                 </div>
                 <div class='col-xs-12 col-sm-3'>
                   <label for='receiver'>Receiver</label>
-                  <input disabled type='text' name='receiver' class='form-control' value="{{receiver}}">
+                  <input disabled type='text' name='receiver' class='form-control' value="{{#if modalType 'add'}}{{receiver}}{{else}}{{idToUsername evnt.receiver}}{{/if}}">
                 </div>
               </div>
             </div>
@@ -151,11 +194,11 @@
               <div class="row">
                 <div class="col-xs-12 col-sm-3">
                   <label for="start">Event Starts</label>
-                  <input disabled type="text" name="start" class="form-control" value="{{evnt.start}}">
+                  <input type="text" name="start" class="form-control" value="{{evnt.start}}">
                 </div>
                 <div class="col-xs-12 col-sm-3">
                   <label for="end">Event End</label>
-                  <input disabled type="text" name="end" class="form-control" value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
+                  <input type="text" name="end" class="form-control" value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
                 </div>
               </div>
             </div>

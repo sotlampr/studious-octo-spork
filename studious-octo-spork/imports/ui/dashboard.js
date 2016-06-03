@@ -13,9 +13,10 @@ import { Suggestions } from '../api/suggestions/suggestions.js';
 import { saveSuggestion } from '../api/users/methods.js';
 import { Events } from '../api/events/events.js';
 import { Bert } from 'meteor/themeteorchef:bert';
-import { addEvent } from '../api/events/methods.js';
-import { removeRequest } from '../api/events/methods.js';
 import { addRequest } from '../api/events/methods.js';
+import { removeRequest } from '../api/events/methods.js';
+import { validateRequest } from '../api/events/methods.js';
+import { editEvent } from '../api/events/methods.js';
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
@@ -65,8 +66,14 @@ Template.dashboard.helpers({
       return user.username;
   },
   requests: function () {
-    return Events.find({$and: [{giver: Meteor.userId()},{validate: false}]});
-  }
+    return Events.find({$and: [{$or: [{giver: Meteor.userId()}, {receiver: Meteor.userId()}]}, {$or: [{giverValidation: false}, {receiverValidation: false}] }] });
+  },
+  logInUser: function () {
+    return Meteor.userId();
+  },
+  isEqual: function (x, y) {
+    return x === y;
+  },
 });
 
 Template.dashboard.events({
@@ -89,8 +96,8 @@ Template.dashboard.events({
     deleteMessage.call(this._id);
   },
   'click .acceptRequest': function () {
-    addEvent.call({eventId: this._id});
-    Bert.alert('The event has been added', 'success', 'growl-top-right');
+    validateRequest.call({userId: Meteor.userId(), eventId: this._id});
+    Bert.alert('The request has been validated', 'success', 'growl-top-right');
   },
   'click .denyRequest': function () {
     removeRequest.call({eventId: this._id});
@@ -113,7 +120,7 @@ Template.dashboard.onRendered( function () {
           );
     },
     events: function (start, end, timezone, callback) {
-      let data = Events.find({$and: [{validate: true},  { $or : [{'giver': Meteor.userId()}, {'receiver': Meteor.userId()}] } ]} ).fetch().map( function (evnt) {
+      let data = Events.find({$and: [{$and: [{giverValidation: true}, {receiverValidation: true}]},  { $or : [{'giver': Meteor.userId()}, {'receiver': Meteor.userId()}] } ]} ).fetch().map( function (evnt) {
         return evnt;
       });
 
@@ -169,8 +176,11 @@ Template.addEditEventModal.helpers({
   receiver: function () {
     return Meteor.users.findOne(Meteor.userId()).username;
   },
-  giver: function () {
+  givers: function () {
     return Meteor.users.find({_id: {$ne: Meteor.userId()}});
+  },
+  idToUsername: function (id) {
+    return Meteor.users.findOne({_id: id}).username;
   },
 });
 
@@ -197,10 +207,15 @@ Template.addEditEventModal.events({
       };
 
       if (submitType === 'editEvent') {
-        eventItem._id = eventModal.evnt;
+        eventItem.id = eventModal.evnt;
+        eventItem.changer = Meteor.userId();
+        editEvent.call(eventItem);
+        Bert.alert('Your request has been added', 'success', 'growl-top-right');
+        closeModal();
       } else {
         addRequest.call(eventItem);
         Bert.alert('Your request has been added', 'success', 'growl-top-right');
+        template.find('[name="title"]').value = '';
         closeModal();
       }
     }
