@@ -43,9 +43,22 @@
         {{/if}}
       </div>
       {{#if currentUser}}
-       <div class='col-sm-6'>
+        <div class='col-sm-6'>
           {{> addEditEventModal }}
-         <div id="calendar"></div>
+          <div id="calendar"></div>
+          <div class='container'>
+            <h5>
+              <strong>*</strong>
+              <span class='maroon'>C</span>
+              <span class='orange'>o</span>
+              <span class='green'>l</span>
+              <span class='yellow'>o</span>
+              <span class='purple'>r</span>
+              orange=<span class='orange'>title</span>,
+              maroon=<span class='maroon'>giver</span>
+              and purple=<span class='purple'>receiver</span>
+            </h5>
+          </div>
         </div>
       {{/if}}
     </div>
@@ -82,29 +95,29 @@
         <ul>
           {{#each requests}}
             <li class="request">
-              <p>{{title}}</p>
+              <p><strong>Title: </strong><span class='orange'>{{title}}</span></p>
               <div class='container'>
                 <div class='col-sm-6'>
                   <div class='row'>
-                    <div class='col-sm-1'><p><strong>Start</strong></p></div>
+                    <div class='col-sm-1'><p><strong>Start:</strong></p></div>
                     <div class='col-sm-4'><p>{{start}}</p></div>
                   </div>
                   <div class='row'>
-                    <div class='col-sm-1'><p><strong>End</strong></p></div>
+                    <div class='col-sm-1'><p><strong>End:</strong></p></div>
                     <div class='col-sm-4'><p>{{end}}</p></div>
                     <div class='col-sm-3 col-sm-offset-1'><p><strong>Giver</strong></p></div>
                     <div class='col-sm-3'><p><strong>Receiver</strong></p></div>
                   </div>
                   <div class='row'>
-                    <div class='col-sm-3 col-sm-offset-6'><p><a href='/users/{{usernameFromId giver}}/'>{{usernameFromId giver}}</a></p></div>
-                    <div class='col-sm-3'><p><a href='/users/{{usernameFromId receiver}}/'>{{usernameFromId receiver}}</a></p></div>
+                    <div class='col-sm-3 col-sm-offset-6'><p><a href='/users/{{usernameFromId giver}}/' class='maroon'>{{usernameFromId giver}}</a></p></div>
+                    <div class='col-sm-3'><p><a href='/users/{{usernameFromId receiver}}/' class='purple'>{{usernameFromId receiver}}</a></p></div>
                   </div>
                   <div class='row'>
-                    <div class='col-sm-3 col-sm-offset-3'><p><strong>Validate</strong></p></div>
+                    <div class='col-sm-2 col-sm-offset-4'><p><strong>Validate</strong></p></div>
                     <div class='col-sm-3'>
                       {{#if isEqual giver logInUser}}
                         {{#if giverValidation}}
-                          <p>true</p>
+                          <p class='green'>true</p>
                         {{else}}
                           <div class='row'>
                             <button class='acceptRequest btn btn-success'>
@@ -117,16 +130,16 @@
                         {{/if}}
                       {{else}}
                         {{#if giverValidation}}
-                          <p>true</p>
+                          <p class='green'>true</p>
                           {{else}}
-                          <p>not yet</p>
+                          <p class='yellow'>not yet</p>
                         {{/if}}
                       {{/if}}
                     </div>
                     <div class='col-sm-3'>
                       {{#if isEqual receiver logInUser}}
                         {{#if receiverValidation}}
-                          <p>true</p>
+                          <p class='green'>true</p>
                         {{else}}
                           <div class='row'>
                             <button class='acceptRequest btn btn-success'>
@@ -139,9 +152,9 @@
                         {{/if}}
                       {{else}}
                         {{#if receiverValidation}}
-                          <p>true</p>
+                          <p class='green'>true</p>
                           {{else}}
-                          <p>not yet</p>
+                          <p class='yellow'>not yet</p>
                         {{/if}}
                       {{/if}}
                     </div>

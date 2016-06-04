@@ -115,8 +115,8 @@ Template.dashboard.onRendered( function () {
     eventRender: function (evnt, element) {
       element.find('.fc-content').html(
           '<h4>' + evnt.title + '</h4>' +
-          '<p class="giver">' + Meteor.users.findOne(evnt.giver).username + '</p>' +
-          '<p class="receiver">' + Meteor.users.findOne(evnt.receiver).username + '</p>'
+          '<p><span class="maroon">' + Meteor.users.findOne(evnt.giver).username + '</span></p>' +
+          '<p><span class="purple">' + Meteor.users.findOne(evnt.receiver).username + '</span></p>'
           );
     },
     events: function (start, end, timezone, callback) {

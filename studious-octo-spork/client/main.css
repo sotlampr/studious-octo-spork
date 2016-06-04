@@ -51,7 +51,8 @@ h2 {
 }
 
 .fc-event h4 {
-  color: #666;
+  color: orange;
+  font-weight: bold;
   font-size: 13px;
   line-height: 18px;
   white-space: normal;
@@ -63,14 +64,7 @@ h2 {
   margin-top: 5px;
 }
 
-.fc-event .giver {
-  color: blue;
-  font-size: 13px;
-  margin: 0px;
-}
-
-.fc-event .receiver {
-  color: red;
+.fc-event p{
   font-size: 13px;
   margin: 0px;
 }
@@ -83,4 +77,33 @@ h2 {
 .request p {
   margin: 0px;
   padding: 0px;
+}
+
+.green {
+  color: green;
+  font-weight: bold;
+}
+
+.maroon {
+  color: maroon;
+  font-weight: bold;
+}
+
+.purple {
+  color: purple;
+  font-weight: bold;
+}
+
+.yellow {
+  color: #cc0;
+  font-weight: bold;
+}
+
+.orange {
+  color: orange;
+  font-weight: bold;
+}
+
+.information {
+  font-size: 10px;
 }
