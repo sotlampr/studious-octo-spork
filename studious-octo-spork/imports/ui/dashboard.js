@@ -101,7 +101,7 @@ Template.dashboard.events({
   },
   'click .denyRequest': function () {
     removeRequest.call({eventId: this._id});
-    Bert.alert('The request has been denied', 'success', 'growl-top-right')
+    Bert.alert('The request has been denied', 'success', 'growl-top-right');
   },
 });
 
@@ -166,9 +166,6 @@ Template.addEditEventModal.helpers({
       };
     }
   },
-  selected: function (v1, v2) {
-    return v1 === v2;
-  },
   evnt: function () {
     let eventModal = Session.get('eventModal');
 
@@ -202,27 +199,34 @@ Template.addEditEventModal.events({
     if (template.find('[name="title"]').value === '') {
       Bert.alert('The title is empty', 'warning', 'growl-top-right');
     } else {
-      let eventModal = Session.get('eventModal');
-      let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
-      let eventItem = {
-        title: template.find('[name="title"]').value,
-        giver: template.find('[name="giver"]').value,
-        receiver: template.find('[name="receiver"]').value,
-        start: template.find('[name="start"]').value,
-        end: template.find('[name="end"]').value
-      };
+      var start = template.find('[name="start"]').value;
+      var end  = template.find('[name="end"]').value;
+      var today = moment().format();
+      if (!moment(today).isAfter(start) && !moment(today).isAfter(end)) {
+        let eventModal = Session.get('eventModal');
+        let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
+        let eventItem = {
+          title: template.find('[name="title"]').value,
+          giver: template.find('[name="giver"]').value,
+          receiver: template.find('[name="receiver"]').value,
+          start: template.find('[name="start"]').value,
+          end: template.find('[name="end"]').value
+        };
 
-      if (submitType === 'editEvent') {
-        eventItem.id = eventModal.evnt;
-        eventItem.changer = Meteor.userId();
-        editEvent.call(eventItem);
-        Bert.alert('Your request has been added', 'success', 'growl-top-right');
-        closeModal();
+        if (submitType === 'editEvent') {
+          eventItem.id = eventModal.evnt;
+          eventItem.changer = Meteor.userId();
+          editEvent.call(eventItem);
+          Bert.alert('Your request has been added', 'success', 'growl-top-right');
+          closeModal();
+        } else {
+          addRequest.call(eventItem);
+          Bert.alert('Your request has been added', 'success', 'growl-top-right');
+          template.find('[name="title"]').value = '';
+          closeModal();
+        }
       } else {
-        addRequest.call(eventItem);
-        Bert.alert('Your request has been added', 'success', 'growl-top-right');
-        template.find('[name="title"]').value = '';
-        closeModal();
+        Bert.alert('Event Start and End should be after today', 'warning', 'growl-top-right');
       }
     }
   }
