@@ -129,12 +129,18 @@ Template.dashboard.onRendered( function () {
       }
     },
     dayClick: function (date) {
-      Session.set('eventModal', {type: 'add', date: date.format()});
-      $('#add-edit-event-modal').modal('show');
+      var today = moment().format();
+      if (!moment(today).isAfter(date)) {
+        Session.set('eventModal', {type: 'add', date: date.format()});
+        $('#add-edit-event-modal').modal('show');
+      }
     },
     eventClick: function (evnt) {
-      Session.set('eventModal', {type: 'edit', evnt: evnt._id});
-      $('#add-edit-event-modal').modal('show');
+      var today = moment().format();
+      if (!moment(today).isAfter(evnt.start)) {
+        Session.set('eventModal', {type: 'edit', evnt: evnt._id});
+        $('#add-edit-event-modal').modal('show');
+      }
     }
   });
 
