@@ -131,7 +131,11 @@ Template.dashboard.onRendered( function () {
     dayClick: function (date) {
       var today = moment().format();
       if (!moment(today).isAfter(date)) {
-        Session.set('eventModal', {type: 'add', date: date.format()});
+        var dt = date.format();
+        if (!/T/.test(dt)) {
+          dt = dt + 'T17:00:00';
+        }
+        Session.set('eventModal', {type: 'add', date: dt});
         $('#add-edit-event-modal').modal('show');
       }
     },
@@ -172,7 +176,7 @@ Template.addEditEventModal.helpers({
     if (eventModal) {
       return eventModal.type === 'edit' ? Events.findOne(eventModal.evnt) : {
         start: eventModal.date,
-        end: eventModal.date
+        end: eventModal.date.substr(0,12) + (parseInt(eventModal.date[12]) + 1).toString() + eventModal.date.substr(13,18)
       };
     }
   },
@@ -202,31 +206,47 @@ Template.addEditEventModal.events({
       var start = template.find('[name="start"]').value;
       var end  = template.find('[name="end"]').value;
       var today = moment().format();
-      if (!moment(today).isAfter(start) && !moment(today).isAfter(end)) {
-        let eventModal = Session.get('eventModal');
-        let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
-        let eventItem = {
-          title: template.find('[name="title"]').value,
-          giver: template.find('[name="giver"]').value,
-          receiver: template.find('[name="receiver"]').value,
-          start: template.find('[name="start"]').value,
-          end: template.find('[name="end"]').value
-        };
-
-        if (submitType === 'editEvent') {
-          eventItem.id = eventModal.evnt;
-          eventItem.changer = Meteor.userId();
-          editEvent.call(eventItem);
-          Bert.alert('Your request has been added', 'success', 'growl-top-right');
-          closeModal();
-        } else {
-          addRequest.call(eventItem);
-          Bert.alert('Your request has been added', 'success', 'growl-top-right');
-          template.find('[name="title"]').value = '';
-          closeModal();
-        }
+      if (moment(start).format() === 'Invalid date') {
+        Bert.alert('Invalid Event Start date format', 'warning', 'growl-top-right' );
       } else {
-        Bert.alert('Event Start and End should be after today', 'warning', 'growl-top-right');
+        if (moment(end).format() === 'Invalid date') {
+          Bert.alert('Invalid Event End date format', 'warning', 'growl-top-right' );
+        } else {
+          if (moment(today).isAfter(start)) {
+            Bert.alert('Event Start should be after today', 'warning', 'growl-top-right');
+          } else {
+            if (moment(today).isAfter(end)) {
+              Bert.alert('Event End should be after today', 'warning', 'growl-top-right');
+            } else {
+              if (moment(start).isAfter(end)) {
+                Bert.alert('Event End should be after Start', 'warning', 'growl-top-right');
+              } else {
+                let eventModal = Session.get('eventModal');
+                let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
+                let eventItem = {
+                  title: template.find('[name="title"]').value,
+                  giver: template.find('[name="giver"]').value,
+                  receiver: template.find('[name="receiver"]').value,
+                  start: template.find('[name="start"]').value,
+                  end: template.find('[name="end"]').value
+                };
+
+                if (submitType === 'editEvent') {
+                  eventItem.id = eventModal.evnt;
+                  eventItem.changer = Meteor.userId();
+                  editEvent.call(eventItem);
+                  Bert.alert('Your request has been added', 'success', 'growl-top-right');
+                  closeModal();
+                } else {
+                  addRequest.call(eventItem);
+                  Bert.alert('Your request has been added', 'success', 'growl-top-right');
+                  template.find('[name="title"]').value = '';
+                  closeModal();
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
