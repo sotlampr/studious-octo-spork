@@ -4,6 +4,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
+import { Bert } from 'meteor/themeteorchef:bert';
+import { Events } from '../api/events/events.js';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
@@ -61,6 +63,7 @@ Template.usersIndex.helpers({
 
 Template.usersByUsername.onCreated(function usersByUsernameOnCreated() {
   this.subscribe('users');
+  this.subscribe('events');
 });
 
 Template.usersByUsername.helpers({
@@ -101,5 +104,38 @@ Template.usersContactByUsername.events({
       message: event.target.message.value,
     });
     event.target.message.value = '';
+    Bert.alert('Your message has been received', 'success', 'growl-top-right');
   }
+});
+
+Template.usersByUsername.onRendered( function () {
+  let usrId = Meteor.users.findOne({username: FlowRouter.getParam('username')})._id;
+  $('#calendarUser').fullCalendar({
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    eventRender: function (evnt, element) {
+      element.find('.fc-content').html(
+          '<h4>' + evnt.title + '</h4>' +
+          '<p><span class="maroon">' + Meteor.users.findOne(evnt.giver).username + '</span></p>' +
+          '<p><span class="purple">' + Meteor.users.findOne(evnt.receiver).username + '</span></p>'
+          );
+    },
+    events: function (start, end, timezone, callback) {
+      let data = Events.find({$and: [{$and: [{giverValidation: true}, {receiverValidation: true}]},  { $or : [{'giver': usrId}, {'receiver': usrId}] } ]} ).fetch().map( function (evnt) {
+        return evnt;
+      });
+
+      if (data) {
+        callback(data);
+      }
+    },
+  });
+
+  Tracker.autorun( function () {
+    Events.find({ $or : [{'giver': usrId}, {'receiver': usrId}] }).fetch();
+    $('#calendarUser').fullCalendar('refetchEvents');
+  });
 });

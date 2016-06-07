@@ -1,72 +1,234 @@
 <template name="dashboard">
-  <div class="jumbotron">
-    <div class="container-fluid">
-      {{#if formData}}
-        {{#with formData}}
-          <form role="form" class="form-horizontal update-profile" method="post">
-            <div class="form-group">
-              <label for="username" class="control-label col-sm-1">
-                Username:
-              </label>
-              <div class="col-sm-2">
-                <input type="text" class="form-control" id="username"
-                       name="username" value={{username}}>
+  <div class='jumbotron'>
+    <div class='container'>
+      <div class="col-sm-6">
+        {{#if formData}}
+          {{#with formData}}
+            <form role="form" class="form-horizontal update-profile" method="post">
+              <div class="form-group">
+                <label for="username" class="control-label col-sm-2">
+                  Username:
+                </label>
+                <div class="col-sm-4 plai">
+                  <input type="text" class="form-control" id="username"
+                  name="username" value={{username}}>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="occupation" class="control-label col-sm-1">
-                Occupation:
-              </label>
-              <div class="col-sm-2">
-                {{>inputAutocomplete settings=settings id='occupation' class='form-control' name='occupation' value=occupation }}
+              <div class="form-group">
+                <label for="occupation" class="control-label col-sm-2">
+                  Occupation:
+                </label>
+                <div class="col-sm-4 plai">
+                  {{>inputAutocomplete settings=settings id='occupation' class='form-control' name='occupation' value=occupation }}
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="description" class="control-label col-sm-1">
-                Description:
-              </label>
-              <div class="col-sm-2">
-                <input type="text" class="form-control" id="description"
-                       name="description" value={{description}}>
+              <div class="form-group">
+                <label for="description" class="control-label col-sm-2">
+                  Description:
+                </label>
+                <div class="col-sm-4 plai">
+                  <input type="text" class="form-control" id="description"
+                  name="description" value={{description}}>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-2 col-sm-8">
-                <button type="submit" class="btn btn-default">Save</button>
+              <div class="form-group">
+                <div class="col-sm-2 col-sm-8">
+                  <button type="submit" class="btn btn-default">Save</button>
+                </div>
               </div>
-            </div>
-          </form>
-        {{/with}}
-      {{else}}
-        <p>You are not registered yet.</p>
+            </form>
+          {{/with}}
+          {{else}}
+          <p>You are not registered yet.</p>
+        {{/if}}
+      </div>
+      {{#if currentUser}}
+        <div class='col-sm-6'>
+          {{> addEditEventModal }}
+          <div id="calendar"></div>
+          <div class='container'>
+            <h5 class='keno'>
+              <span class='glyphicon glyphicon-info-sign'></span>
+              <span class='maroon'>C</span>
+              <span class='orange'>o</span>
+              <span class='green'>l</span>
+              <span class='yellow'>o</span>
+              <span class='purple'>r</span>
+              orange=<span class='orange'>title</span>,
+              maroon=<span class='maroon'>giver</span>
+              and purple=<span class='purple'>receiver</span>
+            </h5>
+          </div>
+        </div>
       {{/if}}
     </div>
   </div>
   {{#if currentUser}}
-    <div class="container-fluid">
-      <h3>Messages</h3>
-      <ul>
-        {{#each userMessages}}
-          <li class="message">
-            {{usernameFromId fromId}}: {{message}}
-            <button class="toggle-read">
-              {{#if read}}
-                <span class="glyphicon glyphicon-eye-open"></span>
-              {{else}}
-                <span class="glyphicon glyphicon-eye-close"></span>
-              {{/if}}
-            </button>
-            <button>
-              <a href="/users/{{usernameFromId fromId}}/contact">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </a>
-            </button>
-            <button class="delete">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-          </li>
-        {{/each}}
-      </ul>
+    <div class="container">
+      <div class='col-sm-6'>
+        <h3>Messages</h3>
+        <ul>
+          {{#each userMessages}}
+            <li class="message">
+              {{usernameFromId fromId}}: {{message}}
+              <button class="toggle-read">
+                {{#if read}}
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  {{else}}
+                  <span class="glyphicon glyphicon-eye-close"></span>
+                {{/if}}
+              </button>
+              <button>
+                <a href="/users/{{usernameFromId fromId}}/contact">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+              </button>
+              <button class="delete">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class='col-sm-6'>
+        <h3>Events Requests</h3>
+        <ul>
+          {{#each requests}}
+            <li class="request">
+              <p><strong>Title </strong><span class='orange'>{{title}}</span></p>
+              <div class='container'>
+                <div class='col-sm-6'>
+                  <div class='row'>
+                    <div class='col-sm-6'>
+                      <div><p><strong>Start </strong>{{start}}</p></div>
+                      <div><p><strong>End </strong>{{end}}</p></div>
+                    </div>
+                    <div class='col-sm-6'>
+                      <table id='tbl'>
+                        <tr>
+                          <th></th>
+                          <th>Giver</th>
+                          <th>Receiver</th>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td><p><a href='/users/{{usernameFromId giver}}/' class='maroon'>{{usernameFromId giver}}</a></p></td>
+                          <td><p><a href='/users/{{usernameFromId receiver}}/' class='purple'>{{usernameFromId receiver}}</a></p></td>
+                        </tr>
+                        <tr>
+                          <td><strong>Validate</strong></td>
+                          <td>
+                            {{#if isEqual giver logInUser}}
+                              {{#if giverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <div class='row'>
+                                  <button class='acceptRequest btn btn-success'>
+                                    <span class='glyphicon glyphicon-ok'></span>
+                                  </button>
+                                  <button class='denyRequest btn btn-danger'>
+                                    <span class='glyphicon glyphicon-remove'></span>
+                                  </button>
+                                </div>
+                              {{/if}}
+                            {{else}}
+                              {{#if giverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <p class='yellow'>not yet</p>
+                              {{/if}}
+                            {{/if}}
+                          </td>
+                          <td>
+                            {{#if isEqual receiver logInUser}}
+                              {{#if receiverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <div class='row'>
+                                  <button class='acceptRequest btn btn-success'>
+                                    <span class='glyphicon glyphicon-ok'></span>
+                                  </button>
+                                  <button class='denyRequest btn btn-danger'>
+                                    <span class='glyphicon glyphicon-remove'></span>
+                                  </button>
+                                </div>
+                              {{/if}}
+                            {{else}}
+                              {{#if receiverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <p class='yellow'>not yet</p>
+                              {{/if}}
+                            {{/if}}
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
   {{/if}}
+</template>
+
+<template name='addEditEventModal'>
+  <div class="modal fade" id="add-edit-event-modal" tabindex="-1" role="dialog" aria-labelledby="add-edit-event-modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="add-edit-event">{{modalLabel.label}} Event Request</h4>
+        </div>
+        <form id="add-edit-event-form">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="title">Event Title</label>
+              <input type="text" name="title" class="form-control" value="{{evnt.title}}">
+            </div>
+            <div class='form-group'>
+              <div class='row'>
+                <div class='col-xs-12 col-sm-3'>
+                  <label for='giver'>Giver</label>
+                  {{#if modalType 'add'}}
+                    <select name='giver' class='form-control'>
+                      {{#each givers}}
+                        <option value='{{username}}'>{{username}}</option>
+                      {{/each}}
+                    </select>
+                    {{else}}
+                    <input disabled type='text' name='giver' class='form-control' value="{{idToUsername evnt.giver}}">
+                  {{/if}}
+                </div>
+                <div class='col-xs-12 col-sm-3'>
+                  <label for='receiver'>Receiver</label>
+                  <input disabled type='text' name='receiver' class='form-control' value="{{#if modalType 'add'}}{{receiver}}{{else}}{{idToUsername evnt.receiver}}{{/if}}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-xs-12 col-sm-5">
+                  <label for="start">Event Start</label>
+                  <input type="text" name="start" class="form-control" value="{{evnt.start}}">
+                </div>
+                <div class="col-xs-12 col-sm-5">
+                  <label for="end">Event End</label>
+                  <input type="text" name="end" class="form-control" value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
+                </div>
+                <div class='container col-sm-12'><h5 class='keno'><span class='glyphicon glyphicon-info-sign'></span> Date format YYYY-MM-DD + T + HH:MM:SS</h5></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success">{{modalLabel.button}} Event {{#if modalType 'add'}}Request{{/if}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>

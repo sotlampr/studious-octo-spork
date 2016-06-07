@@ -33,3 +33,6 @@ xolvio:cleaner
 practicalmeteor:sinon
 anti:fake
 dispatch:mocha-phantomjs
+momentjs:moment
+rzymek:fullcalendar
+themeteorchef:bert

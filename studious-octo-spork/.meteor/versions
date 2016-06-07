@@ -40,6 +40,8 @@ ejson@1.0.11
 email@1.0.12
 es5-shim@4.5.10
 fastclick@1.0.11
+fortawesome:fontawesome@4.4.0_1
+fourseven:scss@3.3.3_3
 geojson-utils@1.0.8
 hot-code-push@1.0.4
 html-tools@1.0.9
@@ -66,6 +68,7 @@ mobile-experience@1.0.4
 mobile-status-bar@1.0.12
 modules@0.6.1
 modules-runtime@0.6.3
+momentjs:moment@2.8.4
 mongo@1.1.7
 mongo-id@1.0.4
 npm-bcrypt@0.8.5
@@ -86,6 +89,7 @@ reactive-var@1.0.9
 reload@1.1.8
 retry@1.0.7
 routepolicy@1.0.10
+rzymek:fullcalendar@2.7.2
 service-configuration@1.0.9
 session@1.1.5
 sha@1.0.7
@@ -96,6 +100,7 @@ standard-minifier-css@1.0.6
 standard-minifier-js@1.0.6
 templating@1.1.9
 templating-tools@1.0.4
+themeteorchef:bert@2.1.0
 tmeasday:test-reporter-helpers@0.2.1
 tracker@1.0.13
 twbs:bootstrap@3.3.6

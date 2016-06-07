@@ -30,3 +30,88 @@ body {
 h2 {
   margin: 30px 0px;
 }
+
+.fc-event-container {
+  padding: 5px !important;
+}
+
+.fc-event {
+  padding: 5px 10px;
+  border-color: #ddd;
+  background: #fff !important;
+}
+
+.fc-event .fc-content {
+  color: #444;
+}
+
+.fc-event h4, h5 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.fc-event h4 {
+  color: orange;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 18px;
+  white-space: normal;
+}
+
+.fc-event h5 {
+  color: #888;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.fc-event p{
+  font-size: 13px;
+  margin: 0px;
+}
+
+.request {
+  margin: 0px 0px 20px 0px;
+  padding: 0px;
+}
+
+.request p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.green {
+  color: green;
+  font-weight: bold;
+}
+
+.maroon {
+  color: maroon;
+  font-weight: bold;
+}
+
+.purple {
+  color: purple;
+  font-weight: bold;
+}
+
+.yellow {
+  color: #cc0;
+  font-weight: bold;
+}
+
+.orange {
+  color: orange;
+  font-weight: bold;
+}
+
+.keno {
+  margin-top: 5px;
+}
+
+.plai {
+  margin-left: 10px;
+}
+
+#tbl td {
+  width: 100px;
+}

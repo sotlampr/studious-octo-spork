@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 import './contact.html';
 
@@ -14,5 +15,6 @@ Template.contact.events({
     event.target.name.value = '';
     event.target.email.value = '';
     event.target.comments.value = '';
+    Bert.alert('Your comment has been received', 'success', 'growl-top-right');
   }
 });
