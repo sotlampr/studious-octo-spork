@@ -1,7 +1,7 @@
 /* CSS declarations go here */
 body {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   line-height: 1.8;
 }
 
@@ -19,7 +19,7 @@ body {
 }
 
 .box2 {
-  padding: 0px 120px 80px 120px;
+  padding: 0 120px 80px 120px;
 }
 
 .bg-1 {
@@ -28,29 +28,26 @@ body {
 }
 
 h2 {
-  margin: 30px 0px;
+  margin: 30px 0;
 }
 
 .fc-event-container {
-  padding: 5px !important;
+  padding: 5px;
 }
 
 .fc-event {
   padding: 5px 10px;
   border-color: #ddd;
-  background: #fff !important;
+  background: #fff;
 }
 
 .fc-event .fc-content {
   color: #444;
 }
 
-.fc-event h4, h5 {
+.fc-event h4 {
   margin: 0;
   font-weight: normal;
-}
-
-.fc-event h4 {
   color: orange;
   font-weight: bold;
   font-size: 13px;
@@ -59,6 +56,8 @@ h2 {
 }
 
 .fc-event h5 {
+  margin: 0;
+  font-weight: normal;
   color: #888;
   font-size: 12px;
   margin-top: 5px;
@@ -66,17 +65,17 @@ h2 {
 
 .fc-event p{
   font-size: 13px;
-  margin: 0px;
+  margin: 0;
 }
 
 .request {
-  margin: 0px 0px 20px 0px;
-  padding: 0px;
+  margin: 0 0 20px 0;
+  padding: 0;
 }
 
 .request p {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 .green {

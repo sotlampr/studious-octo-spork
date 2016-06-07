@@ -177,7 +177,7 @@ Template.addEditEventModal.helpers({
     if (eventModal) {
       return eventModal.type === 'edit' ? Events.findOne(eventModal.evnt) : {
         start: eventModal.date,
-        end: eventModal.date.substr(0,12) + (parseInt(eventModal.date[12]) + 1).toString() + eventModal.date.substr(13,18)
+        end: eventModal.date.substr(0, 12) + (parseInt(eventModal.date[12], 10) + 1).toString() + eventModal.date.substr(13, 18)
       };
     }
   },
