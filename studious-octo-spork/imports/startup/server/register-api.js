@@ -6,3 +6,4 @@ import '../../api/users/server/publications.js';
 import '../../api/events/server/publications.js';
 import '../../api/events/methods.js';
 import '../../api/suggestions/server/publications.js';
+import '../../api/suggestions/methods.js';

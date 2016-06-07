@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Suggestions } from '../../api/users/suggestions.js';
+import { Suggestions } from '../../api/suggestions/suggestions.js';
 
 let occupations = [
   'engineer',
