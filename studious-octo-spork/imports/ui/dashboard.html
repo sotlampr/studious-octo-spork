@@ -95,68 +95,74 @@
         <ul>
           {{#each requests}}
             <li class="request">
-              <p><strong>Title: </strong><span class='orange'>{{title}}</span></p>
+              <p><strong>Title </strong><span class='orange'>{{title}}</span></p>
               <div class='container'>
                 <div class='col-sm-6'>
                   <div class='row'>
-                    <div class='col-sm-1'><p><strong>Start:</strong></p></div>
-                    <div class='col-sm-4'><p>{{start}}</p></div>
-                  </div>
-                  <div class='row'>
-                    <div class='col-sm-1'><p><strong>End:</strong></p></div>
-                    <div class='col-sm-4'><p>{{end}}</p></div>
-                    <div class='col-sm-3 col-sm-offset-1'><p><strong>Giver</strong></p></div>
-                    <div class='col-sm-3'><p><strong>Receiver</strong></p></div>
-                  </div>
-                  <div class='row'>
-                    <div class='col-sm-3 col-sm-offset-6'><p><a href='/users/{{usernameFromId giver}}/' class='maroon'>{{usernameFromId giver}}</a></p></div>
-                    <div class='col-sm-3'><p><a href='/users/{{usernameFromId receiver}}/' class='purple'>{{usernameFromId receiver}}</a></p></div>
-                  </div>
-                  <div class='row'>
-                    <div class='col-sm-2 col-sm-offset-4'><p><strong>Validate</strong></p></div>
-                    <div class='col-sm-3'>
-                      {{#if isEqual giver logInUser}}
-                        {{#if giverValidation}}
-                          <p class='green'>true</p>
-                        {{else}}
-                          <div class='row'>
-                            <button class='acceptRequest btn btn-success'>
-                              <span class='glyphicon glyphicon-ok'></span>
-                            </button>
-                            <button class='denyRequest btn btn-danger'>
-                              <span class='glyphicon glyphicon-remove'></span>
-                            </button>
-                          </div>
-                        {{/if}}
-                      {{else}}
-                        {{#if giverValidation}}
-                          <p class='green'>true</p>
-                          {{else}}
-                          <p class='yellow'>not yet</p>
-                        {{/if}}
-                      {{/if}}
+                    <div class='col-sm-6'>
+                      <div><p><strong>Start </strong>{{start}}</p></div>
+                      <div><p><strong>End </strong>{{end}}</p></div>
                     </div>
-                    <div class='col-sm-3'>
-                      {{#if isEqual receiver logInUser}}
-                        {{#if receiverValidation}}
-                          <p class='green'>true</p>
-                        {{else}}
-                          <div class='row'>
-                            <button class='acceptRequest btn btn-success'>
-                              <span class='glyphicon glyphicon-ok'></span>
-                            </button>
-                            <button class='denyRequest btn btn-danger'>
-                              <span class='glyphicon glyphicon-remove'></span>
-                            </button>
-                          </div>
-                        {{/if}}
-                      {{else}}
-                        {{#if receiverValidation}}
-                          <p class='green'>true</p>
-                          {{else}}
-                          <p class='yellow'>not yet</p>
-                        {{/if}}
-                      {{/if}}
+                    <div class='col-sm-6'>
+                      <table id='tbl'>
+                        <tr>
+                          <th></th>
+                          <th>Giver</th>
+                          <th>Receiver</th>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td><p><a href='/users/{{usernameFromId giver}}/' class='maroon'>{{usernameFromId giver}}</a></p></td>
+                          <td><p><a href='/users/{{usernameFromId receiver}}/' class='purple'>{{usernameFromId receiver}}</a></p></td>
+                        </tr>
+                        <tr>
+                          <td><strong>Validate</strong></td>
+                          <td>
+                            {{#if isEqual giver logInUser}}
+                              {{#if giverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <div class='row'>
+                                  <button class='acceptRequest btn btn-success'>
+                                    <span class='glyphicon glyphicon-ok'></span>
+                                  </button>
+                                  <button class='denyRequest btn btn-danger'>
+                                    <span class='glyphicon glyphicon-remove'></span>
+                                  </button>
+                                </div>
+                              {{/if}}
+                            {{else}}
+                              {{#if giverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <p class='yellow'>not yet</p>
+                              {{/if}}
+                            {{/if}}
+                          </td>
+                          <td>
+                            {{#if isEqual receiver logInUser}}
+                              {{#if receiverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <div class='row'>
+                                  <button class='acceptRequest btn btn-success'>
+                                    <span class='glyphicon glyphicon-ok'></span>
+                                  </button>
+                                  <button class='denyRequest btn btn-danger'>
+                                    <span class='glyphicon glyphicon-remove'></span>
+                                  </button>
+                                </div>
+                              {{/if}}
+                            {{else}}
+                              {{#if receiverValidation}}
+                                <p class='green'>true</p>
+                              {{else}}
+                                <p class='yellow'>not yet</p>
+                              {{/if}}
+                            {{/if}}
+                          </td>
+                        </tr>
+                      </table>
                     </div>
                   </div>
                 </div>

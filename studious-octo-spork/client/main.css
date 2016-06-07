@@ -111,3 +111,7 @@ h2 {
 .plai {
   margin-left: 10px;
 }
+
+#tbl td {
+  width: 100px;
+}
