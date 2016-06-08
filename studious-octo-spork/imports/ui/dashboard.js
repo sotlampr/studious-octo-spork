@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Messages } from '../api/messaging/messaging.js';
 import { Logbook } from '../api/transactions/logbook.js';
@@ -73,6 +74,9 @@ Template.dashboard.helpers({
 });
 
 Template.dashboard.events({
+  'click .transactions-redirect': () => {
+     FlowRouter.go('/dashboard/transactions');
+  },
   'submit .update-profile': function (event) {
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();

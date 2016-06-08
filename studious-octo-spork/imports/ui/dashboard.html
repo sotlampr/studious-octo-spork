@@ -44,14 +44,22 @@
   </div>
   {{#if currentUser}}
     <div class="container-fluid">
-      <h3>Activity</h3>
-      <div class="col-sm-6">
-        <h4>Wallet</h4>
-        <p><b>Balance:</b> {{currentUser.profile.balance}} Units</p>
-        <p>Unapproved transactions: {{currentUser.profile.logisticBalance}} Units</p>
+
+      <div class="transactions-redirect">
+        <h3>Activity</h3>
+        <div class="col-sm-6">
+          <h4>Wallet</h4>
+          <p><b>Balance:</b> {{currentUser.profile.balance}} Units</p>
+          <p>Unapproved transactions:
+            {{currentUser.profile.logisticBalance}} Units
+          </p>
+        </div>
       </div>
+
       <div class="col-sm-6">
-        <h4>History</h4>
+        <div class="transactions-redirect">
+          <h4>History</h4>
+        </div>
         <table class="table table-striped">
           <thead>
             <tr>
