@@ -115,7 +115,7 @@ Template.dashboard.onRendered( function () {
     },
     eventRender: function (evnt, element) {
       element.find('.fc-content').html(
-          '<h4>' + evnt.title + '</h4>' +
+          '<h4 class="eventTitle">' + evnt.title + '</h4>' +
           '<p><span class="maroon">' + Meteor.users.findOne(evnt.giver).username + '</span></p>' +
           '<p><span class="purple">' + Meteor.users.findOne(evnt.receiver).username + '</span></p>'
           );

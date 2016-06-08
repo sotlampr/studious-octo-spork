@@ -45,22 +45,13 @@ h2 {
   color: #444;
 }
 
-.fc-event h4 {
+.eventTitle {
   margin: 0;
-  font-weight: normal;
   color: orange;
   font-weight: bold;
   font-size: 13px;
   line-height: 18px;
   white-space: normal;
-}
-
-.fc-event h5 {
-  margin: 0;
-  font-weight: normal;
-  color: #888;
-  font-size: 12px;
-  margin-top: 5px;
 }
 
 .fc-event p{
