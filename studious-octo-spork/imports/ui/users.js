@@ -109,7 +109,8 @@ Template.usersContactByUsername.events({
 });
 
 Template.usersByUsername.onRendered( function () {
-  let usrId = Meteor.users.findOne({username: FlowRouter.getParam('username')})._id;
+  let usrId = Meteor.users.findOne({
+    username: FlowRouter.getParam('username')})._id;
   $('#calendarUser').fullCalendar({
     header: {
       left: 'prev,next today',
@@ -118,15 +119,34 @@ Template.usersByUsername.onRendered( function () {
     },
     eventRender: function (evnt, element) {
       element.find('.fc-content').html(
-          '<h4>' + evnt.title + '</h4>' +
-          '<p><span class="maroon">' + Meteor.users.findOne(evnt.giver).username + '</span></p>' +
-          '<p><span class="purple">' + Meteor.users.findOne(evnt.receiver).username + '</span></p>'
+          '<h4 class="eventTitle">' + evnt.title + '</h4>' +
+          '<p><span class="maroon">' +
+          Meteor.users.findOne(evnt.giver).username + '</span></p>' +
+          '<p><span class="purple">' +
+          Meteor.users.findOne(evnt.receiver).username + '</span></p>'
           );
     },
-    events: function (start, end, timezone, callback) {
-      let data = Events.find({$and: [{$and: [{giverValidation: true}, {receiverValidation: true}]},  { $or : [{'giver': usrId}, {'receiver': usrId}] } ]} ).fetch().map( function (evnt) {
-        return evnt;
-      });
+    events: function (start, end, timezone, callback, err) {
+      let data = Events.find({
+        $and: [
+          {
+            $and: [
+            {giverValidation: true},
+            {receiverValidation: true}
+            ]
+          },
+          {
+            $or : [
+              {'giver': usrId},
+              {'receiver': usrId}
+            ]
+          }
+        ]
+      }).fetch().map( function (evnt) {return evnt; });
+
+      if (err) {
+        return callback(err);
+      }
 
       if (data) {
         callback(data);

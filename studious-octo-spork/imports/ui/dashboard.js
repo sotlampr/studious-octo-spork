@@ -30,7 +30,7 @@ Template.dashboard.helpers({
   settings: function () {
     return {
       position: "top",
-      limit: 5,
+      limit: 2,
       rules: [
         {
           collection: Suggestions,
@@ -67,7 +67,22 @@ Template.dashboard.helpers({
       return user.username;
   },
   requests: function () {
-    return Events.find({$and: [{$or: [{giver: Meteor.userId()}, {receiver: Meteor.userId()}]}, {$or: [{giverValidation: false}, {receiverValidation: false}] }] });
+    return Events.find({
+      $and: [
+        {
+          $or: [
+            {giver: Meteor.userId()},
+            {receiver: Meteor.userId()}
+          ]
+        },
+        {
+          $or: [
+            {giverValidation: false},
+            {receiverValidation: false}
+          ]
+        }
+      ]
+    });
   },
   logInUser: function () {
     return Meteor.userId();
@@ -116,14 +131,33 @@ Template.dashboard.onRendered( function () {
     eventRender: function (evnt, element) {
       element.find('.fc-content').html(
           '<h4 class="eventTitle">' + evnt.title + '</h4>' +
-          '<p><span class="maroon">' + Meteor.users.findOne(evnt.giver).username + '</span></p>' +
-          '<p><span class="purple">' + Meteor.users.findOne(evnt.receiver).username + '</span></p>'
+          '<p><span class="maroon">' +
+          Meteor.users.findOne(evnt.giver).username + '</span></p>' +
+          '<p><span class="purple">' +
+          Meteor.users.findOne(evnt.receiver).username + '</span></p>'
           );
     },
-    events: function (start, end, timezone, callback) {
-      let data = Events.find({$and: [{$and: [{giverValidation: true}, {receiverValidation: true}]},  { $or : [{'giver': Meteor.userId()}, {'receiver': Meteor.userId()}] } ]} ).fetch().map( function (evnt) {
-        return evnt;
-      });
+    events: function (start, end, timezone, callback, err) {
+      let data = Events.find({
+        $and: [
+          {
+            $and: [
+            {giverValidation: true},
+            {receiverValidation: true}
+            ]
+          },
+          {
+            $or : [
+              {'giver': Meteor.userId()},
+              {'receiver': Meteor.userId()}
+            ]
+          }
+        ]
+      }).fetch().map( function (evnt) { return evnt; });
+
+      if (err) {
+        return callback(err);
+      }
 
       if (data) {
         callback(data);
@@ -150,7 +184,12 @@ Template.dashboard.onRendered( function () {
   });
 
   Tracker.autorun( function () {
-    Events.find({ $or : [{'giver': Meteor.userId()}, {'receiver': Meteor.userId()}] }).fetch();
+    Events.find({
+      $or : [
+        {'giver': Meteor.userId()},
+        {'receiver': Meteor.userId()}
+      ]
+    }).fetch();
     $('#calendar').fullCalendar('refetchEvents');
   });
 });
@@ -177,7 +216,9 @@ Template.addEditEventModal.helpers({
     if (eventModal) {
       return eventModal.type === 'edit' ? Events.findOne(eventModal.evnt) : {
         start: eventModal.date,
-        end: eventModal.date.substr(0, 12) + (parseInt(eventModal.date[12], 10) + 1).toString() + eventModal.date.substr(13, 18)
+        end: eventModal.date.substr(0, 12) +
+          (parseInt(eventModal.date[12], 10) + 1).toString() +
+          eventModal.date.substr(13, 18)
       };
     }
   },
