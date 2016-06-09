@@ -1,3 +1,39 @@
 <template name="transactionsIndex">
-  <h1>Transactions</h1>
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <h1>Transactions</h1>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Employer</th>
+            <th>Worker</th>
+            <th>Description</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each userTransactions}}
+          <tr>
+            <td>{{usernameFromId fromId}}
+              {{> renderApprovalStatus
+                  targetUser=fromId
+                  targetOk=fromOk
+                  targetTransaction=_id}}
+            </td>
+
+            <td>{{usernameFromId toId}}
+              {{> renderApprovalStatus
+                  targetUser=toId
+                  targetOk=toOk
+                  targetTransaction=_id}}
+            </td>
+
+            <td>{{description}}</td>
+            <td>{{cost}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>

@@ -42,7 +42,7 @@ FlowRouter.route('/dashboard', {
 
 FlowRouter.route('/dashboard/transactions', {
   name: 'Transactions',
-  action: renderTemplate('transactonsIndex')
+  action: renderTemplate('transactionsIndex')
 });
 
 // GROUP ROUTES
