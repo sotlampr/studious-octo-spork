@@ -61,7 +61,7 @@ Template.dashboard.helpers({
     // Retrieve the last 5 user transactions
     if (Meteor.user()) {
       var userTransactions = Logbook.find(
-          {}, {sort: {date: -1}, limit: 8}
+          {}, {sort: {date: -1}, limit: 5}
       );
       return userTransactions;
     }

@@ -44,51 +44,67 @@
   </div>
   {{#if currentUser}}
     <div class="container-fluid">
-
-      <div class="transactions-redirect">
-        <h3>Activity</h3>
-        <div class="col-sm-6">
-          <h4>Wallet</h4>
-          <p><b>Balance:</b> {{currentUser.profile.balance}} Units</p>
-          <p>Unapproved transactions:
-            {{currentUser.profile.logisticBalance}} Units
-          </p>
-        </div>
-      </div>
-
       <div class="col-sm-6">
-        <div class="transactions-redirect">
-          <h4>History</h4>
+        <!-- ACTIVITY PANEL -->
+        <div class="panel panel-default">
+
+          <div class="panel-heading transactions-redirect">
+            <h3>Activity</h3>
+          </div>
+
+          <div class="panel-body">
+            <div class="transactions-redirect">
+              <hr>
+              <h4>Wallet</h4>
+              <hr>
+              <p><b>Balance:</b> {{currentUser.profile.balance}} Units</p>
+              <p>Unapproved transactions:
+                {{currentUser.profile.logisticBalance}} Units
+              </p>
+
+              <hr>
+              <h4>History</h4>
+              <hr>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Employer</th>
+                  <th>Worker</th>
+                  <th>Description</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+              {{#each userTransactions}}
+                <tr>
+                  <td>{{usernameFromId fromId}}
+                    {{> renderApprovalStatus
+                        targetUser=fromId
+                        targetOk=fromOk
+                        targetTransaction=_id}}
+                  </td>
+
+                  <td>{{usernameFromId toId}}
+                    {{> renderApprovalStatus
+                        targetUser=toId
+                        targetOk=toOk
+                        targetTransaction=_id}}
+                  </td>
+
+                  <td>{{description}}</td>
+                  <td>{{cost}}</td>
+                </tr>
+              {{/each}}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Employer</th>
-              <th>Worker</th>
-              <th>Description</th>
-              <th>Cost</th>
-            </tr>
-          </thead>
-          <tbody>
-        {{#each userTransactions}}
-            <tr>
-              <td>{{usernameFromId fromId}}
-                {{> renderApprovalStatus targetUser=fromId targetOk=fromOk targetTransaction=_id}}
-              </td>
-
-              <td>{{usernameFromId toId}}
-                {{> renderApprovalStatus targetUser=toId targetOk=toOk targetTransaction=_id}}
-              </td>
-
-              <td>{{description}}</td>
-              <td>{{cost}}</td>
-            </tr>
-        {{/each}}
-          </tbody>
-        </table>
-
       </div>
     </div>
+
+
+
     <div class="container-fluid">
       <h3>Messages</h3>
       <ul>
