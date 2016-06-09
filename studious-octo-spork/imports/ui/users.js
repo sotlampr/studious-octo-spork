@@ -142,7 +142,7 @@ Template.usersByUsername.onRendered( function () {
             ]
           }
         ]
-      }).fetch().map( function (evnt) {return evnt; });
+      }).fetch().map( function (evnt) { return evnt; });
 
       if (err) {
         return callback(err);

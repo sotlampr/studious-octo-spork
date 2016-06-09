@@ -84,9 +84,6 @@ Template.dashboard.helpers({
       ]
     });
   },
-  logInUser: function () {
-    return Meteor.userId();
-  },
   isEqual: function (x, y) {
     return x === y;
   },
