@@ -4,6 +4,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Logbook } from '../api/transactions/logbook.js';
 import { approveTransaction } from '../api/transactions/methods.js';
+import { deleteTransaction } from '../api/transactions/methods.js';
 
 import './transactions.html';
 
@@ -13,7 +14,7 @@ Template.transactionsIndex.onCreated(function transactionsIndexOnCreated() {
 });
 
 Template.transactionsIndex.events({
-  // TOFILL
+  // TO FILL
 });
 
 Template.transactionsIndex.helpers({
@@ -37,6 +38,13 @@ Template.transactionsIndex.helpers({
       return 'warning';
     else
       return 'danger';
+  },
+  canDelete: (fromOk, toOk) => {
+    // XOR
+    if ((fromOk || toOk) && !(fromOk && toOk))
+      return true;
+    else
+      return false;
   }
 });
 
@@ -49,5 +57,11 @@ Template.renderApprovalStatus.helpers({
 Template.renderApprovalStatus.events({
   'click #approve': function(event) {
     approveTransaction.call(this);
+  }
+});
+
+Template.renderDeleteTransaction.events({
+  'click #delete-transaction': (event, template) => {
+    deleteTransaction.call(template.data);
   }
 });

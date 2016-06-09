@@ -31,6 +31,10 @@
 
               <td>{{description}}</td>
               <td>{{cost}}</td>
+              {{#if canDelete fromOk toOk}}
+                {{> renderDeleteTransaction targetTransactionId=_id}}
+              {{/if}}
+
             </tr>
           {{/each}}
           </tbody>
@@ -74,4 +78,10 @@
             title="Awaiting approval from user"></span>
     {{/if}}
   {{/if}}
+</template>
+
+<template name="renderDeleteTransaction">
+  <td>
+    <span class="glyphicon glyphicon-trash" id="delete-transaction"></span>
+  </td>
 </template>

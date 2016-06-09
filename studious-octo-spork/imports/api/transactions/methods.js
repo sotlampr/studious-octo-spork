@@ -82,7 +82,7 @@ export const saveTransaction = new ValidatedMethod({
     }
     data.date = new Date();
     let transactionId = Logbook.insert(data);
-    commitTransaction(Logbook.findOne({ _id: transactionId }), 'logistic')
+    commitTransaction(Logbook.findOne({ _id: transactionId }), 'logistic');
   },
 });
 
@@ -94,15 +94,35 @@ export const approveTransaction = new ValidatedMethod({
     targetOk: { type: Boolean }
   }).validator(),
   run (data) {
-    if (data.targetUserId !== this.userId) {
+    if (data.targetUserId !== this.userId)
       throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
-    }
+
     let transaction = Logbook.findOne(data.targetTransactionId);
-    if (!transaction.fromOk) {
+    if (!transaction.fromOk)
       Logbook.update({_id: data.targetTransactionId}, {$set: {fromOk: true}});
-    } else if (!transaction.toOk) {
+    else if (!transaction.toOk)
       Logbook.update({_id: data.targetTransactionId}, {$set: {toOk: true}});
-    }
+
     commitTransaction(transaction, 'final');
+  }
+});
+
+export const deleteTransaction = new ValidatedMethod({
+  name: 'transactions.deleteTransaction',
+  validate: new SimpleSchema({
+    targetTransactionId: { type: String },
+  }).validator(),
+  run (data) {
+    let transaction = Logbook.findOne(data.targetTransactionId);
+    if (
+      (transaction.fromId !== this.userId) &&
+      (transaction.toId !== this.userId)
+    )
+      throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
+
+    if (transaction.fromOk)
+      Logbook.update({_id: data.targetTransactionId}, {$set: {fromOk: false}});
+    else if (transaction.toOk)
+      Logbook.update({_id: data.targetTransactionId}, {$set: {toOk: false}});
   }
 });
