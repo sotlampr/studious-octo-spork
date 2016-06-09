@@ -7,7 +7,6 @@ import { Logbook } from '../api/transactions/logbook.js';
 
 import { toggleRead } from '../api/messaging/methods.js';
 import { deleteMessage } from '../api/messaging/methods.js';
-import { approveTransaction } from '../api/transactions/methods.js';
 
 import { Suggestions } from '../api/users/suggestions.js';
 import { updateUserProfile } from '../api/users/methods.js';
@@ -66,6 +65,13 @@ Template.dashboard.helpers({
       return userTransactions;
     }
   },
+  isApproved: (fromOk, toOk) => {
+    if (fromOk && toOk) {
+      return true;
+    } else {
+      return false;
+    }
+  },
   usernameFromId: function (id) {
     let user = Meteor.users.findOne(id);
     if (user)
@@ -94,17 +100,5 @@ Template.dashboard.events({
   },
   'click .delete': function () {
     deleteMessage.call(this._id);
-  }
-});
-
-Template.renderApprovalStatus.helpers({
-  equals: function(a, b) {
-    return a == b;
-  },
-});
-
-Template.renderApprovalStatus.events({
-  'click #approve': function(event) {
-    approveTransaction.call(this);
   }
 });

@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Logbook } from '../api/transactions/logbook.js';
+import { approveTransaction } from '../api/transactions/methods.js';
 
 import './transactions.html';
 
@@ -29,4 +30,24 @@ Template.transactionsIndex.helpers({
       return userTransactions;
     }
   },
+  contextualApprovalStatus: (fromOk, toOk) => {
+    if (fromOk && toOk)
+      return 'info';
+    else if (fromOk || toOk)
+      return 'warning';
+    else
+      return 'danger';
+  }
+});
+
+Template.renderApprovalStatus.helpers({
+  equals: function(a, b) {
+    return a === b;
+  },
+});
+
+Template.renderApprovalStatus.events({
+  'click #approve': function(event) {
+    approveTransaction.call(this);
+  }
 });

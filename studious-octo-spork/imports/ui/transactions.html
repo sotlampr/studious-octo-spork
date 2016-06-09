@@ -2,38 +2,76 @@
   <div class="jumbotron">
     <div class="container-fluid">
       <h1>Transactions</h1>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Employer</th>
-            <th>Worker</th>
-            <th>Description</th>
-            <th>Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-        {{#each userTransactions}}
-          <tr>
-            <td>{{usernameFromId fromId}}
-              {{> renderApprovalStatus
-                  targetUser=fromId
-                  targetOk=fromOk
-                  targetTransaction=_id}}
-            </td>
+      <div class="col-sm-8">
+        <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Employer</th>
+              <th>Worker</th>
+              <th>Description</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+          {{#each userTransactions}}
+          <tr class="{{contextualApprovalStatus fromOk toOk}}">
+              <td>{{usernameFromId fromId}}
+                {{> renderApprovalStatus
+                    targetUser=fromId
+                    targetOk=fromOk
+                    targetTransaction=_id}}
+              </td>
 
-            <td>{{usernameFromId toId}}
-              {{> renderApprovalStatus
-                  targetUser=toId
-                  targetOk=toOk
-                  targetTransaction=_id}}
-            </td>
+              <td>{{usernameFromId toId}}
+                {{> renderApprovalStatus
+                    targetUser=toId
+                    targetOk=toOk
+                    targetTransaction=_id}}
+              </td>
 
-            <td>{{description}}</td>
-            <td>{{cost}}</td>
-          </tr>
-        {{/each}}
-        </tbody>
-      </table>
+              <td>{{description}}</td>
+              <td>{{cost}}</td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-sm-4 md-offset-2">
+        <h2>Balance:</h2>
+        <hr/>
+        <h2>{{ currentUser.profile.balance }} <i>units</i></h2>
+        <br/>
+        <h3>Pending:</h3>
+        <hr/>
+        <h4>{{ currentUser.profile.logisticBalance }} <i>units</i></h4>
+      </div>
     </div>
   </div>
+</template>
+
+<template name="renderApprovalStatus">
+  {{#if equals targetUser currentUser._id}}
+    {{#if targetOk}}
+      <span class="glyphicon glyphicon-ok-sign"
+            style="color:green" data-toggle="tooltip"
+            title="You already approved this transaction"></span>
+    {{else}}
+    <a class="icon" id=approve data-toggle="tooltip"
+         title="Click to approve transaction">
+        <span class="glyphicon glyphicon-question-sign"
+              style="color:orange"></span>
+      </a>
+    {{/if}}
+  {{else}}
+    {{#if targetOk}}
+      <span class="glyphicon glyphicon-ok-sign"
+            style="color:green" data-toggle="tooltip"
+            title="User has approved this transaction!"></span>
+    {{else}}
+      <span class="glyphicon glyphicon-question-sign"
+            style="color:orange" data-toggle="tooltip"
+            title="Awaiting approval from user"></span>
+    {{/if}}
+  {{/if}}
 </template>
