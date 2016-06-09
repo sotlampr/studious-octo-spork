@@ -89,19 +89,19 @@ export const saveTransaction = new ValidatedMethod({
 export const approveTransaction = new ValidatedMethod({
   name: 'transactions.approveTransaction',
   validate: new SimpleSchema({
-    targetUser: { type: String },
-    targetTransaction: { type: String },
+    targetUserId: { type: String },
+    targetTransactionId: { type: String },
     targetOk: { type: Boolean }
   }).validator(),
   run (data) {
-    if (data.targetUser !== this.userId) {
+    if (data.targetUserId !== this.userId) {
       throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
     }
-    let transaction = Logbook.findOne(data.targetTransaction);
+    let transaction = Logbook.findOne(data.targetTransactionId);
     if (!transaction.fromOk) {
-      Logbook.update({_id: data.targetTransaction}, {$set: {fromOk: true}});
+      Logbook.update({_id: data.targetTransactionId}, {$set: {fromOk: true}});
     } else if (!transaction.toOk) {
-      Logbook.update({_id: data.targetTransaction}, {$set: {toOk: true}});
+      Logbook.update({_id: data.targetTransactionId}, {$set: {toOk: true}});
     }
     commitTransaction(transaction, 'final');
   }

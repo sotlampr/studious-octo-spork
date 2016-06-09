@@ -133,7 +133,7 @@
 </template>
 
 <template name="renderTransactionsResume">
-  {{#if equals targetUser currentUser._id}}
+  {{#if equals targetUserId currentUser._id}}
     {{#if targetOk}}
       <span class="glyphicon glyphicon-ok-sign" data-toggle="tooltip"
             title="You already approved this transaction"></span>

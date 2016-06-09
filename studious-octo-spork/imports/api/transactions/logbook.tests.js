@@ -144,8 +144,8 @@ if (Meteor.isServer) {
           date: new Date(),
         });
         data = {
-          targetUser: userId,
-          targetTransaction: transactionId,
+          targetUserId: userId,
+          targetTransactionId: transactionId,
           targetOk: true
         };
         done();
