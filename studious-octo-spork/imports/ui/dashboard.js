@@ -65,8 +65,8 @@ Template.dashboard.helpers({
       return userTransactions;
     }
   },
-  isApproved: (fromOk, toOk) => {
-    if (fromOk && toOk) {
+  isApproved: (giverOk, receiverOk) => {
+    if (giverOk && receiverOk) {
       return true;
     } else {
       return false;

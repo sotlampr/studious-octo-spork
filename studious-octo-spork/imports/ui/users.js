@@ -87,10 +87,10 @@ Template.usersByUsername.events({
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();
     let data = {
-      fromOk: event.target.fromOk.checked,
-      toOk: event.target.toOk.checked,
-      fromId: Meteor.userId(),
-      toId: Meteor.users.findOne({ username: FlowRouter.getParam('username') })._id,
+      giverValidated: event.target.giverValidated.checked,
+      receiverValidated: event.target.receiverValidated.checked,
+      giverId: Meteor.userId(),
+      receiverId: Meteor.users.findOne({ username: FlowRouter.getParam('username') })._id,
       description: event.target.sessionDescription.value,
       cost: Number(event.target.sessionCost.value),
     };
@@ -120,7 +120,7 @@ Template.usersContactByUsername.events({
     event.preventDefault();
     username = FlowRouter.getParam('username');
     saveMessage.call({
-      toId: Meteor.users.findOne({username: username})._id,
+      receiverId: Meteor.users.findOne({username: username})._id,
       message: event.target.message.value,
     });
     event.target.message.value = '';

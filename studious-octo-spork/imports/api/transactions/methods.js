@@ -7,14 +7,14 @@ import { Logbook } from './logbook.js';
 const commitTransaction = function(transaction, type) {
   if (type === 'final') {
     Meteor.users.update(
-        { _id: transaction.fromId },
+        { _id: transaction.giverId },
         { $inc: {
           'profile.balance': -transaction.cost ,
           'profile.logisticBalance': transaction.cost
         }}
     );
     Meteor.users.update(
-        { _id: transaction.toId },
+        { _id: transaction.receiverId },
         { $inc: {
           'profile.balance': transaction.cost,
           'profile.logisticBalance': -transaction.cost
@@ -22,11 +22,11 @@ const commitTransaction = function(transaction, type) {
     );
   } else if (type === 'logistic') {
     Meteor.users.update(
-        { _id: transaction.fromId },
+        { _id: transaction.giverId },
         { $inc: { 'profile.logisticBalance': -transaction.cost } }
     );
     Meteor.users.update(
-        { _id: transaction.toId },
+        { _id: transaction.receiverId },
         { $inc: { 'profile.logisticBalance': transaction.cost } }
     );
   } else {
@@ -37,15 +37,15 @@ const commitTransaction = function(transaction, type) {
 export const saveTransaction = new ValidatedMethod({
   name: 'transactions.saveTransaction',
   validate: new SimpleSchema({
-    fromOk: { type: Boolean },
-    toOk: { type: Boolean },
-    fromId: { type: String },
-    toId: { type: String },
+    giverValidated: { type: Boolean },
+    receiverValidated: { type: Boolean },
+    giverId: { type: String },
+    receiverId: { type: String },
     description: { type: String },
     cost: { type: Number },
   }).validator(),
   run (data) {
-    if (data.fromId !== this.userId) {
+    if (data.giverId !== this.userId) {
       throw new Meteor.Error('transactions.saveTransaction.notAuthorized');
     }
 
@@ -58,10 +58,10 @@ export const saveTransaction = new ValidatedMethod({
     }
 
     // From represents employer, so flip if necessary
-    if (data.toOk && !data.fromOk) {
-      // fromId is worker, flip
-      [data.fromId, data.toId] = [data.toId, data.fromId];
-    } else if (!data.toOk && data.fromOk) {
+    if (data.receiverValidated && !data.giverValidated) {
+      // giverId is receiver, flip
+      [data.giverId, data.receiverId] = [data.receiverId, data.giverId];
+    } else if (!data.receiverValidated && data.giverValidated) {
       // already in correct position
     } else {
       throw new Meteor.Error(
@@ -71,7 +71,7 @@ export const saveTransaction = new ValidatedMethod({
     }
 
     // Check for availabl balance
-    let employer= Meteor.users.findOne({ _id: data.fromId});
+    let employer= Meteor.users.findOne({ _id: data.giverId});
     let fromBalance = employer.profile.balance + employer.profile.logisticBalance;
     let difference = fromBalance - data.cost;
     if (difference < -100) {
@@ -98,10 +98,10 @@ export const approveTransaction = new ValidatedMethod({
       throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
 
     let transaction = Logbook.findOne(data.targetTransactionId);
-    if (!transaction.fromOk)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {fromOk: true}});
-    else if (!transaction.toOk)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {toOk: true}});
+    if (!transaction.giverValidated)
+      Logbook.update({_id: data.targetTransactionId}, {$set: {giverValidated: true}});
+    else if (!transaction.receiverValidated)
+      Logbook.update({_id: data.targetTransactionId}, {$set: {receiverValidated: true}});
 
     commitTransaction(transaction, 'final');
   }
@@ -115,14 +115,14 @@ export const deleteTransaction = new ValidatedMethod({
   run (data) {
     let transaction = Logbook.findOne(data.targetTransactionId);
     if (
-      (transaction.fromId !== this.userId) &&
-      (transaction.toId !== this.userId)
+      (transaction.giverId !== this.userId) &&
+      (transaction.receiverId !== this.userId)
     )
       throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
 
-    if (transaction.fromOk)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {fromOk: false}});
-    else if (transaction.toOk)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {toOk: false}});
+    if (transaction.giverValidated)
+      Logbook.update({_id: data.targetTransactionId}, {$set: {giverValidated: false}});
+    else if (transaction.receiverValidated)
+      Logbook.update({_id: data.targetTransactionId}, {$set: {receiverValidated: false}});
   }
 });

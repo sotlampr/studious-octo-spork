@@ -78,11 +78,11 @@
               <tbody>
               {{#each userTransactions}}
                 <tr>
-                  <td>{{usernameFromId fromId}}</td>
-                  <td>{{usernameFromId toId}}</td>
+                  <td>{{usernameFromId giverId}}</td>
+                  <td>{{usernameFromId receiverId}}</td>
                   <td>{{cost}}</td>
                   <td>
-                    {{#if isApproved fromOk toOk}}
+                    {{#if isApproved giverOk receiverOk}}
                       <span class="glyphicon glyphicon-ok"
                             style="color:green"
                             title="Transaction is approved!">

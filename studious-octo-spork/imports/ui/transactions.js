@@ -31,17 +31,17 @@ Template.transactionsIndex.helpers({
       return userTransactions;
     }
   },
-  contextualApprovalStatus: (fromOk, toOk) => {
-    if (fromOk && toOk)
+  contextualApprovalStatus: (giverValidated, receiverValidated) => {
+    if (giverValidated && receiverValidated)
       return 'info';
-    else if (fromOk || toOk)
+    else if (giverValidated || receiverValidated)
       return 'warning';
     else
       return 'danger';
   },
-  canDelete: (fromOk, toOk) => {
+  canDelete: (giverValidated, receiverValidated) => {
     // XOR
-    if ((fromOk || toOk) && !(fromOk && toOk))
+    if ((giverValidated || receiverValidated) && !(giverValidated && receiverValidated))
       return true;
     else
       return false;

@@ -14,24 +14,24 @@
           </thead>
           <tbody>
           {{#each userTransactions}}
-          <tr class="{{contextualApprovalStatus fromOk toOk}}">
-              <td>{{usernameFromId fromId}}
+          <tr class="{{contextualApprovalStatus giverValidated receiverValidated}}">
+              <td>{{usernameFromId giverId}}
                 {{> renderApprovalStatus
-                    targetUserId=fromId
-                    targetOk=fromOk
+                    targetUserId=giverId
+                    targetOk=giverValidated
                     targetTransactionId=_id}}
               </td>
 
-              <td>{{usernameFromId toId}}
+              <td>{{usernameFromId receiverId}}
                 {{> renderApprovalStatus
-                    targetUserId=toId
-                    targetOk=toOk
+                    targetUserId=receiverId
+                    targetOk=receiverValidated
                     targetTransactionId=_id}}
               </td>
 
               <td>{{description}}</td>
               <td>{{cost}}</td>
-              {{#if canDelete fromOk toOk}}
+              {{#if canDelete giverValidated receiverValidated}}
                 {{> renderDeleteTransaction targetTransactionId=_id}}
               {{/if}}
 

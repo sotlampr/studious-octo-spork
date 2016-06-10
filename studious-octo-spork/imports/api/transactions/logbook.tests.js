@@ -12,7 +12,7 @@ if (Meteor.isServer) {
     describe('saveTransaction', function () {
       // Helper variables and functions
       let userId;
-      let toId;
+      let receiverId;
       let data;
 
       const invokeSaveAs = function(userId, data) {
@@ -25,19 +25,19 @@ if (Meteor.isServer) {
       // Before and after routines
       beforeEach((done) => {
         userId = Accounts.createUser({username: 'tester1'});
-        toId = Accounts.createUser({username: 'tester2'});
+        receiverId = Accounts.createUser({username: 'tester2'});
         data = {
-          fromOk: true,
-          toOk: false,
-          fromId: userId,
-          toId: toId,
+          giverValidated: true,
+          receiverValidated: false,
+          giverId: userId,
+          receiverId: receiverId,
           description: "test transaction",
           cost: 100.0
         };
         Meteor.users.update({ _id: userId}, {$set:
           {'profile.balance': 0, 'profile.logisticBalance': 0}
         });
-        Meteor.users.update({ _id: toId}, {$set:
+        Meteor.users.update({ _id: receiverId}, {$set:
           {'profile.balance': 0, 'profile.logisticBalance': 0}
         });
         done();
@@ -58,14 +58,14 @@ if (Meteor.isServer) {
 
       it('Reject transaction with invalid userId', function(done) {
         let invocationAttempt = function () {
-          invokeSaveAs(toId, data);
+          invokeSaveAs(receiverId, data);
         };
         assert.throws(invocationAttempt, Meteor.Error);
         done();
       });
 
       it('Reject a transaction noone approved', function(done) {
-        data.fromOk = false;
+        data.giverValidated = false;
         let invocationAttempt = function () {
           invokeSaveAs(userId, data);
         };
@@ -74,7 +74,7 @@ if (Meteor.isServer) {
       });
 
       it('Reject a transaction both users approved', function(done) {
-        data.toOk = true;
+        data.receiverValidated = true;
         let invocationAttempt = function () {
           invokeSaveAs(userId, data);
         };
@@ -104,16 +104,16 @@ if (Meteor.isServer) {
       it('Test transaction as employer', function(done) {
         invokeSaveAs(userId, data);
         let entry = Logbook.findOne();
-        assert.equal(entry.fromId, userId);
+        assert.equal(entry.giverId, userId);
         done();
       });
 
       it('Test transaction as worker', function(done) {
-        data.toOk = true;
-        data.fromOk = false;
+        data.receiverValidated = true;
+        data.giverValidated = false;
         invokeSaveAs(userId, data);
         let entry = Logbook.findOne();
-        assert.equal(entry.toId, userId);
+        assert.equal(entry.receiverId, userId);
         done();
       });
     });
@@ -121,7 +121,7 @@ if (Meteor.isServer) {
     describe('approveTransaction', function () {
       let transactionId;
       let userId;
-      let toId;
+      let receiverId;
       let data;
 
       const invokeApproveAs = function (userId, data) {
@@ -133,12 +133,12 @@ if (Meteor.isServer) {
 
       beforeEach((done) => {
         userId = Random.id();
-        toId = Random.id();
+        receiverId = Random.id();
         transactionId = Logbook.insert({
-          fromOk: true,
-          toOk: false,
-          fromId: userId,
-          toId: toId,
+          giverValidated: true,
+          receiverValidated: false,
+          giverId: userId,
+          receiverId: receiverId,
           description: "test transaction",
           cost: 100.0,
           date: new Date(),
@@ -159,13 +159,13 @@ if (Meteor.isServer) {
       it('Approve a transaction', function(done) {
         invokeApproveAs(userId, data);
         let transaction = Logbook.findOne();
-        assert.isTrue(transaction.toOk);
+        assert.isTrue(transaction.receiverValidated);
         done();
       });
 
       it('Reject approval with invalid userId', function(done) {
         let invocationAttempt = function () {
-          invokeApproveAs(toId, data);
+          invokeApproveAs(receiverId, data);
         };
         assert.throws(invocationAttempt, Meteor.Error);
         done();
