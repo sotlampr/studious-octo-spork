@@ -56,6 +56,19 @@ if (Meteor.isServer) {
         done();
       });
 
+      it('Modify logistic balance on new transaction', function(done) {
+        invokeSaveAs(userId, data);
+        assert.equal(
+            Meteor.users.findOne({ _id: userId }).profile.logisticBalance,
+            -100.0
+        );
+        assert.equal(
+            Meteor.users.findOne({ _id: receiverId }).profile.logisticBalance,
+            100.0
+        );
+        done();
+      });
+
       it('Reject transaction with invalid userId', function(done) {
         let invocationAttempt = function () {
           invokeSaveAs(receiverId, data);
@@ -101,14 +114,14 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Test transaction as employer', function(done) {
+      it('Test transaction as giver', function(done) {
         invokeSaveAs(userId, data);
         let entry = Logbook.findOne();
         assert.equal(entry.giverId, userId);
         done();
       });
 
-      it('Test transaction as worker', function(done) {
+      it('Test transaction as receiver', function(done) {
         data.receiverValidated = true;
         data.giverValidated = false;
         invokeSaveAs(userId, data);
@@ -132,8 +145,8 @@ if (Meteor.isServer) {
       };
 
       beforeEach((done) => {
-        userId = Random.id();
-        receiverId = Random.id();
+        userId = Accounts.createUser({username: 'tester1'});
+        receiverId = Accounts.createUser({username: 'tester2'});
         transactionId = Logbook.insert({
           giverValidated: false,
           receiverValidated: true,
@@ -143,11 +156,18 @@ if (Meteor.isServer) {
           cost: 100.0,
           date: new Date(),
         });
+        Meteor.users.update({ _id: userId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': -100}
+        });
+        Meteor.users.update({ _id: receiverId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': 100}
+        });
         data = { transactionId };
         done();
       });
 
       afterEach((done) => {
+        Meteor.users.remove({});
         Logbook.remove({});
         done();
       });
@@ -155,10 +175,35 @@ if (Meteor.isServer) {
       it('Approve a transaction', function(done) {
         invokeApproveAs(userId, data);
         let transaction = Logbook.findOne();
-        assert.isTrue(transaction.receiverValidated);
+        assert.isTrue(transaction.giverValidated);
         done();
       });
 
+      it('Restore logistic balance on approve transaction', function(done) {
+        invokeApproveAs(userId, data);
+        assert.equal(
+            Meteor.users.findOne({ _id: userId }).profile.logisticBalance,
+            0.0
+        );
+        assert.equal(
+            Meteor.users.findOne({ _id: receiverId }).profile.logisticBalance,
+            0.0
+        );
+        done();
+      });
+
+      it('Modify real balance on approve transaction', function(done) {
+        invokeApproveAs(userId, data);
+        assert.equal(
+            Meteor.users.findOne({ _id: userId }).profile.balance,
+            -100.0
+        );
+        assert.equal(
+            Meteor.users.findOne({ _id: receiverId }).profile.balance,
+            100.0
+        );
+        done();
+      });
       it('Reject approval with invalid userId', function(done) {
         let invocationAttempt = function () {
           invokeApproveAs(receiverId, data);
@@ -166,7 +211,6 @@ if (Meteor.isServer) {
         assert.throws(invocationAttempt, Meteor.Error);
         done();
       });
-
 
     });
   });
