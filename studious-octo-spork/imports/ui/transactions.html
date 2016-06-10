@@ -10,30 +10,17 @@
               <th>Worker</th>
               <th>Description</th>
               <th>Cost</th>
+              <th>Actions / Status</th>
             </tr>
           </thead>
           <tbody>
           {{#each userTransactions}}
-          <tr class="{{contextualApprovalStatus giverValidated receiverValidated}}">
-              <td>{{usernameFromId giverId}}
-                {{> renderApprovalStatus
-                    targetUserId=giverId
-                    targetOk=giverValidated
-                    targetTransactionId=_id}}
-              </td>
-
-              <td>{{usernameFromId receiverId}}
-                {{> renderApprovalStatus
-                    targetUserId=receiverId
-                    targetOk=receiverValidated
-                    targetTransactionId=_id}}
-              </td>
-
+          <tr class="{{contextualApprovalStatus this}}">
+              <td>{{usernameFromId giverId}} </td>
+              <td>{{usernameFromId receiverId}} </td>
               <td>{{description}}</td>
               <td>{{cost}}</td>
-              {{#if canDelete giverValidated receiverValidated}}
-                {{> renderDeleteTransaction targetTransactionId=_id}}
-              {{/if}}
+              <td>{{> renderActions this}}</td>
 
             </tr>
           {{/each}}
@@ -54,34 +41,27 @@
   </div>
 </template>
 
-<template name="renderApprovalStatus">
-  {{#if equals targetUserId currentUser._id}}
-    {{#if targetOk}}
-      <span class="glyphicon glyphicon-ok-sign"
-            style="color:green" data-toggle="tooltip"
-            title="You already approved this transaction"></span>
-    {{else}}
-    <a class="icon" id=approve data-toggle="tooltip"
-         title="Click to approve transaction">
-        <span class="glyphicon glyphicon-question-sign"
-              style="color:orange"></span>
-      </a>
-    {{/if}}
+<template name="renderActions">
+  {{#if isCompleted this}}
+    Completed
   {{else}}
-    {{#if targetOk}}
-      <span class="glyphicon glyphicon-ok-sign"
-            style="color:green" data-toggle="tooltip"
-            title="User has approved this transaction!"></span>
+    {{#if hasApproved this}}
+     You approved
+      | Delete
+      <span class="glyphicon glyphicon-remove-circle" id="delete-transaction"
+            title="Click to delete transaction..."></span>
     {{else}}
-      <span class="glyphicon glyphicon-question-sign"
-            style="color:orange" data-toggle="tooltip"
-            title="Awaiting approval from user"></span>
+      {{#if awaitingApproval this}}
+       Approve
+        <span class="glyphicon glyphicon-ok-circle" id="approve-transaction"
+              title="Click to approve..."></span>
+        | Delete
+        <span class="glyphicon glyphicon-remove-circle" id="delete-transaction"
+              title="Click to delete transaction..."></span>
+      {{else}}
+        Deleted
+      {{/if}}
     {{/if}}
   {{/if}}
 </template>
 
-<template name="renderDeleteTransaction">
-  <td>
-    <span class="glyphicon glyphicon-trash" id="delete-transaction"></span>
-  </td>
-</template>

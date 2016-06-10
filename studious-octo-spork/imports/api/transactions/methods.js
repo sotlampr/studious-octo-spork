@@ -4,6 +4,25 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Logbook } from './logbook.js';
 
+const tryFetchTransaction = (transactionId, userId) => {
+    let transaction = Logbook.findOne(transactionId);
+
+    // Check if transaction exists
+    if (transaction === null)
+      throw new Meteor.Error('transactions.transactionNotFound');
+
+    // Caller should be either giver or receiver
+    if (
+      (transaction.fromId != userId) &&
+      (transaction.toId != userId)
+    ){
+      throw new Meteor.Error('transactions.notAuthorized');
+    }
+
+    // If we got so far, everything is ok
+    return transaction;
+};
+
 const commitTransaction = function(transaction, type) {
   if (type === 'final') {
     Meteor.users.update(
@@ -89,40 +108,47 @@ export const saveTransaction = new ValidatedMethod({
 export const approveTransaction = new ValidatedMethod({
   name: 'transactions.approveTransaction',
   validate: new SimpleSchema({
-    targetUserId: { type: String },
-    targetTransactionId: { type: String },
-    targetOk: { type: Boolean }
+    transactionId: { type: String },
   }).validator(),
   run (data) {
-    if (data.targetUserId !== this.userId)
+    let target = tryFetchTransaction(data.transactionId);
+
+    // User calling should not have already approved this transaction
+    if ((target.giverId === this.userId && target.giverValidated) ||
+        (target.receiverId === this.userId && target.receiverValidated))
       throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
 
-    let transaction = Logbook.findOne(data.targetTransactionId);
-    if (!transaction.giverValidated)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {giverValidated: true}});
-    else if (!transaction.receiverValidated)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {receiverValidated: true}});
+    // Go on and set the unapproved flag to true
+    if (!target.giverValidated)
+      Logbook.update({_id: data.transactionId},
+                     {$set: {giverValidated: true}});
+    else if (!target.receiverValidated)
+      Logbook.update({_id: data.transactionId},
+                     {$set: {receiverValidated: true}});
 
-    commitTransaction(transaction, 'final');
+    commitTransaction(target, 'final');
   }
 });
 
 export const deleteTransaction = new ValidatedMethod({
   name: 'transactions.deleteTransaction',
   validate: new SimpleSchema({
-    targetTransactionId: { type: String },
+    transactionId: { type: String },
   }).validator(),
   run (data) {
-    let transaction = Logbook.findOne(data.targetTransactionId);
-    if (
-      (transaction.giverId !== this.userId) &&
-      (transaction.receiverId !== this.userId)
-    )
-      throw new Meteor.Error('transactions.approveTransaction.notAuthorized');
+    let target = tryFetchTransaction(data.transactionId);
 
-    if (transaction.giverValidated)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {giverValidated: false}});
-    else if (transaction.receiverValidated)
-      Logbook.update({_id: data.targetTransactionId}, {$set: {receiverValidated: false}});
+    if (target.giverOk && target.receiverOk)
+      throw new Meteor.Error('transactions.deleteTransaction.alreadyCommited');
+
+    if (target.giverValidated)
+      Logbook.update({_id: data.transactionId},
+                     {$set: {giverValidated: false}});
+    else if (target.receiverValidated)
+      Logbook.update({_id: data.transactionId},
+                     {$set: {receiverValidated: false}});
+
+    target.cost = -target.cost;
+    commitTransaction(target, 'logistic');
   }
 });

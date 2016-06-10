@@ -135,19 +135,15 @@ if (Meteor.isServer) {
         userId = Random.id();
         receiverId = Random.id();
         transactionId = Logbook.insert({
-          giverValidated: true,
-          receiverValidated: false,
+          giverValidated: false,
+          receiverValidated: true,
           giverId: userId,
           receiverId: receiverId,
           description: "test transaction",
           cost: 100.0,
           date: new Date(),
         });
-        data = {
-          targetUserId: userId,
-          targetTransactionId: transactionId,
-          targetOk: true
-        };
+        data = { transactionId };
         done();
       });
 

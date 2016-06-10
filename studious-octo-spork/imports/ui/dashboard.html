@@ -82,13 +82,13 @@
                   <td>{{usernameFromId receiverId}}</td>
                   <td>{{cost}}</td>
                   <td>
-                    {{#if isApproved giverOk receiverOk}}
+                    {{#if isApproved this}}
                       <span class="glyphicon glyphicon-ok"
                             style="color:green"
                             title="Transaction is approved!">
                       </span>
                     {{else}}
-                      <span class="glyphicon glyphicon-option-horizontal"
+                      <span class="glyphicon glyphicon-question-sign"
                             title="Transaction is not approved yet.">
                       </span>
                     {{/if}}
@@ -129,27 +129,5 @@
         {{/each}}
       </ul>
     </div>
-  {{/if}}
-</template>
-
-<template name="renderTransactionsResume">
-  {{#if equals targetUserId currentUser._id}}
-    {{#if targetOk}}
-      <span class="glyphicon glyphicon-ok-sign" data-toggle="tooltip"
-            title="You already approved this transaction"></span>
-    {{else}}
-    <a class="icon" id=approve data-toggle="tooltip"
-         title="Click to approve transaction">
-        <span class="glyphicon glyphicon-question-sign"></span>
-      </a>
-    {{/if}}
-  {{else}}
-    {{#if targetOk}}
-      <span class="glyphicon glyphicon-ok-sign" data-toggle="tooltip"
-            title="User has approved this transaction!"></span>
-    {{else}}
-      <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
-            title="Awaiting approval from user"></span>
-    {{/if}}
   {{/if}}
 </template>

@@ -60,13 +60,14 @@ Template.dashboard.helpers({
     // Retrieve the last 5 user transactions
     if (Meteor.user()) {
       var userTransactions = Logbook.find(
-          {}, {sort: {date: -1}, limit: 5}
+          {$or: [{giverValidated: true}, {receiverValidated: true}]},
+          {sort: {date: -1}, limit: 5}
       );
       return userTransactions;
     }
   },
-  isApproved: (giverOk, receiverOk) => {
-    if (giverOk && receiverOk) {
+  isApproved: (data) => {
+    if (data.giverValidated && data.receiverValidated) {
       return true;
     } else {
       return false;
@@ -81,7 +82,9 @@ Template.dashboard.helpers({
 
 Template.dashboard.events({
   'click .transactions-redirect': () => {
-     FlowRouter.go('/dashboard/transactions');
+     // This is to remove an Uncaught Error from the console
+     // Error: must be attached
+     Meteor.defer(() => { FlowRouter.go('/dashboard/transactions'); });
   },
   'submit .update-profile': function (event) {
     // Handle the updating logic, call updateUserProfile afterwards
