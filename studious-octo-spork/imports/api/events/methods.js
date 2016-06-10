@@ -78,11 +78,16 @@ export const editEvent = new ValidatedMethod({
     changer: { type: String }
   }).validator(),
   run (data) {
-    var flag = data.changer === Meteor.users.findOne({username: data.giver})._id;
+    var giverId = Meteor.users.findOne({username: data.giver})._id;
+    var receiverId = Meteor.users.findOne({username: data.receiver})._id;
+    if ((data.changer !== giverId) && (data.changer !== receiverId)) {
+      throw new Meteor.Error('not-authorized');
+    }
+    var flag = data.changer === giverId;
     Events.update({_id: data.id}, {$set: {
       title: data.title,
-      giver: Meteor.users.findOne({username: data.giver})._id,
-      receiver: Meteor.users.findOne({username: data.receiver})._id,
+      giver: giverId,
+      receiver: receiverId,
       start: data.start,
       end: data.end,
       giverValidation: flag,
