@@ -229,8 +229,8 @@
                 <div class='col-xs-12 col-sm-3'>
                   <label for='receiver'>Receiver</label>
                   <input disabled type='text' name='receiver' class='form-control'
-                    value="{{#if modalType 'add'}}{{receiver}}
-                          {{else}}{{idToUsername evnt.receiver}}{{/if}}">
+                  value="{{#if modalType 'add'}}{{receiver}}{{else}}
+                        {{idToUsername evnt.receiver}}{{/if}}">
                 </div>
               </div>
             </div>
@@ -244,8 +244,8 @@
                 <div class="col-xs-12 col-sm-5">
                   <label for="end">Event End</label>
                   <input type="text" name="end" class="form-control"
-                  value="{{#if evnt.end}}{{evnt.end}}
-                        {{else}}{{evnt.start}}{{/if}}">
+                  value="{{#if evnt.end}}{{evnt.end}}{{else}}
+                        {{evnt.start}}{{/if}}">
                 </div>
                 <div class='container col-sm-12'>
                   <h5 class='keno'>
