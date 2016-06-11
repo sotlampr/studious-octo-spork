@@ -121,9 +121,9 @@ Template.usersByUsername.onRendered( function () {
       element.find('.fc-content').html(
           '<h4 class="eventTitle">' + evnt.title + '</h4>' +
           '<p><span class="maroon">' +
-          Meteor.users.findOne(evnt.giver).username + '</span></p>' +
+          Meteor.users.findOne(evnt.giverId).username + '</span></p>' +
           '<p><span class="purple">' +
-          Meteor.users.findOne(evnt.receiver).username + '</span></p>'
+          Meteor.users.findOne(evnt.receiverId).username + '</span></p>'
           );
     },
     events: function (start, end, timezone, callback, err) {
@@ -131,14 +131,14 @@ Template.usersByUsername.onRendered( function () {
         $and: [
           {
             $and: [
-            {giverValidation: true},
-            {receiverValidation: true}
+            {giverValidated: true},
+            {receiverValidated: true}
             ]
           },
           {
             $or : [
-              {'giver': usrId},
-              {'receiver': usrId}
+              {'giverId': usrId},
+              {'receiverId': usrId}
             ]
           }
         ]
@@ -155,7 +155,7 @@ Template.usersByUsername.onRendered( function () {
   });
 
   Tracker.autorun( function () {
-    Events.find({ $or : [{'giver': usrId}, {'receiver': usrId}] }).fetch();
+    Events.find({ $or : [{'giverId': usrId}, {'receiverId': usrId}] }).fetch();
     $('#calendarUser').fullCalendar('refetchEvents');
   });
 });

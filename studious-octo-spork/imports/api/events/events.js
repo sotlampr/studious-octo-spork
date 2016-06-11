@@ -10,11 +10,11 @@ Events.deny({
 });
 
 Events.schema = new SimpleSchema({
-  giver: {
+  giverId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
-  receiver: {
+  receiverId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
@@ -33,11 +33,11 @@ Events.schema = new SimpleSchema({
     max: 30,
     label: 'When this event will end.'
   },
-  giverValidation: {
+  giverValidated: {
     type: Boolean,
     defaultValue: false,
   },
-  receiverValidation: {
+  receiverValidated: {
     type: Boolean,
     defaultValue: false,
   }
@@ -46,11 +46,11 @@ Events.schema = new SimpleSchema({
 Events.attachSchema(Events.schema);
 
 Events.publicFields = {
-  giver: 1,
-  receiver: 1,
+  giverId: 1,
+  receiverId: 1,
   title: 1,
   start: 1,
   end: 1,
-  giverValidation: 1,
-  receiverValidation: 1
+  giverValidated: 1,
+  receiverValidated: 1
 };

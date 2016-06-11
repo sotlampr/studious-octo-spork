@@ -22,10 +22,10 @@ export const validateRequest = new ValidatedMethod({
       throw new Meteor.Error('user-not-found');
     }
 
-    if (evnt.giver === userId) {
-      Events.update({_id: eventId}, {$set: {giverValidation: true}});
+    if (evnt.giverId === userId) {
+      Events.update({_id: eventId}, {$set: {giverValidated: true}});
     } else {
-      Events.update({_id: eventId}, {$set: {receiverValidation: true}});
+      Events.update({_id: eventId}, {$set: {receiverValidated: true}});
     }
   },
 });
@@ -56,12 +56,12 @@ export const addRequest = new ValidatedMethod({
   run (data) {
     Events.insert({
       title: data.title,
-      giver: Meteor.users.findOne({username: data.giver})._id,
-      receiver: Meteor.users.findOne({username: data.receiver})._id,
+      giverId: Meteor.users.findOne({username: data.giver})._id,
+      receiverId: Meteor.users.findOne({username: data.receiver})._id,
       start: data.start,
       end: data.end,
-      giverValidation: false,
-      receiverValidation: true
+      giverValidated: false,
+      receiverValidated: true
     });
   }
 });
@@ -86,12 +86,12 @@ export const editEvent = new ValidatedMethod({
     var flag = data.changer === giverId;
     Events.update({_id: data.id}, {$set: {
       title: data.title,
-      giver: giverId,
-      receiver: receiverId,
+      giverId: giverId,
+      receiverId: receiverId,
       start: data.start,
       end: data.end,
-      giverValidation: flag,
-      receiverValidation: !flag}
+      giverValidated: flag,
+      receiverValidated: !flag}
     });
   }
 });

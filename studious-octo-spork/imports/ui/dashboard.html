@@ -118,24 +118,24 @@
                           <td></td>
                           <td>
                             <p>
-                              <a href='/users/{{usernameFromId giver}}/'
-                                class='maroon'>{{usernameFromId giver}}</a>
+                              <a href='/users/{{usernameFromId giverId}}/'
+                                class='maroon'>{{usernameFromId giverId}}</a>
                             </p>
                           </td>
                           <td>
                             <p>
-                              <a href='/users/{{usernameFromId receiver}}/'
-                                class='purple'>{{usernameFromId receiver}}</a>
+                              <a href='/users/{{usernameFromId receiverId}}/'
+                                class='purple'>{{usernameFromId receiverId}}</a>
                             </p>
                           </td>
                         </tr>
                         <tr>
                           <td><strong>Validate</strong></td>
                           <td>
-                            {{#if isEqual giver currentUser._id}}
-                              {{#if giverValidation}}
+                            {{#if isEqual giverId currentUser._id}}
+                              {{#if giverValidated}}
                                 <p class='green'>true</p>
-                                {{else}}
+                              {{else}}
                                 <div class='row'>
                                   <button class='acceptRequest btn btn-success'>
                                     <span class='glyphicon glyphicon-ok'>
@@ -147,19 +147,19 @@
                                   </button>
                                 </div>
                               {{/if}}
-                              {{else}}
-                              {{#if giverValidation}}
+                            {{else}}
+                              {{#if giverValidated}}
                                 <p class='green'>true</p>
-                                {{else}}
+                              {{else}}
                                 <p class='yellow'>not yet</p>
                               {{/if}}
                             {{/if}}
                           </td>
                           <td>
-                            {{#if isEqual receiver currentUser._id}}
-                              {{#if receiverValidation}}
+                            {{#if isEqual receiverId currentUser._id}}
+                              {{#if receiverValidated}}
                                 <p class='green'>true</p>
-                                {{else}}
+                              {{else}}
                                 <div class='row'>
                                   <button class='acceptRequest btn btn-success'>
                                     <span class='glyphicon glyphicon-ok'>
@@ -171,10 +171,10 @@
                                   </button>
                                 </div>
                               {{/if}}
-                              {{else}}
-                              {{#if receiverValidation}}
+                            {{else}}
+                              {{#if receiverValidated}}
                                 <p class='green'>true</p>
-                                {{else}}
+                              {{else}}
                                 <p class='yellow'>not yet</p>
                               {{/if}}
                             {{/if}}
@@ -223,14 +223,17 @@
                     </select>
                     {{else}}
                     <input disabled type='text' name='giver'
-                      class='form-control' value="{{idToUsername evnt.giver}}">
+                      class='form-control' value="{{idToUsername evnt.giverId}}">
                   {{/if}}
                 </div>
                 <div class='col-xs-12 col-sm-3'>
                   <label for='receiver'>Receiver</label>
                   <input disabled type='text' name='receiver' class='form-control'
-                  value="{{#if modalType 'add'}}{{receiver}}{{else}}
-                        {{idToUsername evnt.receiver}}{{/if}}">
+                  value="{{#if modalType 'add'}}{{
+                            currentUser.username
+                        }}{{else}}{{
+                            idToUsername evnt.receiverId
+                        }}{{/if}}">
                 </div>
               </div>
             </div>
@@ -244,8 +247,11 @@
                 <div class="col-xs-12 col-sm-5">
                   <label for="end">Event End</label>
                   <input type="text" name="end" class="form-control"
-                  value="{{#if evnt.end}}{{evnt.end}}{{else}}
-                        {{evnt.start}}{{/if}}">
+                  value="{{#if evnt.end}}{{
+                            evnt.end
+                        }}{{else}}{{
+                            evnt.start
+                        }}{{/if}}">
                 </div>
                 <div class='container col-sm-12'>
                   <h5 class='keno'>
