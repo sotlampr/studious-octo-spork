@@ -53,7 +53,51 @@ export const addRequest = new ValidatedMethod({
     start: { type: String },
     end: { type: String }
   }).validator(),
+
   run (data) {
+    if (data.title === '') {
+      throw new Meteor.Error(
+        'events.addEvent.emptyTitle',
+        'The title is empty'
+      );
+    }
+
+    if (moment(data.start).format() === 'Invalid date') {
+      throw new Meteor.Error(
+        'events.addEvent.invalidStartDate',
+        'Invalid Event Start date format'
+      );
+    }
+
+    if (moment(data.end).format() === 'Invalid date') {
+      throw new Meteor.Error(
+        'events.addEvent.invalidEndDate',
+        'Invalid Event End date format'
+      );
+    }
+
+    var today = moment().format();
+    if (moment(today).isAfter(data.start)) {
+      throw new Meteor.Error(
+        'events.addEvent.startDateBeforeToday',
+        'Event Start should be after today'
+      );
+    }
+
+    if (moment(today).isAfter(data.end)) {
+      throw new Meteor.Error(
+        'events.addEvent.endDateBeforeToday',
+        'Event End should be after today'
+      );
+    }
+
+    if (moment(data.start).isAfter(data.end)) {
+      throw new Meteor.Error(
+        'events.addEvent.startDateAfterEndDate',
+        'Event End should be after Event Start'
+      );
+    }
+
     Events.insert({
       title: data.title,
       giverId: Meteor.users.findOne({username: data.giver})._id,
@@ -81,8 +125,55 @@ export const editEvent = new ValidatedMethod({
     var giverId = Meteor.users.findOne({username: data.giver})._id;
     var receiverId = Meteor.users.findOne({username: data.receiver})._id;
     if ((data.changer !== giverId) && (data.changer !== receiverId)) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error(
+        'events.editEvent.notAuthorized',
+        'not-authorized'
+      );
     }
+
+    if (data.title === '') {
+      throw new Meteor.Error(
+        'events.editEvent.emptyTitle',
+        'The title is empty'
+      );
+    }
+
+    if (moment(data.start).format() === 'Invalid date') {
+      throw new Meteor.Error(
+        'events.editEvent.invalidStartDate',
+        'Invalid Event Start date format'
+      );
+    }
+
+    if (moment(data.end).format() === 'Invalid date') {
+      throw new Meteor.Error(
+        'events.editEvent.invalidEndDate',
+        'Invalid Event End date format'
+      );
+    }
+
+    var today = moment().format();
+    if (moment(today).isAfter(data.start)) {
+      throw new Meteor.Error(
+        'events.editEvent.startDateBeforeToday',
+        'Event Start should be after today'
+      );
+    }
+
+    if (moment(today).isAfter(data.end)) {
+      throw new Meteor.Error(
+        'events.editEvent.endDateBeforeToday',
+        'Event End should be after today'
+      );
+    }
+
+    if (moment(data.start).isAfter(data.end)) {
+      throw new Meteor.Error(
+        'events.editEvent.startDateAfterEndDate',
+        'Event End should be after Event Start'
+      );
+    }
+
     var flag = data.changer === giverId;
     Events.update({_id: data.id}, {$set: {
       title: data.title,

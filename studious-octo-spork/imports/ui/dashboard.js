@@ -236,54 +236,45 @@ Template.addEditEventModal.events({
   'submit form': function (event, template) {
     event.preventDefault();
 
-    if (template.find('[name="title"]').value === '') {
-      Bert.alert('The title is empty', 'warning', 'growl-top-right');
-    } else {
-      var start = template.find('[name="start"]').value;
-      var end  = template.find('[name="end"]').value;
-      var today = moment().format();
-      if (moment(start).format() === 'Invalid date') {
-        Bert.alert('Invalid Event Start date format', 'warning', 'growl-top-right' );
-      } else {
-        if (moment(end).format() === 'Invalid date') {
-          Bert.alert('Invalid Event End date format', 'warning', 'growl-top-right' );
-        } else {
-          if (moment(today).isAfter(start)) {
-            Bert.alert('Event Start should be after today', 'warning', 'growl-top-right');
-          } else {
-            if (moment(today).isAfter(end)) {
-              Bert.alert('Event End should be after today', 'warning', 'growl-top-right');
-            } else {
-              if (moment(start).isAfter(end)) {
-                Bert.alert('Event End should be after Start', 'warning', 'growl-top-right');
-              } else {
-                let eventModal = Session.get('eventModal');
-                let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
-                let eventItem = {
-                  title: template.find('[name="title"]').value,
-                  giver: template.find('[name="giver"]').value,
-                  receiver: template.find('[name="receiver"]').value,
-                  start: template.find('[name="start"]').value,
-                  end: template.find('[name="end"]').value
-                };
+    let eventModal = Session.get('eventModal');
+    let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
+    let eventItem = {
+      title: template.find('[name="title"]').value,
+      giver: template.find('[name="giver"]').value,
+      receiver: template.find('[name="receiver"]').value,
+      start: template.find('[name="start"]').value,
+      end: template.find('[name="end"]').value
+    };
 
-                if (submitType === 'editEvent') {
-                  eventItem.id = eventModal.evnt;
-                  eventItem.changer = Meteor.userId();
-                  editEvent.call(eventItem);
-                  Bert.alert('Your request has been added', 'success', 'growl-top-right');
-                  closeModal();
-                } else {
-                  addRequest.call(eventItem);
-                  Bert.alert('Your request has been added', 'success', 'growl-top-right');
-                  template.find('[name="title"]').value = '';
-                  closeModal();
-                }
-              }
-            }
-          }
+    if (submitType === 'editEvent') {
+      eventItem.id = eventModal.evnt;
+      eventItem.changer = Meteor.userId();
+      editEvent.call(eventItem, (err,res) => {
+        if (err) {
+          Bert.alert(err.reason, 'warning', 'growl-top-right');
+        } else {
+          Bert.alert(
+            'Your request has been added',
+            'success',
+            'growl-top-right'
+          );
+          closeModal();
         }
-      }
+      });
+    } else {
+      addRequest.call(eventItem, (err, res) => {
+        if (err) {
+          Bert.alert(err.reason, 'warning', 'growl-top-right');
+        } else {
+          Bert.alert(
+            'Your request has been added',
+            'success',
+            'growl-top-right'
+          );
+          template.find('[name="title"]').value = '';
+          closeModal();
+        }
+      });
     }
   }
 });
