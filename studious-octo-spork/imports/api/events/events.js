@@ -24,13 +24,11 @@ Events.schema = new SimpleSchema({
     label: 'The title of this event.'
   },
   start: {
-    type: String,
-    max: 30,
+    type: Date,
     label: 'When this event will start.'
   },
   end: {
-    type: String,
-    max: 30,
+    type: Date,
     label: 'When this event will end.'
   },
   giverValidated: {

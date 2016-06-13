@@ -161,11 +161,11 @@ Template.dashboard.onRendered( function () {
       }
     },
     dayClick: function (date) {
-      var today = moment().format();
+      var today = moment();
       if (!moment(today).isAfter(date)) {
         var dt = date.format();
         if (!/T/.test(dt)) {
-          dt = dt + 'T17:00:00';
+          dt = moment(date).set('hours', 17).format("YYYY-MM-DDTHH:mm:ss");
         }
         Session.set('eventModal', {type: 'add', date: dt});
         $('#add-edit-event-modal').modal('show');
@@ -213,9 +213,7 @@ Template.addEditEventModal.helpers({
     if (eventModal) {
       return eventModal.type === 'edit' ? Events.findOne(eventModal.evnt) : {
         start: eventModal.date,
-        end: eventModal.date.substr(0, 12) +
-          (parseInt(eventModal.date[12], 10) + 1).toString() +
-          eventModal.date.substr(13, 18)
+        end: moment(eventModal.date).add(1, 'hour').format("YYYY-MM-DDTHH:mm:ss")
       };
     }
   },
@@ -224,6 +222,9 @@ Template.addEditEventModal.helpers({
   },
   idToUsername: function (id) {
     return Meteor.users.findOne({_id: id}).username;
+  },
+  changeFormat: function (date) {
+    return moment(date).format('YYYY-MM-DDTHH:mm:ss');
   },
 });
 
@@ -242,8 +243,8 @@ Template.addEditEventModal.events({
       title: template.find('[name="title"]').value,
       giver: template.find('[name="giver"]').value,
       receiver: template.find('[name="receiver"]').value,
-      start: template.find('[name="start"]').value,
-      end: template.find('[name="end"]').value
+      start: moment(template.find('[name="start"]').value).toDate(),
+      end: moment(template.find('[name="end"]').value).toDate()
     };
 
     if (submitType === 'editEvent') {

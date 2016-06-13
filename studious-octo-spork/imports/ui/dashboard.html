@@ -242,21 +242,17 @@
                 <div class="col-xs-12 col-sm-5">
                   <label for="start">Event Start</label>
                   <input type="text" name="start" class="form-control"
-                    value="{{evnt.start}}">
+                    value="{{changeFormat evnt.start}}">
                 </div>
                 <div class="col-xs-12 col-sm-5">
                   <label for="end">Event End</label>
                   <input type="text" name="end" class="form-control"
-                  value="{{#if evnt.end}}{{
-                            evnt.end
-                        }}{{else}}{{
-                            evnt.start
-                        }}{{/if}}">
+                  value="{{changeFormat evnt.end}}">
                 </div>
                 <div class='container col-sm-12'>
                   <h5 class='keno'>
                     <span class='glyphicon glyphicon-info-sign'></span>
-                    Date format YYYY-MM-DD + T + HH:MM:SS
+                    Date format YYYY-MM-DD + T + HH:mm:ss
                   </h5>
                 </div>
               </div>

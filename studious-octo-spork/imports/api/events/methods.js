@@ -50,8 +50,8 @@ export const addRequest = new ValidatedMethod({
     title: { type: String },
     giver: { type: String },
     receiver: { type: String },
-    start: { type: String },
-    end: { type: String }
+    start: { type: Date },
+    end: { type: Date }
   }).validator(),
 
   run (data) {
@@ -91,9 +91,9 @@ export const addRequest = new ValidatedMethod({
       );
     }
 
-    if (moment(data.start).isAfter(data.end)) {
+    if (moment(data.start).isAfter(data.end)||moment(data.start).isSame(data.end)) {
       throw new Meteor.Error(
-        'events.addEvent.startDateAfterEndDate',
+        'events.addEvent.startDateSameOrAfterEndDate',
         'Event End should be after Event Start'
       );
     }
@@ -117,8 +117,8 @@ export const editEvent = new ValidatedMethod({
     title: { type: String },
     giver: { type: String },
     receiver: { type: String },
-    start: { type: String },
-    end: { type: String },
+    start: { type: Date },
+    end: { type: Date },
     changer: { type: String }
   }).validator(),
   run (data) {
@@ -167,9 +167,9 @@ export const editEvent = new ValidatedMethod({
       );
     }
 
-    if (moment(data.start).isAfter(data.end)) {
+    if (moment(data.start).isAfter(data.end)||moment(data.start).isSame(data.end)) {
       throw new Meteor.Error(
-        'events.editEvent.startDateAfterEndDate',
+        'events.editEvent.startDateSameOrAfterEndDate',
         'Event End should be after Event Start'
       );
     }
