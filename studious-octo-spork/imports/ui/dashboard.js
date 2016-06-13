@@ -19,6 +19,16 @@ import { editEvent } from '../api/events/methods.js';
 
 import './dashboard.html';
 
+export const infoEvent = function (evnt, element) {
+  element.find('.fc-content').html(
+      '<h4 class="eventTitle">' + evnt.title + '</h4>' +
+      '<p><span class="maroon">' +
+      Meteor.users.findOne(evnt.giverId).username + '</span></p>' +
+      '<p><span class="purple">' +
+      Meteor.users.findOne(evnt.receiverId).username + '</span></p>'
+      );
+}
+
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
   this.subscribe('users');
@@ -125,15 +135,7 @@ Template.dashboard.onRendered( function () {
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
-    eventRender: function (evnt, element) {
-      element.find('.fc-content').html(
-          '<h4 class="eventTitle">' + evnt.title + '</h4>' +
-          '<p><span class="maroon">' +
-          Meteor.users.findOne(evnt.giverId).username + '</span></p>' +
-          '<p><span class="purple">' +
-          Meteor.users.findOne(evnt.receiverId).username + '</span></p>'
-          );
-    },
+    eventRender: infoEvent,
     events: function (start, end, timezone, callback, err) {
       let data = Events.find({
         $and: [
@@ -250,7 +252,7 @@ Template.addEditEventModal.events({
     if (submitType === 'editEvent') {
       eventItem.id = eventModal.evnt;
       eventItem.changer = Meteor.userId();
-      editEvent.call(eventItem, (err,res) => {
+      editEvent.call(eventItem, (err, res) => {
         if (err) {
           Bert.alert(err.reason, 'warning', 'growl-top-right');
         } else {

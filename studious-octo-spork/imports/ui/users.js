@@ -6,6 +6,7 @@ import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Events } from '../api/events/events.js';
+import { infoEvent } from './dashboard.js';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
@@ -117,15 +118,7 @@ Template.usersByUsername.onRendered( function () {
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
-    eventRender: function (evnt, element) {
-      element.find('.fc-content').html(
-          '<h4 class="eventTitle">' + evnt.title + '</h4>' +
-          '<p><span class="maroon">' +
-          Meteor.users.findOne(evnt.giverId).username + '</span></p>' +
-          '<p><span class="purple">' +
-          Meteor.users.findOne(evnt.receiverId).username + '</span></p>'
-          );
-    },
+    eventRender: infoEvent,
     events: function (start, end, timezone, callback, err) {
       let data = Events.find({
         $and: [
