@@ -269,4 +269,56 @@
       </div>
     </div>
   </div>
+  <script type='text/javascript'>
+    $(document).ready( function() {
+      $( 'form' ).submit( function() {
+        if ( this.title.value == null || this.title.value == "" ) {
+          Bert.alert('Event title is empty', 'warning', 'growl-top-right');
+          return false;
+        }
+        if ( moment(this.start.value).format() === 'Invalid date' ) {
+          Bert.alert(
+            'Invalid Event Start date format',
+            'warning',
+            'growl-top-right'
+          );
+          return false;
+        }
+        if ( moment(this.end.value).format() === 'Invalid date' ) {
+          Bert.alert(
+            'Invalid Event End date format',
+            'warning',
+            'growl-top-right'
+          );
+          return false;
+        }
+        var today = moment().format();
+        if ( moment(today).isAfter(this.start.value) ) {
+          Bert.alert(
+            'Event Start should be after today',
+            'warning',
+            'growl-top-right'
+          );
+          return false;
+        }
+        if ( moment(today).isAfter(this.end.value) ) {
+          Bert.alert(
+            'Event End should be after today',
+            'warning',
+            'growl-top-right'
+          );
+          return false;
+        }
+        if (moment(this.start.value).isAfter(this.end.value) ||
+            moment(this.start.value).isSame(this.end.value)) {
+          Bert.alert(
+            'Event End should be after Event Start',
+            'warning',
+            'growl-top-right'
+          );
+          return false;
+        }
+      });
+    });
+  </script>
 </template>
