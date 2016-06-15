@@ -18,8 +18,9 @@ export const validateRequest = new ValidatedMethod({
       throw new Meteor.Error('event-not-found');
     }
 
-    if (!Meteor.users.findOne({_id: userId})) {
-      throw new Meteor.Error('user-not-found');
+    var user = Meteor.users.findOne({_id: userId});
+    if ((user._id !== evnt.giverId)&&(user._id !== evnt.receiverId)) {
+      throw new Meteor.Error('not-authorized');
     }
 
     if (evnt.giverId === userId) {
