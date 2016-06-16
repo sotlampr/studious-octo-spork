@@ -51,7 +51,7 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Reject validate from not authorized user', (done) => {
+      it('Reject validation event from not authorized user', (done) => {
         const validateRequest =
           Meteor.server.method_handlers['events.validateRequest'];
         const invocation = { userId };
@@ -65,6 +65,54 @@ if (Meteor.isServer) {
           );
         };
         assert.throws(wrong, Meteor.Error);
+        done();
+      });
+    });
+
+    describe('removeRequest', () => {
+      let userId;
+      let eventId;
+
+      beforeEach((done) => {
+        userId = Accounts.createUser({username: 'lolek'});
+        eventId = Events.insert({
+          title: 'Else',
+          giverId: userId,
+          receiverId: Random.id(),
+          start: new Date(),
+          end: new Date(),
+          giverValidated: false,
+          receiverValidated: true
+        });
+        done();
+      });
+
+      afterEach((done) => {
+        Meteor.users.remove({});
+        Events.remove({});
+        done();
+      });
+
+      it('Remove a event', (done) => {
+        const removeRequest =
+          Meteor.server.method_handlers['events.removeRequest'];
+        const invocation = { userId };
+
+        let count;
+        removeRequest.apply(invocation, [{eventId: eventId}]);
+        count = Events.find({}).count();
+        assert.equal(count, 0);
+        done();
+      });
+
+      it('Reject removing event from not authorized user', (done) => {
+        const removeRequest =
+          Meteor.server.method_handlers['events.removeRequest'];
+        const invocation = {userId: Random.id()};
+        const fail = () => {
+          removeRequest.apply(invocation, [{eventId: eventId}]);
+        };
+        assert.throws(fail, Meteor.Error);
         done();
       });
     });

@@ -40,8 +40,14 @@ export const removeRequest = new ValidatedMethod({
   }).validator(),
   run (data) {
     var id = data.eventId;
-    if (!Events.findOne({_id: id})) {
+    var evnt = Events.findOne({_id: id});
+    if (!evnt) {
       throw new Meteor.Error('event-not-found');
+    }
+
+    if ((this.userId !== evnt.giverId)&&
+        (this.userId !== evnt.receiverId)) {
+      throw new Meteor.Error('you-havenot-the-right');
     }
     Events.remove({_id: id});
   },
