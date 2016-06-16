@@ -19,7 +19,9 @@ export const validateRequest = new ValidatedMethod({
     }
 
     var user = Meteor.users.findOne({_id: userId});
-    if ((user._id !== evnt.giverId)&&(user._id !== evnt.receiverId)) {
+    if (!user||(
+        (user._id !== evnt.giverId)&&
+        (user._id !== evnt.receiverId) )) {
       throw new Meteor.Error('not-authorized');
     }
 

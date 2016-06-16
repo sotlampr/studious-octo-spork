@@ -39,9 +39,32 @@ if (Meteor.isServer) {
         const invocation = { userId };
 
         let count;
-        validateRequest.apply(invocation, [{userId, eventId}]);
+        validateRequest.apply(
+          invocation,
+          [{
+            userId: userId,
+            eventId: eventId
+          }]
+        );
         count = Events.find({giverValidated: true}).count();
         assert.equal(count, 1);
+        done();
+      });
+
+      it('Reject validate from not authorized user', (done) => {
+        const validateRequest =
+          Meteor.server.method_handlers['events.validateRequest'];
+        const invocation = { userId };
+        const wrong = () => {
+          validateRequest.apply(
+            invocation,
+            [{
+              userId: Random.id(),
+              eventId: eventId
+            }]
+          );
+        };
+        assert.throws(wrong, Meteor.Error);
         done();
       });
     });
