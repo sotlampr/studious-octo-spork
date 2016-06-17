@@ -116,5 +116,61 @@ if (Meteor.isServer) {
         done();
       });
     });
+
+    describe('addRequest', () => {
+      let userId;
+
+      beforeEach((done) => {
+        userId = Accounts.createUser({username: 'dibaba'});
+        done();
+      });
+
+      afterEach((done) => {
+        Meteor.users.remove({});
+        Events.remove({});
+        done();
+      });
+
+      it('Add a event', (done) => {
+        const addRequest =
+          Meteor.server.method_handlers['events.addRequest'];
+        const invocation = { userId };
+
+        let count;
+        addRequest.apply(
+          invocation,
+          [{
+            title: 'Triple at Rio',
+            giver: Random.id(),
+            receiver: userId,
+            start: new Date(),
+            end: new Date(),
+          }]
+        );
+        count = Events.find({}).count();
+        assert.equal(count, 1);
+        done();
+      });
+
+      it('Reject add event from not authorized user', (done) => {
+        const addRequest =
+          Meteor.server.method_handlers['events.addRequest'];
+        const invocation = {userId: Random.id()};
+        const fault = () => {
+          addRequest.apply(
+            invocation,
+            [{
+              title: '1500m, 5K, 10K',
+              giver: Random.id(),
+              receiver: Random.id(),
+              start: new Date(),
+              end: new Date(),
+            }]
+          );
+        };
+        assert.throws(fault, Meteor.Error);
+        done();
+      });
+    });
   });
 }

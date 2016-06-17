@@ -64,6 +64,10 @@ export const addRequest = new ValidatedMethod({
   }).validator(),
 
   run (data) {
+    if (this.userId !== data.receiver) {
+      throw new Meteor.Error('not-authorized');
+    }
+
     Events.insert({
       title: data.title,
       giverId: data.giver,
