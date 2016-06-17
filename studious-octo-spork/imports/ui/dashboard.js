@@ -239,12 +239,14 @@ Template.addEditEventModal.events({
   'submit form': function (event, template) {
     event.preventDefault();
 
+    let gvr = template.find('[name="giver"]').value;
+    let rcvr = template.find('[name="receiver"]').value;
     let eventModal = Session.get('eventModal');
     let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
     let eventItem = {
       title: template.find('[name="title"]').value,
-      giver: template.find('[name="giver"]').value,
-      receiver: template.find('[name="receiver"]').value,
+      giver: Meteor.users.findOne({username: gvr})._id,
+      receiver: Meteor.users.findOne({username: rcvr})._id,
       start: moment(template.find('[name="start"]').value).toDate(),
       end: moment(template.find('[name="end"]').value).toDate()
     };

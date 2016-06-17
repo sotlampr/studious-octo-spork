@@ -66,8 +66,8 @@ export const addRequest = new ValidatedMethod({
   run (data) {
     Events.insert({
       title: data.title,
-      giverId: Meteor.users.findOne({username: data.giver})._id,
-      receiverId: Meteor.users.findOne({username: data.receiver})._id,
+      giverId: data.giver,
+      receiverId: data.receiver,
       start: data.start,
       end: data.end,
       giverValidated: false,
@@ -88,9 +88,10 @@ export const editEvent = new ValidatedMethod({
     changer: { type: String }
   }).validator(),
   run (data) {
-    var giverId = Meteor.users.findOne({username: data.giver})._id;
-    var receiverId = Meteor.users.findOne({username: data.receiver})._id;
-    if ((data.changer !== giverId) && (data.changer !== receiverId)) {
+    var giverId = data.giver;
+    var receiverId = data.receiver;
+    var changerId = data.changer;
+    if ((changerId !== giverId) && (changerId !== receiverId)) {
       throw new Meteor.Error(
         'events.editEvent.notAuthorized',
         'not-authorized'
