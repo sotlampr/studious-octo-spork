@@ -172,5 +172,76 @@ if (Meteor.isServer) {
         done();
       });
     });
+
+    describe('editEvent', () => {
+      let userId;
+      let who = Random.id();
+      let eventId;
+
+      beforeEach((done) => {
+        userId = Accounts.createUser({username: 'fuji'});
+        eventId = Events.insert({
+          title: 'feather',
+          giverId: userId,
+          receiverId: who,
+          start: new Date(),
+          end: new Date(),
+          giverValidated: true,
+          receiverValidated: true
+        });
+        done();
+      });
+
+      afterEach((done) => {
+        Meteor.users.remove({});
+        Events.remove({});
+        done();
+      });
+
+      it('Edit a event', (done) => {
+        const editEvent =
+          Meteor.server.method_handlers['events.editEvent'];
+        const invocation = { userId };
+
+        editEvent.apply(
+          invocation,
+          [{
+            id: eventId,
+            title: 'Fixed',
+            giver: userId,
+            receiver: who,
+            start: new Date(),
+            end: new Date(),
+            changer: userId
+          }]
+        );
+
+        let count = Events.find({receiverValidated: false}).count();
+        assert.equal(count, 1);
+        done();
+      });
+
+      it('Reject edit event from not authorized user', (done) => {
+        const editEvent =
+          Meteor.server.method_handlers['events.editEvent'];
+        const invocation = {userId: Random.id()};
+        const xi = () => {
+          editEvent.apply(
+            invocation,
+            [{
+              id: eventId,
+              title: 'Gear',
+              giver: userId,
+              receiver: who,
+              start: new Date(),
+              end: new Date(),
+              changer: Random.id()
+            }]
+          );
+        };
+        assert.throws(xi, Meteor.Error);
+        done();
+      });
+    });
   });
 }
