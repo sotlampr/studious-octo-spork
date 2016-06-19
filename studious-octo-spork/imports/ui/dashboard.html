@@ -271,7 +271,7 @@
   </div>
   <script type='text/javascript'>
     $(document).ready( function() {
-      $( 'form' ).submit( function() {
+      $( '#add-edit-event-form' ).submit( function() {
         if ( this.title.value == null || this.title.value == "" ) {
           Bert.alert('Event title is empty', 'warning', 'growl-top-right');
           return false;
