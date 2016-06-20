@@ -241,18 +241,18 @@
               <div class="row">
                 <div class="col-xs-12 col-sm-5">
                   <label for="start">Event Start</label>
-                  <input type="text" name="start" class="form-control"
+                  <input type="text" name="start" class="form-control startpicker"
                     value="{{changeFormat evnt.start}}">
                 </div>
                 <div class="col-xs-12 col-sm-5">
                   <label for="end">Event End</label>
-                  <input type="text" name="end" class="form-control"
+                  <input type="text" name="end" class="form-control endpicker"
                   value="{{changeFormat evnt.end}}">
                 </div>
                 <div class='container col-sm-12'>
                   <h5 class='keno'>
                     <span class='glyphicon glyphicon-info-sign'></span>
-                    Date format YYYY-MM-DD + T + HH:mm:ss
+                    Date format YYYY-MM-DD HH:mm
                   </h5>
                 </div>
               </div>
@@ -274,22 +274,6 @@
       $( '#add-edit-event-form' ).submit( function() {
         if ( this.title.value == null || this.title.value == "" ) {
           Bert.alert('Event title is empty', 'warning', 'growl-top-right');
-          return false;
-        }
-        if ( moment(this.start.value).format() === 'Invalid date' ) {
-          Bert.alert(
-            'Invalid Event Start date format',
-            'warning',
-            'growl-top-right'
-          );
-          return false;
-        }
-        if ( moment(this.end.value).format() === 'Invalid date' ) {
-          Bert.alert(
-            'Invalid Event End date format',
-            'warning',
-            'growl-top-right'
-          );
           return false;
         }
         var today = moment().format();

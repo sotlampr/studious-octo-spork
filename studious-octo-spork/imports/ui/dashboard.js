@@ -167,7 +167,7 @@ Template.dashboard.onRendered( function () {
       if (!moment(today).isAfter(date)) {
         var dt = date.format();
         if (!/T/.test(dt)) {
-          dt = moment(date).set('hours', 17).format("YYYY-MM-DDTHH:mm:ss");
+          dt = moment(date).set('hours', 17).format("YYYY-MM-DD HH:mm");
         }
         Session.set('eventModal', {type: 'add', date: dt});
         $('#add-edit-event-modal').modal('show');
@@ -215,7 +215,7 @@ Template.addEditEventModal.helpers({
     if (eventModal) {
       return eventModal.type === 'edit' ? Events.findOne(eventModal.evnt) : {
         start: eventModal.date,
-        end: moment(eventModal.date).add(1, 'hour').format("YYYY-MM-DDTHH:mm:ss")
+        end: moment(eventModal.date).add(1, 'hour').format("YYYY-MM-DD HH:mm")
       };
     }
   },
@@ -226,7 +226,7 @@ Template.addEditEventModal.helpers({
     return Meteor.users.findOne({_id: id}).username;
   },
   changeFormat: function (date) {
-    return moment(date).format('YYYY-MM-DDTHH:mm:ss');
+    return moment(date).format('YYYY-MM-DD HH:mm');
   },
 });
 
@@ -282,4 +282,15 @@ Template.addEditEventModal.events({
       });
     }
   }
+});
+
+
+Template.addEditEventModal.onRendered( function () {
+  $('.startpicker').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm'
+  });
+
+  $('.endpicker').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm'
+  });
 });
