@@ -285,22 +285,38 @@
       <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-          <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
           <li data-target="#myCarousel" data-slide-to="1" class=""></li>
-          <li data-target="#myCarousel" data-slide-to="2" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="3" class=""></li>
         </ol>
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-          <div class="item">
-            <h4>"Username1"<br><span style="font-style:normal;">Occupation1, Description1</span></h4>
+          <div class='item active'>
+            <h4>
+              All users
+              <br>
+              are available at
+              <br><a href='/users'>users page</a>
+            </h4>
           </div>
-          <div class="item active left">
-            <h4>"Username2"<br><span style="font-style:normal;">Occupation2, Description2</span></h4>
-          </div>
-          <div class="item next left">
-            <h4>"Username3"<br><span style="font-style:normal;">Occupation3, Description3</span></h4>
-          </div>
+          {{#if randomUsers}}
+            {{#each randomUsers}}
+              <div class='item'>
+                <h4>{{username}}
+                  <br>
+                  <span>
+                    <strong>Occupation: </strong>{{profile.occupation}}
+                  </span>
+                  <br>
+                  <span>
+                    <strong>Description: </strong>{{profile.description}}
+                  </span>
+                </h4>
+              </div>
+            {{/each}}
+          {{/if}}
         </div>
 
         <!-- Left and right controls -->

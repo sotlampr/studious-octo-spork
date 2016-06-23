@@ -11,3 +11,13 @@ Template.App_body.events({
     FlowRouter.go('/');
   }
 });
+
+Template.hello.onCreated(function helloOnCreated() {
+  this.subscribe('users');
+});
+
+Template.hello.helpers({
+  randomUsers: function () {
+    return Meteor.users.find({}, {limit: 3});
+  },
+});
