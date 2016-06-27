@@ -55,8 +55,8 @@ describe('Dashboard', function() {
     // Generate random messages
     for (let i=0; i<5; i++) {
       tempData = {
-        toId: usersIdArray[0],
-        fromId: usersIdArray[i%2+1],
+        receiverId: usersIdArray[0],
+        giverId: usersIdArray[i%2+1],
         message: Fake.sentence(5),
         dateCreated: new Date(),
         read: false,
@@ -81,7 +81,7 @@ describe('Dashboard', function() {
         for (let i=0; i<5; i++) {
           assert.include(
             messages[i].innerText.replace(/\s+/g, ' '),
-            Meteor.users.findOne(rawMessages[i].fromId).username +
+            Meteor.users.findOne(rawMessages[i].giverId).username +
             ': ' + rawMessages[i].message
           );
         }
@@ -94,8 +94,8 @@ describe('Dashboard', function() {
   it('Do not display invisible message', function(done) {
     StubCollections.stub(Messages);
     Messages.insert({
-      toId: usersIdArray[0],
-      fromId: usersIdArray[1],
+      receiverId: usersIdArray[0],
+      giverId: usersIdArray[1],
       message: Fake.sentence(5),
       dateCreated: new Date(),
       read: false,

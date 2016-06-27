@@ -11,11 +11,11 @@ if (Meteor.isServer) {
   describe('Messaging', () => {
     describe('saveMessage', () => {
       let userId;
-      let toId;
+      let receiverId;
 
       beforeEach((done) => {
         userId = Random.id();
-        toId = Accounts.createUser({username: 'tester'});
+        receiverId = Accounts.createUser({username: 'tester'});
         done();
       });
 
@@ -30,7 +30,7 @@ if (Meteor.isServer) {
           Meteor.server.method_handlers['messaging.saveMessage'];
         const invocation = { userId };
         saveMessage.apply(invocation, [{
-          toId: toId,
+          receiverId: receiverId,
           message: "A test message"
         }]);
         assert.equal(Messages.find().count(), 1);
@@ -43,7 +43,7 @@ if (Meteor.isServer) {
         const invocation = { userId };
         const newMessageAttempt = () => {
           saveMessage.apply(invocation, [{
-            toId: Random.id(),
+            receiverId: Random.id(),
             message: "A test message"
           }]);
         };
@@ -59,9 +59,9 @@ if (Meteor.isServer) {
       beforeEach((done) => {
         userId = Random.id();
         messageId = Messages.insert({
-          toId: userId,
+          receiverId: userId,
           message: "A test message",
-          fromId: Random.id(),
+          giverId: Random.id(),
           dateCreated: new Date(),
           read: false,
           visible: true
@@ -133,9 +133,9 @@ if (Meteor.isServer) {
       beforeEach((done) => {
         userId = Random.id();
         messageId = Messages.insert({
-          toId: userId,
+          receiverId: userId,
           message: "A test message",
-          fromId: Random.id(),
+          giverId: Random.id(),
           dateCreated: new Date(),
           read: false,
           visible: true

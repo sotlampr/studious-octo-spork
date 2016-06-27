@@ -7,17 +7,17 @@ import { Messages } from './messaging.js';
 export const saveMessage = new ValidatedMethod({
   name: 'messaging.saveMessage',
   validate: new SimpleSchema({
-    toId: { type: String },
+    receiverId: { type: String },
     message: { type: String }
   }).validator(),
   run (data) {
-    if (!Meteor.users.findOne(data.toId)) {
+    if (!Meteor.users.findOne(data.receiverId)) {
       throw new Meteor.Error('user-not-exist');
     }
     Messages.insert({
-      toId: data.toId,
+      receiverId: data.receiverId,
       message: data.message,
-      fromId: this.userId,
+      giverId: this.userId,
       dateCreated: new Date(),
       read: false,
       visible: true
@@ -35,7 +35,7 @@ export const toggleRead = new ValidatedMethod({
     if (!Messages.findOne(messageId).visible) {
       throw new Meteor.Error('message-deleted');
     }
-    if (Messages.findOne(messageId).toId !== this.userId) {
+    if (Messages.findOne(messageId).receiverId !== this.userId) {
       throw new Meteor.Error('message-not-yours');
     }
     reversed = !Messages.findOne(messageId).read;
@@ -53,7 +53,7 @@ export const deleteMessage = new ValidatedMethod({
     if (!Messages.findOne(messageId).visible) {
       throw new Meteor.Error('message-deleted');
     }
-    if (Messages.findOne(messageId).toId !== this.userId) {
+    if (Messages.findOne(messageId).receiverId !== this.userId) {
       throw new Meteor.Error('message-not-yours');
     }
     Messages.update({_id: messageId}, {$set: {visible: false}});

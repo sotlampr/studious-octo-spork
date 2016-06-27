@@ -6,15 +6,15 @@
   </div>
   <div class="container-fluid">
     <p>An overview of all the users.</p>
-	  {{# if users}}
-		  <ul id='users'>
-		  {{#each users}}
+    {{# if users}}
+      <ul id='users'>
+      {{#each users}}
         <a href="{{path(username)}}">
           <li>{{username}}: {{profile.occupation}}</li>
         </a>
-		  {{/each}}
-		  </ul>
-	  {{/if}}
+      {{/each}}
+      </ul>
+    {{/if}}
   </div>
   <div class='container'>
     <div class='col-md-6'>
@@ -32,14 +32,14 @@
   </div>
   <div class='container'>
     <div class='col-md-6 col-md-offset-3'>
-	    {{#if usersSearch}}
-	      <ul id='searchResults'>
-		      {{#each usersSearch}}
+      {{#if usersSearch}}
+        <ul id='searchResults'>
+          {{#each usersSearch}}
             <a href="{{path(username)}}">
               <li>{{username}}: {{profile.occupation}}</li>
             </a>
           {{/each}}
-		    </ul>
+        </ul>
       {{/if}}
     </div>
   </div>
@@ -51,24 +51,77 @@
       {{#if userData}}
         {{#with userData}}
         <div class='col-sm-6'>
-          <h3>user {{username}}</h3>
-          <p>
-            {{#if occupation}}
-              Occupation: {{occupation}}<br />
-            {{else}}
-              User has not registered an occupation yet.<br />
-            {{/if}}
-            {{#if description}}
-              {{description}}<br />
-            {{/if}}
-	          <a href="/users/{{targetUsername}}/contact">contact user</a>
-          </p>
+	  <h3>User <b>{{username}}</b></h3>
+          {{#if occupation}}
+            <p><b>Occupation:</b> {{occupation}}</p>
+          {{else}}
+            <p>User has not registered an occupation yet.</p>
+          {{/if}}
+          {{#if description}}
+            <p><i>{{description}}</i></p>
+          {{/if}}
+
+            <p>
+              <a href="/users/{{targetUsername}}/contact">contact user</a>
+            </p>
         </div>
         {{#if currentUser}}
           <div class='col-sm-6'>
             <div id="calendarUser"></div>
           </div>
         {{/if}}
+
+        <div class="col-sm-6">
+                  </div>
+
+        <div class="col-sm-6">
+          <p>Claim a session with {{username}}:</p>
+            <form role="form" id="claim-session"
+                  class="form-horizontal" method="post">
+              <div class="form-group">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="relationship-type"
+                           id="giverValidated">
+                    {{username}} worked for me
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="relationship-type"
+                           id="receiverValidated">
+                    I worked for {{username}}
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="session-description" class="control-label">
+                  Please elaboarate
+                </label>
+                <input type="text" class="form-control"
+                       id="sessionDescription"
+                       name="session-description">
+              </div>
+
+              <div class="form-group">
+                <label for="session-cost" class="control-label col-sm-5">
+                  Agreed price:
+                </label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control"
+                         id="sessionCost"
+                         name="session-cost">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-7 col-sm-5">
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+              </div>
+            </form>
+        </div>
+
         {{/with}}
       {{else}}
         <p>User {{targetUsername}} does not exist.</p>
@@ -77,8 +130,10 @@
   </div>
 </template>
 
+
 <template name="usersContactByUsername">
   <div class="jumbotron">
+
     <div class="container-fluid">
       {{#if currentUser}}
         <form role="form" class="form-horizontal send-message" method="post">

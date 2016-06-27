@@ -1,47 +1,52 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-export const Messages = new Mongo.Collection('messages');
-Messages.deny({
+export const Logbook = new Mongo.Collection('logbook');
+
+Logbook.deny({
   insert() { return true; },
   update() { return true; },
   remove() { return true; },
 });
 
-Messages.schema = new SimpleSchema({
-  receiverId: {
-    type: String,
-    regEx: SimpleSchema.RegEx.Id,
-  },
+Logbook.schema = new SimpleSchema({
   giverId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
-  message: {
+  receiverId: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+  },
+  description: {
     type: String,
     max: 320,
   },
-  dateCreated: {
+  date: {
     type: Date,
   },
-  read: {
+  cost: {
+    type: Number
+  },
+  giverValidated: {
     type: Boolean,
     defaultValue: false,
   },
-  visible: {
+  receiverValidated: {
     type: Boolean,
-    defaultValue: true,
+    defaultValue: false,
   },
 });
 
-Messages.attachSchema(Messages.schema);
+Logbook.attachSchema(Logbook.schema);
 
 // Fields that should be published
-Messages.publicFields = {
-  receiverId: 1,
+Logbook.publicFields = {
   giverId: 1,
-  message: 1,
-  dateCreated: 1,
-  read: 1,
-  visible: 1,
+  receiverId: 1,
+  date: 1,
+  cost: 1,
+  description: 1,
+  giverValidated: 1,
+  receiverValidated: 1,
 };

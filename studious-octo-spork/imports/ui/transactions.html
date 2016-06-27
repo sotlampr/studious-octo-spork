@@ -1,0 +1,67 @@
+<template name="transactionsIndex">
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <h1>Transactions</h1>
+      <div class="col-sm-8">
+        <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Employer</th>
+              <th>Worker</th>
+              <th>Description</th>
+              <th>Cost</th>
+              <th>Actions / Status</th>
+            </tr>
+          </thead>
+          <tbody>
+          {{#each userTransactions}}
+          <tr class="{{contextualApprovalStatus this}}">
+              <td>{{usernameFromId giverId}} </td>
+              <td>{{usernameFromId receiverId}} </td>
+              <td>{{description}}</td>
+              <td>{{cost}}</td>
+              <td>{{> renderActions this}}</td>
+
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-sm-4 md-offset-2">
+        <h2>Balance:</h2>
+        <hr/>
+        <h2>{{ currentUser.profile.balance }} <i>units</i></h2>
+        <br/>
+        <h3>Pending:</h3>
+        <hr/>
+        <h4>{{ currentUser.profile.logisticBalance }} <i>units</i></h4>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="renderActions">
+  {{#if isCompleted this}}
+    Completed
+  {{else}}
+    {{#if hasApproved this}}
+     You approved
+      | Delete
+      <span class="glyphicon glyphicon-remove-circle" id="delete-transaction"
+            title="Click to delete transaction..."></span>
+    {{else}}
+      {{#if awaitingApproval this}}
+       Approve
+        <span class="glyphicon glyphicon-ok-circle" id="approve-transaction"
+              title="Click to approve..."></span>
+        | Delete
+        <span class="glyphicon glyphicon-remove-circle" id="delete-transaction"
+              title="Click to delete transaction..."></span>
+      {{else}}
+        Deleted
+      {{/if}}
+    {{/if}}
+  {{/if}}
+</template>
+

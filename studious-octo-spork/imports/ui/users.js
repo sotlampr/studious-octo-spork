@@ -7,6 +7,7 @@ import { saveMessage } from '../api/messaging/methods.js';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Events } from '../api/events/events.js';
 import { infoEvent } from './dashboard.js';
+import { saveTransaction } from '../api/transactions/methods.js';
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
@@ -85,6 +86,28 @@ Template.usersByUsername.helpers({
   }
 });
 
+Template.usersByUsername.events({
+  'submit #claim-session': function (event) {
+    // Handle the updating logic, call updateUserProfile afterwards
+    event.preventDefault();
+    let data = {
+      giverValidated: event.target.giverValidated.checked,
+      receiverValidated: event.target.receiverValidated.checked,
+      giverId: Meteor.userId(),
+      receiverId: Meteor.users.findOne({ username: FlowRouter.getParam('username') })._id,
+      description: event.target.sessionDescription.value,
+      cost: Number(event.target.sessionCost.value),
+    };
+    saveTransaction.call(data, (err, res) => {
+      if(err) {
+        alert(err.reason);
+      } else {
+        // success!
+      }
+    });
+  }
+});
+
 Template.usersContactByUsername.onCreated(function usersContactByUsernameOnCreated() {
   this.subscribe('users');
 });
@@ -101,7 +124,7 @@ Template.usersContactByUsername.events({
     event.preventDefault();
     username = FlowRouter.getParam('username');
     saveMessage.call({
-      toId: Meteor.users.findOne({username: username})._id,
+      receiverId: Meteor.users.findOne({username: username})._id,
       message: event.target.message.value,
     });
     event.target.message.value = '';
