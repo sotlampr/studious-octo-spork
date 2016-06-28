@@ -30,7 +30,7 @@ export const infoEvent = function (evnt, element) {
       '<p><span class="purple">' +
       Meteor.users.findOne(evnt.receiverId).username + '</span></p>'
       );
-}
+};
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');

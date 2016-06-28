@@ -5,25 +5,32 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Logbook } from './logbook.js';
 
 const tryFetchTransaction = (transactionId, userId) => {
-    let transaction = Logbook.findOne(transactionId);
+  // Try to fetch a transaction and run routine checks for errors
+  let transaction = Logbook.findOne(transactionId);
 
-    // Check if transaction exists
-    if (transaction === null)
-      throw new Meteor.Error('transactions.transactionNotFound');
+  // Check if transaction exists
+  if (transaction === null)
+    throw new Meteor.Error('transactions.transactionNotFound');
 
-    // Caller should be either giver or receiver
-    if (
-      (transaction.fromId != userId) &&
-      (transaction.toId != userId)
-    ){
-      throw new Meteor.Error('transactions.notAuthorized');
-    }
+  // Caller should be either giver or receiver
+  if (
+    (transaction.fromId != userId) &&
+    (transaction.toId != userId)
+  ){
+    throw new Meteor.Error('transactions.notAuthorized');
+  }
 
-    // If we got so far, everything is ok
-    return transaction;
+  // If we got so far, everything is ok
+  return transaction;
 };
 
-const commitTransaction = function(transaction, type) {
+const commitTransaction = (transaction, type) => {
+  // Propagate transaction info to users balance.
+  // 2 options for var type:
+  //   final:
+  //     Register the transaction on users' real balance
+  //   logistic:
+  //     Register the transaction on users' logistic balance
   if (type === 'final') {
     Meteor.users.update(
         { _id: transaction.giverId },
@@ -49,7 +56,7 @@ const commitTransaction = function(transaction, type) {
         { $inc: { 'profile.logisticBalance': transaction.cost } }
     );
   } else {
-    // do nothing?
+    // Unrecongized type, do nothing?
   }
 };
 
@@ -76,7 +83,7 @@ export const saveTransaction = new ValidatedMethod({
       );
     }
 
-    // From represents employer, so flip if necessary
+    // Giver represents employer, so flip if necessary
     if (data.receiverValidated && !data.giverValidated) {
       // giverId is receiver, flip
       [data.giverId, data.receiverId] = [data.receiverId, data.giverId];
@@ -89,7 +96,7 @@ export const saveTransaction = new ValidatedMethod({
       );
     }
 
-    // Check for availabl balance
+    // Check for available balance
     let employer= Meteor.users.findOne({ _id: data.giverId});
     let fromBalance = employer.profile.balance + employer.profile.logisticBalance;
     let difference = fromBalance - data.cost;

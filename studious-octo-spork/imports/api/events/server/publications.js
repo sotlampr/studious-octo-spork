@@ -18,4 +18,4 @@ Meteor.publish('events', function eventsPublications() {
       }
     ]
   });
-})
+});
