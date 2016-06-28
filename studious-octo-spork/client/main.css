@@ -6,7 +6,7 @@ html {
 
 body {
   padding-top: 50px;
-  padding-bottom: 26px;
+  padding-bottom: 30px;
   margin: 0;
   line-height: 1.8;
 }
@@ -127,7 +127,6 @@ h2 {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 26px;
   background-color: #000;
   color: #fff;
 }
