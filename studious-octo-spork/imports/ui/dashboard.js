@@ -20,7 +20,7 @@ import { removeRequest } from '../api/events/methods.js';
 import { validateRequest } from '../api/events/methods.js';
 import { editEvent } from '../api/events/methods.js';
 
-import './dashboard.html';
+import './common-helpers.js';
 
 export const infoEvent = function (evnt, element) {
   element.find('.fc-content').html(
@@ -91,11 +91,6 @@ Template.dashboard.helpers({
     } else {
       return false;
     }
-  },
-  usernameFromId: function (id) {
-    let user = Meteor.users.findOne(id);
-    if (user)
-      return user.username;
   },
   requests: function () {
     return Events.find({

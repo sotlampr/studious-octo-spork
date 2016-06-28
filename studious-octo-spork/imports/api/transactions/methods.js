@@ -14,8 +14,8 @@ const tryFetchTransaction = (transactionId, userId) => {
 
   // Caller should be either giver or receiver
   if (
-    (transaction.fromId != userId) &&
-    (transaction.toId != userId)
+    (transaction.fromId !== userId) &&
+    (transaction.toId !== userId)
   ){
     throw new Meteor.Error('transactions.notAuthorized');
   }
@@ -35,7 +35,7 @@ const commitTransaction = (transaction, type) => {
     Meteor.users.update(
         { _id: transaction.giverId },
         { $inc: {
-          'profile.balance': -transaction.cost ,
+          'profile.balance': -transaction.cost,
           'profile.logisticBalance': transaction.cost
         }}
     );

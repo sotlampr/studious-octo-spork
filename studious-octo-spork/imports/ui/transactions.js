@@ -7,6 +7,7 @@ import { approveTransaction } from '../api/transactions/methods.js';
 import { deleteTransaction } from '../api/transactions/methods.js';
 
 import './transactions.html';
+import './common-helpers.js';
 
 const approvalStatusToContextualClass = {
   both: 'info',
@@ -41,11 +42,6 @@ Template.transactionsIndex.events({
 });
 
 Template.transactionsIndex.helpers({
-  usernameFromId: function (id) {
-    let user = Meteor.users.findOne(id);
-    if (user)
-      return user.username;
-  },
   userTransactions: function () {
     if (Meteor.user()) {
       var userTransactions = Logbook.find(

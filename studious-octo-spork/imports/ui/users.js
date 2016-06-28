@@ -100,7 +100,8 @@ Template.usersByUsername.events({
     };
     saveTransaction.call(data, (err, res) => {
       if(err) {
-        alert(err.reason);
+        // HANDLE ERROR
+        console.log(err.reason);
       } else {
         // success!
       }
