@@ -61,9 +61,11 @@
             <p><i>{{description}}</i></p>
           {{/if}}
 
+	  {{#if userIsNotSelf}}
             <p>
               <a href="/users/{{targetUsername}}/contact">contact user</a>
             </p>
+          {{/if}}
         </div>
         {{#if currentUser}}
           <div class='col-sm-6'>
@@ -75,6 +77,7 @@
                   </div>
 
         <div class="col-sm-6">
+        {{#if userIsNotSelf}}
           <p>Claim a session with {{username}}:</p>
             <form role="form" id="claim-session"
                   class="form-horizontal" method="post">
@@ -120,6 +123,7 @@
                 </div>
               </div>
             </form>
+          {{/if}}
         </div>
 
         {{/with}}

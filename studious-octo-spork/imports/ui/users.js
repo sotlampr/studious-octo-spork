@@ -69,6 +69,10 @@ Template.usersByUsername.onCreated(function usersByUsernameOnCreated() {
 });
 
 Template.usersByUsername.helpers({
+  userIsNotSelf: function () {
+    return Meteor.users.findOne({ _id: Meteor.userId()}).username
+           !== FlowRouter.getParam('username');
+  },
   targetUsername: function() {
     return FlowRouter.getParam('username');
   },
@@ -99,11 +103,14 @@ Template.usersByUsername.events({
       cost: Number(event.target.sessionCost.value),
     };
     saveTransaction.call(data, (err, res) => {
-      if(err) {
-        // HANDLE ERROR
-        console.log(err.reason);
+     if(err) {
+        Bert.alert(err.reason, 'danger', 'growl-top-right' );
       } else {
-        // success!
+        event.target.reset();
+        Bert.alert(
+          'The transaction has been recorded.', 'success',
+          'growl-top-right'
+        );
       }
     });
   }
