@@ -6,7 +6,7 @@ html {
 
 body {
   padding-top: 50px;
-  padding-bottom: 30px;
+  padding-bottom: 40px;
   margin: 0;
   line-height: 1.8;
 }
@@ -113,8 +113,11 @@ h2 {
 }
 
 #toTop {
-  padding: 15px 15px;
-  background-color: rgba(255, 0, 0, 0.5);
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: rgb(255, 0, 0);
   color: #fff;
   position: fixed;
   bottom: 10px;
@@ -123,9 +126,14 @@ h2 {
   z-index: 1;
 }
 
+#toTop span {
+  line-height: 50px;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
+  height: 40px;
   width: 100%;
   background-color: #000;
   color: #fff;
