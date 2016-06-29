@@ -127,9 +127,18 @@ Template.usersContactByUsername.events({
     saveMessage.call({
       receiverId: Meteor.users.findOne({username: username})._id,
       message: event.target.message.value,
+    }, (err, res) => {
+      if(err) {
+        // HANDLE ERROR
+        Bert.alert(err.reason, 'danger', 'growl-top-right' );
+      } else {
+        event.target.message.value = '';
+        Bert.alert(
+          'Your message has been received', 'success',
+          'growl-top-right'
+        );
+      }
     });
-    event.target.message.value = '';
-    Bert.alert('Your message has been received', 'success', 'growl-top-right');
   }
 });
 

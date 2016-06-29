@@ -27,11 +27,18 @@ export const saveMessage = new ValidatedMethod({
     message: { type: String }
   }).validator(),
   run (data) {
+
     // Throw an error if there is no such receiver
     if (!Meteor.users.findOne(data.receiverId)) {
       throw new Meteor.Error('user-not-exist');
     }
 
+    if (this.userId == data.receiverId) {
+      throw new Meteor.Error(
+        'messages.saveMessage.selfToSelf',
+        'Cannot send a message to yourself!'
+      );
+    }
     // Insert the new message
     Messages.insert({
       receiverId: data.receiverId,
