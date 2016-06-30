@@ -77,26 +77,25 @@ h2 {
 
 .green {
   color: green;
-  font-weight: bold;
 }
 
 .maroon {
   color: maroon;
-  font-weight: bold;
 }
 
 .purple {
   color: purple;
-  font-weight: bold;
 }
 
 .yellow {
   color: #cc0;
-  font-weight: bold;
 }
 
 .orange {
   color: orange;
+}
+
+.bold {
   font-weight: bold;
 }
 

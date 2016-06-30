@@ -25,9 +25,9 @@ import './common-helpers.js';
 export const infoEvent = function (evnt, element) {
   element.find('.fc-content').html(
       '<h4 class="eventTitle">' + evnt.title + '</h4>' +
-      '<p><span class="maroon">' +
+      '<p><span class="maroon bold">' +
       Meteor.users.findOne(evnt.giverId).username + '</span></p>' +
-      '<p><span class="purple">' +
+      '<p><span class="purple bold">' +
       Meteor.users.findOne(evnt.receiverId).username + '</span></p>'
       );
 };

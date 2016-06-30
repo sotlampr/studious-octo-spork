@@ -50,14 +50,14 @@
           <div class='container'>
             <h5 class='keno'>
               <span class='glyphicon glyphicon-info-sign'></span>
-              <span class='maroon'>C</span>
-              <span class='orange'>o</span>
-              <span class='green'>l</span>
-              <span class='yellow'>o</span>
-              <span class='purple'>r</span>
-              orange=<span class='orange'>title</span>,
-              maroon=<span class='maroon'>giver</span>
-              and purple=<span class='purple'>receiver</span>
+              <span class='maroon bold'>C</span>
+              <span class='orange bold'>o</span>
+              <span class='green bold'>l</span>
+              <span class='yellow bold'>o</span>
+              <span class='purple bold'>r</span>
+              orange=<span class='orange bold'>title</span>,
+              maroon=<span class='maroon bold'>giver</span>
+              and purple=<span class='purple bold'>receiver</span>
             </h5>
           </div>
         </div>
@@ -128,7 +128,7 @@
             <li class="request">
               <p>
                 <strong>Title </strong>
-                <span class='orange'>{{title}}</span>
+                <span class='orange bold'>{{title}}</span>
               </p>
               <div class='container'>
                 <div class='col-sm-6'>
@@ -149,13 +149,13 @@
                           <td>
                             <p>
                               <a href='/users/{{usernameFromId giverId}}/'
-                                class='maroon'>{{usernameFromId giverId}}</a>
+                                class='maroon bold'>{{usernameFromId giverId}}</a>
                             </p>
                           </td>
                           <td>
                             <p>
                               <a href='/users/{{usernameFromId receiverId}}/'
-                                class='purple'>{{usernameFromId receiverId}}</a>
+                                class='purple bold'>{{usernameFromId receiverId}}</a>
                             </p>
                           </td>
                         </tr>
@@ -164,7 +164,7 @@
                           <td>
                             {{#if isEqual giverId currentUser._id}}
                               {{#if giverValidated}}
-                                <p class='green'>true</p>
+                                <p class='green bold'>true</p>
                               {{else}}
                                 <div class='row'>
                                   <button class='acceptRequest btn btn-success'>
@@ -179,16 +179,16 @@
                               {{/if}}
                             {{else}}
                               {{#if giverValidated}}
-                                <p class='green'>true</p>
+                                <p class='green bold'>true</p>
                               {{else}}
-                                <p class='yellow'>not yet</p>
+                                <p class='yellow bold'>not yet</p>
                               {{/if}}
                             {{/if}}
                           </td>
                           <td>
                             {{#if isEqual receiverId currentUser._id}}
                               {{#if receiverValidated}}
-                                <p class='green'>true</p>
+                                <p class='green bold'>true</p>
                               {{else}}
                                 <div class='row'>
                                   <button class='acceptRequest btn btn-success'>
@@ -203,9 +203,9 @@
                               {{/if}}
                             {{else}}
                               {{#if receiverValidated}}
-                                <p class='green'>true</p>
+                                <p class='green bold'>true</p>
                               {{else}}
-                                <p class='yellow'>not yet</p>
+                                <p class='yellow bold'>not yet</p>
                               {{/if}}
                             {{/if}}
                           </td>
