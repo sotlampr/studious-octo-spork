@@ -19,7 +19,8 @@ export const sendTestEmail = new ValidatedMethod({
   }).validator(),
 
   run (data) {
-    var bodytext = "Someone '" + data.name + "' with email: " + data.email + " sent you the comment: " + data.comment + " !";
+    var bodytext = "Someone '" + data.name + "' with email: " +
+      data.email + " sent you the comment: " + data.comment + " !";
     Email.send({
       from: "", // form web site email (website@gmail.com)
       to: "",   // to admin email (admin@something.com)
