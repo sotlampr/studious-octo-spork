@@ -58,10 +58,10 @@ describe('Home page', function() {
       done();
     });
 
-    it('Clicking on Contact redirects to "/contact"', function(done) {
+    it('Clicking on Contact redirects to "/#contact"', function(done) {
       withRenderedTemplate('App_body', {}, el => {
         $(el).find('#contactPg')[0].click();
-        assert.equal(FlowRouter.current().path, '/contact');
+        assert.equal(FlowRouter.current().path, '/#contact');
       });
       done();
     });

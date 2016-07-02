@@ -3,7 +3,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import '../../ui/body.js';
-import '../../ui/contact.js';
 import '../../ui/dashboard.js';
 import '../../ui/users.js';
 import '../../ui/transactions.js';
@@ -23,11 +22,6 @@ FlowRouter.route('/', {
 FlowRouter.route('/about', {
   name: 'About',
   action: renderTemplate('about')
-});
-
-FlowRouter.route('/contact', {
-  name: 'Contact',
-  action: renderTemplate('contact')
 });
 
 FlowRouter.route('/register', {
