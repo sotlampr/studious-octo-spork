@@ -18,9 +18,7 @@ Template.App_body.events({
       email: event.target.email.value,
       comment: event.target.comments.value
     });
-    event.target.name.value = '';
-    event.target.email.value = '';
-    event.target.comments.value = '';
+    event.target.reset();
     Bert.alert('Your comment has been received', 'success', 'growl-top-right');
   }
 });

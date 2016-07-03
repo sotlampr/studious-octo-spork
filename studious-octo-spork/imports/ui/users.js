@@ -22,11 +22,10 @@ Template.usersIndex.events({
     Session.set('description', '');
     if (id === 'occupation' ) {
       Session.set('work', tar.work.value);
-      tar.work.value = '';
     } else {
       Session.set('description', tar.description.value);
-      tar.description.value = '';
     }
+    tar.reset();
   }
 });
 
