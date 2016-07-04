@@ -5,8 +5,10 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidationError } from 'meteor/mdg:validation-error';
 
 
+// After submit contact form, sendTestEmail
+// take the inputs (name, email, comment) and
+// call Email.send method
 export const sendTestEmail = new ValidatedMethod({
-  // DOES NOT WORK WITH WRONG EMAIL INFO
   name: 'email.sendTestEmail',
 
   validate: new SimpleSchema({
@@ -19,13 +21,16 @@ export const sendTestEmail = new ValidatedMethod({
   }).validator(),
 
   run (data) {
-    var bodytext = "Someone '" + data.name + "' with email: " +
+    var bodyText = "Someone '" + data.name + "' with email: " +
       data.email + " sent you the comment: " + data.comment + " !";
+
+    // form: web site email (website@gmail.com)
+    // to: admin email (admin@something.com)
     Email.send({
-      from: "", // form web site email (website@gmail.com)
-      to: "",   // to admin email (admin@something.com)
+      from: "",
+      to: "",
       subject: "Subject test",
-      text: bodytext
+      text: bodyText
     });
   },
 });
