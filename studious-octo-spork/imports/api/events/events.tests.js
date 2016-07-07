@@ -7,13 +7,14 @@ import { assert } from 'meteor/practicalmeteor:chai';
 
 require('./methods.js');
 
+
 if (Meteor.isServer) {
-  describe('Events', () => {
-    describe('validateRequest', () => {
+  describe('Events', function () {
+    describe('validateRequest', function () {
       let userId;
       let eventId;
 
-      beforeEach((done) => {
+      beforeEach(function (done) {
         userId = Accounts.createUser({username: 'bolek'});
         eventId = Events.insert({
           title: 'Something',
@@ -27,13 +28,13 @@ if (Meteor.isServer) {
         done();
       });
 
-      afterEach((done) => {
+      afterEach(function (done) {
         Meteor.users.remove({});
         Events.remove({});
         done();
       });
 
-      it('Validate a event request', (done) => {
+      it('Validate a event request', function (done) {
         const validateRequest =
           Meteor.server.method_handlers['events.validateRequest'];
         const invocation = { userId };
@@ -51,11 +52,11 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Reject validation event from not authorized user', (done) => {
+      it('Reject validation with invalid userId', function (done) {
         const validateRequest =
           Meteor.server.method_handlers['events.validateRequest'];
         const invocation = { userId };
-        const wrong = () => {
+        const wrong = function () {
           validateRequest.apply(
             invocation,
             [{
@@ -69,11 +70,11 @@ if (Meteor.isServer) {
       });
     });
 
-    describe('removeRequest', () => {
+    describe('removeRequest', function () {
       let userId;
       let eventId;
 
-      beforeEach((done) => {
+      beforeEach(function (done) {
         userId = Accounts.createUser({username: 'lolek'});
         eventId = Events.insert({
           title: 'Else',
@@ -87,13 +88,13 @@ if (Meteor.isServer) {
         done();
       });
 
-      afterEach((done) => {
+      afterEach(function (done) {
         Meteor.users.remove({});
         Events.remove({});
         done();
       });
 
-      it('Remove a event', (done) => {
+      it('Remove a event', function (done) {
         const removeRequest =
           Meteor.server.method_handlers['events.removeRequest'];
         const invocation = { userId };
@@ -105,11 +106,11 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Reject removing event from not authorized user', (done) => {
+      it('Reject removing with invalid userId', function (done) {
         const removeRequest =
           Meteor.server.method_handlers['events.removeRequest'];
         const invocation = {userId: Random.id()};
-        const fail = () => {
+        const fail = function () {
           removeRequest.apply(invocation, [{eventId: eventId}]);
         };
         assert.throws(fail, Meteor.Error);
@@ -117,21 +118,21 @@ if (Meteor.isServer) {
       });
     });
 
-    describe('addRequest', () => {
+    describe('addRequest', function () {
       let userId;
 
-      beforeEach((done) => {
+      beforeEach(function (done) {
         userId = Accounts.createUser({username: 'dibaba'});
         done();
       });
 
-      afterEach((done) => {
+      afterEach(function (done) {
         Meteor.users.remove({});
         Events.remove({});
         done();
       });
 
-      it('Add a event', (done) => {
+      it('Add a event', function (done) {
         const addRequest =
           Meteor.server.method_handlers['events.addRequest'];
         const invocation = { userId };
@@ -152,11 +153,11 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Reject add event from not authorized user', (done) => {
+      it('Reject addition with invalid userId', function (done) {
         const addRequest =
           Meteor.server.method_handlers['events.addRequest'];
         const invocation = {userId: Random.id()};
-        const fault = () => {
+        const fault = function () {
           addRequest.apply(
             invocation,
             [{
@@ -173,12 +174,12 @@ if (Meteor.isServer) {
       });
     });
 
-    describe('editEvent', () => {
+    describe('editEvent', function () {
       let userId;
       let who = Random.id();
       let eventId;
 
-      beforeEach((done) => {
+      beforeEach(function (done) {
         userId = Accounts.createUser({username: 'fuji'});
         eventId = Events.insert({
           title: 'feather',
@@ -192,13 +193,13 @@ if (Meteor.isServer) {
         done();
       });
 
-      afterEach((done) => {
+      afterEach(function (done) {
         Meteor.users.remove({});
         Events.remove({});
         done();
       });
 
-      it('Edit a event', (done) => {
+      it('Edit a event', function (done) {
         const editEvent =
           Meteor.server.method_handlers['events.editEvent'];
         const invocation = { userId };
@@ -221,11 +222,11 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Reject edit event from not authorized user', (done) => {
+      it('Reject editing with invalic userId', function (done) {
         const editEvent =
           Meteor.server.method_handlers['events.editEvent'];
         const invocation = {userId: Random.id()};
-        const xi = () => {
+        const xi = function () {
           editEvent.apply(
             invocation,
             [{

@@ -1,13 +1,16 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+
 export const Events = new Mongo.Collection('events');
+
 
 Events.deny({
   insert() { return true; },
   update() { return true; },
   remove() { return true; },
 });
+
 
 Events.schema = new SimpleSchema({
   giverId: {
@@ -41,7 +44,9 @@ Events.schema = new SimpleSchema({
   }
 });
 
+
 Events.attachSchema(Events.schema);
+
 
 Events.publicFields = {
   giverId: 1,
