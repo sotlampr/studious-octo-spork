@@ -4,22 +4,35 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Messages } from './messaging.js';
 
-const routineValidation = (messageId, callerId) => {
-  // Typical validation routine.
-  //   1. Check if message exists
-  //   2. Check if message is deleted
-  //   3. Check if message does not belong to the caller.
+
+/* Typical validation routine, for use by messaging methods:
+ * -Check if message exists
+ * -Check if message is deleted
+ * -Check if message does not belong to the caller.
+ * args:
+ *   messageId, callerId
+ */
+function routineValidation (messageId, callerId) {
     if (!Messages.findOne(messageId)) {
       throw new Meteor.Error('message-not-found');
     }
+
     if (!Messages.findOne(messageId).visible) {
       throw new Meteor.Error('message-deleted');
     }
+
     if (Messages.findOne(messageId).receiverId !== callerId) {
       throw new Meteor.Error('message-not-yours');
     }
 };
 
+/* Save a new message
+ * args:
+ *   receiverId:
+ *     Mongo Id for the user that recieves this message.
+ *   message:
+ *     String, the message body.
+ */
 export const saveMessage = new ValidatedMethod({
   name: 'messaging.saveMessage',
   validate: new SimpleSchema({
@@ -39,6 +52,7 @@ export const saveMessage = new ValidatedMethod({
         'Cannot send a message to yourself!'
       );
     }
+
     // Insert the new message
     Messages.insert({
       receiverId: data.receiverId,
@@ -51,9 +65,16 @@ export const saveMessage = new ValidatedMethod({
   },
 });
 
+/* Reverse the 'read' flag of a message
+ * args:
+ *   messageId:
+ *     Mongo Id for the message we want to toggle.
+ */
 export const toggleRead = new ValidatedMethod({
   name: 'messaging.toggleRead',
-  validate: null,
+  validate: new SimpleSchema({
+    messageId: { type: String }
+  }).validator(),
   run (messageId) {
     routineValidation(messageId, this.userId);
     // Reverse the existing read status and update
@@ -62,9 +83,16 @@ export const toggleRead = new ValidatedMethod({
   },
 });
 
+/* Delete a message
+ * args:
+ *   messageId:
+ *     Mongo Id for the message we want to toggle.
+ */
 export const deleteMessage = new ValidatedMethod({
   name: 'messaging.deleteMessage',
-  validate: null,
+  validate: new SimpleSchema({
+    messageId: { type: String }
+  }).validator(),
   run (messageId) {
     routineValidation(messageId, this.userId);
     Messages.update({_id: messageId}, {$set: {visible: false}});

@@ -134,10 +134,10 @@ Template.dashboard.events({
     Bert.alert('Your profile has been updated', 'success', 'growl-top-right');
   },
   'click .toggle-read': function () {
-    toggleRead.call(this._id);
+    toggleRead.call({messageId: this._id});
   },
   'click .delete': function () {
-    deleteMessage.call(this._id);
+    deleteMessage.call({messageId: this._id});
   },
   'click .acceptRequest': function () {
     validateRequest.call({userId: Meteor.userId(), eventId: this._id});
