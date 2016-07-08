@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-
 import './body.html';
+
 
 Template.App_body.events({
   'click .signout': function () {
@@ -23,9 +23,11 @@ Template.App_body.events({
   }
 });
 
+
 Template.hello.onCreated(function helloOnCreated() {
   this.subscribe('users');
 });
+
 
 Template.hello.helpers({
   randomUsers: function () {

@@ -2,7 +2,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -13,7 +12,11 @@
   <link rel='icon' sizes='16x16 32x32' href='favicon.ico'>
 </head>
 
+
+<!-- App template -->
 <template name="App_body">
+
+  <!-- Navigation bar -->
   <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -72,6 +75,7 @@
 
   {{> Template.dynamic template=main}}
 
+  <!-- Footer -->
   <footer class='footer'>
     <p id="credits" class='text-center'>
       2016 by <strong>&gt;touch_code</strong>
@@ -79,9 +83,12 @@
   </footer>
 </template>
 
+
+<!-- About template -->
 <template name="about">
   <div class="container-fluid">
     <h2>About Time Ride</h2>
+
     <h3>What is a Time Bank?</h3>
     <p>
       Time Banks have been established in 34 countries, with at least 300
@@ -98,6 +105,7 @@
       services and hospice care; and foster women's rights initiatives in
       Senegal.
     </p>
+
     <h3>What is timing banking?</h3>
     <p>
       Time banking is a pattern of reciprocal service exchange that uses
@@ -123,6 +131,7 @@
       Today, 26 countries have active Time Banks. There are 250 Time Banks
       active in the UK and over 276 Time Banks in the U.S.
     </p>
+
     <h3>Philosophy</h3>
     <p>
       Time Banking is a community development tool and works by facilitating
@@ -194,6 +203,7 @@
         project's doing, trying to bring that back, that community sense . . .
       </div>
     </p>
+
     <div class='col-sm-6'>
       <p>For more information
         <a href="https://en.wikipedia.org/wiki/Time_banking">here</a>
@@ -203,14 +213,20 @@
 </template>
 
 
+<!-- Autocomlete template -->
 <template name="autocomplete">
   {{suggestion}}
 </template>
 
+
+<!-- Home template-->
 <template name="hello">
+
+  <!-- Home Jumbotron -->
   <div class="jumbotron">
     <div class="container bg-1 text-center">
       <h1>Time Ride!</h1>
+
       <img src="bike.jpg" class="img-circle" alt="Bike"
       width='300' height='300'>
       <p>Welcome at a bank time</p>
@@ -222,6 +238,7 @@
     </div>
   </div>
 
+  <!-- Mini About Container -->
   <div class='container-fluid dark'>
     <div class='container box'>
       <h2>About Time Ride</h2>
@@ -241,6 +258,8 @@
         earns "time" that one can spend to receive services.
       </p>
     </div>
+
+    <!-- Mini Philosophy Container -->
     <div class='container box2 col-sm-9'>
       <h3 class='text-center'>Philosophy</h3>
       <p>
@@ -273,10 +292,14 @@
     </div>
   </div>
 
+  <!-- Random Users Container -->
   <div class='container-fluid'>
     <div class='container box'>
       <h2>Random Users</h2>
+
+      <!-- Carousel -->
       <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+
         <!-- Indicators -->
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -326,6 +349,7 @@
     </div>
   </div>
 
+  <!-- Contact Container -->
   <div class='container-fluid dark' id='contact'>
     <form role="form" id="cntct" class="container box testemail">
       <h2 class="text-center">CONTACT</h2>
@@ -360,33 +384,36 @@
     <div id='toTop'><span class='glyphicon glyphicon-chevron-up'></span></div>
   </div>
 
+  <!-- Javascript -->
   <script type='text/javascript'>
-    $(document).ready( function() {
-      $( 'form' ).submit( function() {
+    $(document).ready(function () {
+
+      // Contact form check
+      $('form').submit(function () {
         var noempty = true;
-        if ( this.name.value == null || this.name.value == "" ) {
+        if (this.name.value == null || this.name.value == "") {
           noempty = false;
         }
-        if ( this.email.value == null || this.email.value == "" ) {
+        if (this.email.value == null || this.email.value == "") {
           noempty = false;
         }
-        if ( this.comments.value == null || this.comments.value == "" ) {
+        if (this.comments.value == null || this.comments.value == "") {
           noempty = false;
         }
-        if ( !noempty ) {
+        if (!noempty) {
           alert("There is empty input");
           return noempty;
         }
 
         var patt = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-        if ( !patt.test(this.email.value) ){
+        if (!patt.test(this.email.value)){
           alert("Wrong email format");
           return false;
         }
-
       });
 
-      $(window).scroll( function() {
+      // #toTop configurations
+      $(window).scroll(function () {
         if ($(this).scrollTop()) {
           $('#toTop').fadeIn();
         } else {
@@ -394,14 +421,15 @@
         }
       });
 
-      $('#toTop').click( function() {
+      $('#toTop').click(function () {
         $('html, body').animate({scrollTop: 0}, 1000);
       });
     });
-
   </script>
 </template>
 
+
+<!-- Register template -->
 <template name="register">
   <div class="jumbotron">
     <div class="container">
