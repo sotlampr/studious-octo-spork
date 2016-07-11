@@ -5,8 +5,8 @@ import { Suggestions } from './suggestions.js';
 
 
 /*  saveSuggestion takes an occupation, and if there isn't
-*   already in suggestions collection, then insert it
-*/
+ *  already in suggestions collection, then insert it
+ */
 export const saveSuggestion = new ValidatedMethod({
   name: 'suggestions.saveSuggestion',
 

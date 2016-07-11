@@ -44,17 +44,17 @@ Template.usersIndex.helpers({
   },
 
   /*  ---EXAMPLE---
-  * There is a dog with
-  * username: jack
-  * occupation: hunter
-  * description: birds cats rabbits
-  *
-  * Searching with occupation:
-  *  -success: hunter, hun, HuNTe
-  * Searching with description:
-  *  -success: birds cats rabbits, CAt, Ts Rab
-  *  -fail: rabbits cats
-  */
+   *  There is a dog with
+   *  username: jack
+   *  occupation: hunter
+   *  description: birds cats rabbits
+   *
+   *  Searching with occupation:
+   *    -success: hunter, hun, HuNTe
+   *  Searching with description:
+   *    -success: birds cats rabbits, CAt, Ts Rab
+   *    -fail: rabbits cats
+   */
   usersSearch: function () {
     var work = Session.get('work');
     var workSearch = new RegExp(work, 'i');

@@ -19,12 +19,12 @@ import './common-helpers.js';
 
 
 /*  Display informations for each event, on the calendar
-*   args:
-*     evnt:
-*       the event item on the calendar
-*     element:
-*       where the item is being rendered (the data square)
-*/
+ *  args:
+ *    evnt:
+ *      the event item on the calendar
+ *    element:
+ *       where the item is being rendered (the data square)
+ */
 export const infoEvent = function (evnt, element) {
   element.find('.fc-content').html(
       '<h4 class="eventTitle">' + evnt.title + '</h4>' +
