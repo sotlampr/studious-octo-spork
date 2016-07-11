@@ -1,6 +1,7 @@
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { Meteor } from 'meteor/meteor';
 
+
 AccountsTemplates.configure({
   // Behavior
   confirmPassword: true,
@@ -27,8 +28,12 @@ AccountsTemplates.configure({
   showValidating: true,
 });
 
+
 AccountsTemplates.removeField('password');
+
 AccountsTemplates.removeField('email');
+
+
 AccountsTemplates.addFields([
   {
     _id: 'username',
@@ -52,6 +57,7 @@ AccountsTemplates.addFields([
       });
     }
   },
+
   {
     _id: 'email',
     type: 'email',
@@ -60,6 +66,7 @@ AccountsTemplates.addFields([
     re: /.+@(.+){2,}\.(.+){2,}/,
     errStr: 'Invalid email',
   },
+
   {
     _id: 'password',
     type: 'password',
