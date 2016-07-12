@@ -365,17 +365,17 @@
 
   <!-- Javascript -->
   <script type='text/javascript'>
-    $(document).ready( function() {
+    $(document).ready(function () {
 
       // Check #add-edit-event-form on submit
-      $( '#add-edit-event-form' ).submit( function() {
-        if ( this.title.value == null || this.title.value == "" ) {
+      $('#add-edit-event-form').submit(function () {
+        if (this.title.value == null || this.title.value == "") {
           Bert.alert('Event title is empty', 'warning', 'growl-top-right');
           return false;
         }
 
         var today = moment().format();
-        if ( moment(today).isAfter(this.start.value) ) {
+        if (moment(today).isAfter(this.start.value)) {
           Bert.alert(
             'Event Start should be after today',
             'warning',
@@ -384,7 +384,7 @@
           return false;
         }
 
-        if ( moment(today).isAfter(this.end.value) ) {
+        if (moment(today).isAfter(this.end.value)) {
           Bert.alert(
             'Event End should be after today',
             'warning',

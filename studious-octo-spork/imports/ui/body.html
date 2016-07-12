@@ -401,13 +401,13 @@
           noempty = false;
         }
         if (!noempty) {
-          alert("There is empty input");
+          Bert.alert('There is empty input', 'warning', 'growl-top-right');
           return noempty;
         }
 
         var patt = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
         if (!patt.test(this.email.value)){
-          alert("Wrong email format");
+          Bert.alert("Wrong email format", 'warning', 'growl-top-right');
           return false;
         }
       });
