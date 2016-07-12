@@ -50,14 +50,32 @@
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a href="">Signed in as <strong>{{currentUser.username}}</strong></a>
+                <a href="">Signed in as
+                  <strong>{{currentUser.username}}</strong>
+                </a>
               </li>
               <li class="divider"></li>
-              <li><a href="">Your profile</a></li>
-              <li><a href="">Help</a></li>
+              <li>
+                <a href="">
+                  <i class='fa fa-user'></i> Your profile
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <i class='fa fa-info-circle'></i> Help
+                </a>
+              </li>
               <li class="divider"></li>
-              <li><a href="">Settings</a></li>
-              <li><a class="signout">Sign out</a></li>
+              <li>
+                <a href="">
+                  <i class='fa fa-cog'></i> Settings
+                </a>
+              </li>
+              <li>
+                <a class="signout">
+                  <i class='fa fa-sign-out'></i> Sign out
+                </a>
+              </li>
             </ul>
           </div>
           {{else}}
