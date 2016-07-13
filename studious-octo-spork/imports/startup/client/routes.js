@@ -6,6 +6,7 @@ import '../../ui/body.js';
 import '../../ui/dashboard.js';
 import '../../ui/users.js';
 import '../../ui/transactions.js';
+import '../../ui/settings.js';
 
 // Helper function for boilerplate code
 //
@@ -37,6 +38,11 @@ FlowRouter.route('/dashboard', {
 FlowRouter.route('/dashboard/transactions', {
   name: 'Transactions',
   action: renderTemplate('transactionsIndex')
+});
+
+FlowRouter.route('/settings', {
+  name: 'Settings',
+  action: renderTemplate('settings')
 });
 
 // GROUP ROUTES
