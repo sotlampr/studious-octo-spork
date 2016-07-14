@@ -75,11 +75,11 @@ export const toggleRead = new ValidatedMethod({
   validate: new SimpleSchema({
     messageId: { type: String }
   }).validator(),
-  run (messageId) {
-    routineValidation(messageId, this.userId);
+  run (data) {
+    routineValidation(data.messageId, this.userId);
     // Reverse the existing read status and update
-    reversed = !Messages.findOne(messageId).read;
-    Messages.update({_id: messageId}, {$set: {read: reversed}});
+    reversed = !Messages.findOne(data.messageId).read;
+    Messages.update({_id: data.messageId}, {$set: {read: reversed}});
   },
 });
 
@@ -93,8 +93,8 @@ export const deleteMessage = new ValidatedMethod({
   validate: new SimpleSchema({
     messageId: { type: String }
   }).validator(),
-  run (messageId) {
-    routineValidation(messageId, this.userId);
-    Messages.update({_id: messageId}, {$set: {visible: false}});
+  run (data) {
+    routineValidation(data.messageId, this.userId);
+    Messages.update({_id: data.messageId}, {$set: {visible: false}});
   },
 });
