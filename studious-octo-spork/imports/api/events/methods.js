@@ -4,8 +4,9 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Events } from './events.js';
 
 
-// When an user click on validateRequest button, the
-// method set the corresponding event field true
+/*  When an user click on validateRequest button, the
+ *  method set the corresponding event field true
+ */
 export const validateRequest = new ValidatedMethod({
   name: 'events.validateRequest',
 
@@ -46,8 +47,9 @@ export const validateRequest = new ValidatedMethod({
 });
 
 
-// When an user click on removeRequest button, the
-// method remove the event from events collection
+/*  When an user click on removeRequest button, the
+ *  method remove the event from events collection
+ */
 export const removeRequest = new ValidatedMethod({
   name: 'events.removeRequest',
 
@@ -79,8 +81,9 @@ export const removeRequest = new ValidatedMethod({
 });
 
 
-// After submit Add Event Request form the method
-// takes the inputs and insert an entry in events collection
+/*  After submit Add Event Request form the method
+ *  takes the inputs and insert an entry in events collection
+ */
 export const addRequest = new ValidatedMethod({
   name: 'events.addRequest',
 
@@ -110,8 +113,9 @@ export const addRequest = new ValidatedMethod({
 });
 
 
-// After submit Edit Event form the method
-// takes the inputs and update the corresponding entry
+/*  After submit Edit Event form the method
+ *  takes the inputs and update the corresponding entry
+ */
 export const editEvent = new ValidatedMethod({
   name: 'events.editEvent',
 

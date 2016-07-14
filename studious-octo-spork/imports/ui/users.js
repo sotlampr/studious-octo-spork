@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-
 import './users.html';
 import { saveMessage } from '../api/messaging/methods.js';
 import { Bert } from 'meteor/themeteorchef:bert';
@@ -9,25 +8,31 @@ import { Events } from '../api/events/events.js';
 import { infoEvent } from './dashboard.js';
 import { saveTransaction } from '../api/transactions/methods.js';
 
+
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
   this.subscribe('users');
 });
 
+
 Template.usersIndex.events({
   'submit .find': function (event) {
     event.preventDefault();
+
     var tar = event.target;
     var id = tar.getAttribute('id');
     Session.set('work', '');
     Session.set('description', '');
+
     if (id === 'occupation' ) {
       Session.set('work', tar.work.value);
     } else {
       Session.set('description', tar.description.value);
     }
+
     tar.reset();
   }
 });
+
 
 Template.usersIndex.helpers({
   users: function () {
@@ -38,17 +43,18 @@ Template.usersIndex.helpers({
     return FlowRouter.path('/users/:username', {username: username});
   },
 
-  //  ---EXAMPLE---
-  // There is a dog with
-  // username: jack
-  // occupation: hunter
-  // description: birds cats rabbits
-  //
-  // Searching with occupation:
-  //  -success: hunter, hun, HuNTe
-  // Searching with description:
-  //  -success: birds cats rabbits, CAt, Ts Rab
-  //  -fail: rabbits cats
+  /*  ---EXAMPLE---
+   *  There is a dog with
+   *  username: jack
+   *  occupation: hunter
+   *  description: birds cats rabbits
+   *
+   *  Searching with occupation:
+   *    -success: hunter, hun, HuNTe
+   *  Searching with description:
+   *    -success: birds cats rabbits, CAt, Ts Rab
+   *    -fail: rabbits cats
+   */
   usersSearch: function () {
     var work = Session.get('work');
     var workSearch = new RegExp(work, 'i');
@@ -62,16 +68,19 @@ Template.usersIndex.helpers({
   }
 });
 
+
 Template.usersByUsername.onCreated(function usersByUsernameOnCreated() {
   this.subscribe('users');
   this.subscribe('events');
 });
+
 
 Template.usersByUsername.helpers({
   userIsNotSelf: function () {
     return Meteor.users.findOne({ _id: Meteor.userId()}).username
            !== FlowRouter.getParam('username');
   },
+
   targetUsername: function() {
     return FlowRouter.getParam('username');
   },
@@ -79,6 +88,7 @@ Template.usersByUsername.helpers({
   userData: function () {
     var targetUsername = FlowRouter.getParam('username');
     var targetUser = Meteor.users.findOne({username: targetUsername});
+
     if (targetUser) {
       return {
         username: targetUser.username,
@@ -89,10 +99,12 @@ Template.usersByUsername.helpers({
   }
 });
 
+
 Template.usersByUsername.events({
   'submit #claim-session': function (event) {
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();
+
     let data = {
       giverValidated: event.target.giverValidated.checked,
       receiverValidated: event.target.receiverValidated.checked,
@@ -101,6 +113,7 @@ Template.usersByUsername.events({
       description: event.target.sessionDescription.value,
       cost: Number(event.target.sessionCost.value),
     };
+
     saveTransaction.call(data, (err, res) => {
      if(err) {
         Bert.alert(err.reason, 'danger', 'growl-top-right' );
@@ -115,15 +128,18 @@ Template.usersByUsername.events({
   }
 });
 
+
 Template.usersContactByUsername.onCreated(function usersContactByUsernameOnCreated() {
   this.subscribe('users');
 });
+
 
 Template.usersContactByUsername.helpers({
   targetUsername: function() {
     return FlowRouter.getParam('username');
   },
 });
+
 
 Template.usersContactByUsername.events({
   'submit .send-message': function (event) {
@@ -148,16 +164,20 @@ Template.usersContactByUsername.events({
   }
 });
 
+
 Template.usersByUsername.onRendered( function () {
   let usrId = Meteor.users.findOne({
     username: FlowRouter.getParam('username')})._id;
+
   $('#calendarUser').fullCalendar({
     header: {
       left: 'prev,next today',
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
+
     eventRender: infoEvent,
+
     events: function (start, end, timezone, callback, err) {
       let data = Events.find({
         $and: [

@@ -5,9 +5,10 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidationError } from 'meteor/mdg:validation-error';
 
 
-// After submit contact form, sendTestEmail
-// take the inputs (name, email, comment) and
-// call Email.send method
+/*  After submit contact form, sendTestEmail
+ *  take the inputs (name, email, comment) and
+ *  call Email.send method
+ */
 export const sendTestEmail = new ValidatedMethod({
   name: 'email.sendTestEmail',
 
@@ -24,8 +25,9 @@ export const sendTestEmail = new ValidatedMethod({
     var bodyText = "Someone '" + data.name + "' with email: " +
       data.email + " sent you the comment: " + data.comment + " !";
 
-    // form: web site email (website@gmail.com)
-    // to: admin email (admin@something.com)
+    /*  form: web site email (website@gmail.com)
+     *  to: admin email (admin@something.com)
+     */
     Email.send({
       from: "",
       to: "",

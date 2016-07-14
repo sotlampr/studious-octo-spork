@@ -1,16 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-
 import { Messages } from '../api/messaging/messaging.js';
 import { Logbook } from '../api/transactions/logbook.js';
-
 import { toggleRead } from '../api/messaging/methods.js';
 import { deleteMessage } from '../api/messaging/methods.js';
-
 import { updateUserProfile } from '../api/users/methods.js';
 import './dashboard.html';
-
 import { Suggestions } from '../api/suggestions/suggestions.js';
 import { saveSuggestion } from '../api/suggestions/methods.js';
 import { Events } from '../api/events/events.js';
@@ -19,9 +15,16 @@ import { addRequest } from '../api/events/methods.js';
 import { removeRequest } from '../api/events/methods.js';
 import { validateRequest } from '../api/events/methods.js';
 import { editEvent } from '../api/events/methods.js';
-
 import './common-helpers.js';
 
+
+/*  Display informations for each event, on the calendar
+ *  args:
+ *    evnt:
+ *      the event item on the calendar
+ *    element:
+ *       where the item is being rendered (the data square)
+ */
 export const infoEvent = function (evnt, element) {
   element.find('.fc-content').html(
       '<h4 class="eventTitle">' + evnt.title + '</h4>' +
@@ -32,6 +35,7 @@ export const infoEvent = function (evnt, element) {
       );
 };
 
+
 Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('messages.user');
   this.subscribe('logbook.user');
@@ -39,6 +43,7 @@ Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('events');
   this.subscribe('suggestions');
 });
+
 
 Template.dashboard.helpers({
   settings: function () {
@@ -54,6 +59,7 @@ Template.dashboard.helpers({
       ]
     };
   },
+
   formData: function () {
     // Data for pre-filling the dashboard form
     user = Meteor.users.findOne(Meteor.userId());
@@ -66,6 +72,7 @@ Template.dashboard.helpers({
       };
     }
   },
+
   userMessages: function () {
     // See if we have any messages for this user
     if (Meteor.user()) {
@@ -75,6 +82,7 @@ Template.dashboard.helpers({
       return userMessages;
     }
   },
+
   userTransactions: function () {
     // Retrieve the last 5 user transactions
     if (Meteor.user()) {
@@ -85,6 +93,7 @@ Template.dashboard.helpers({
       return userTransactions;
     }
   },
+
   isApproved: (data) => {
     if (data.giverValidated && data.receiverValidated) {
       return true;
@@ -92,6 +101,7 @@ Template.dashboard.helpers({
       return false;
     }
   },
+
   requests: function () {
     return Events.find({
       $and: [
@@ -110,10 +120,12 @@ Template.dashboard.helpers({
       ]
     });
   },
+
   isEqual: function (x, y) {
     return x === y;
   },
 });
+
 
 Template.dashboard.events({
   'click .transactions-redirect': () => {
@@ -121,6 +133,7 @@ Template.dashboard.events({
      // Error: must be attached
      Meteor.defer(() => { FlowRouter.go('/dashboard/transactions'); });
   },
+
   'submit .update-profile': function (event) {
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();
@@ -133,21 +146,26 @@ Template.dashboard.events({
     saveSuggestion.call({suggestion: event.target.occupation.value});
     Bert.alert('Your profile has been updated', 'success', 'growl-top-right');
   },
+
   'click .toggle-read': function () {
     toggleRead.call({messageId: this._id});
   },
+
   'click .delete': function () {
     deleteMessage.call({messageId: this._id});
   },
+
   'click .acceptRequest': function () {
     validateRequest.call({userId: Meteor.userId(), eventId: this._id});
     Bert.alert('The request has been validated', 'success', 'growl-top-right');
   },
+
   'click .denyRequest': function () {
     removeRequest.call({eventId: this._id});
     Bert.alert('The request has been denied', 'success', 'growl-top-right');
   },
 });
+
 
 Template.dashboard.onRendered( function () {
   $('#calendar').fullCalendar({
@@ -156,7 +174,9 @@ Template.dashboard.onRendered( function () {
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
+
     eventRender: infoEvent,
+
     events: function (start, end, timezone, callback, err) {
       let data = Events.find({
         $and: [
@@ -183,6 +203,7 @@ Template.dashboard.onRendered( function () {
         callback(data);
       }
     },
+
     dayClick: function (date) {
       var today = moment();
       if (!moment(today).isAfter(date)) {
@@ -190,10 +211,12 @@ Template.dashboard.onRendered( function () {
         if (!/T/.test(dt)) {
           dt = moment(date).set('hours', 17).format("YYYY-MM-DD HH:mm");
         }
+
         Session.set('eventModal', {type: 'add', date: dt});
         $('#add-edit-event-modal').modal('show');
       }
     },
+
     eventClick: function (evnt) {
       var today = moment().format();
       if (!moment(today).isAfter(evnt.start)) {
@@ -210,9 +233,11 @@ Template.dashboard.onRendered( function () {
         {'receiverId': Meteor.userId()}
       ]
     }).fetch();
+
     $('#calendar').fullCalendar('refetchEvents');
   });
 });
+
 
 Template.addEditEventModal.helpers({
   modalType: function (type) {
@@ -221,6 +246,7 @@ Template.addEditEventModal.helpers({
       return eventModal.type === type;
     }
   },
+
   modalLabel: function () {
     let eventModal = Session.get('eventModal');
     if (eventModal) {
@@ -230,6 +256,7 @@ Template.addEditEventModal.helpers({
       };
     }
   },
+
   evnt: function () {
     let eventModal = Session.get('eventModal');
 
@@ -240,21 +267,27 @@ Template.addEditEventModal.helpers({
       };
     }
   },
+
   givers: function () {
     return Meteor.users.find({_id: {$ne: Meteor.userId()}});
   },
+
   idToUsername: function (id) {
     return Meteor.users.findOne({_id: id}).username;
   },
+
   changeFormat: function (date) {
     return moment(date).format('YYYY-MM-DD HH:mm');
   },
 });
 
+
+// Close the Modal
 let closeModal = function () {
   $('#add-edit-event-modal').modal('hide');
   $('.modal-backdrop').fadeout();
 };
+
 
 Template.addEditEventModal.events({
   'submit form': function (event, template) {

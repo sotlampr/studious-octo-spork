@@ -1,10 +1,14 @@
+<!-- Dashboard template -->
 <template name="dashboard">
   <div class='jumbotron'>
     <div class='container'>
+
+      <!-- Update Profile Container -->
       <div class="col-sm-6">
         {{#if formData}}
           {{#with formData}}
             <form role="form" class="form-horizontal update-profile" method="post">
+
               <div class="form-group">
                 <label for="username" class="control-label col-sm-2">
                   Username:
@@ -14,6 +18,7 @@
                   name="username" value={{username}}>
                 </div>
               </div>
+
               <div class="form-group">
                 <label for="occupation" class="control-label col-sm-2">
                   Occupation:
@@ -23,6 +28,7 @@
                     class='form-control' name='occupation' value=occupation }}
                 </div>
               </div>
+
               <div class="form-group">
                 <label for="description" class="control-label col-sm-2">
                   Description:
@@ -32,6 +38,7 @@
                   name="description" value={{description}}>
                 </div>
               </div>
+
               <div class="form-group">
                 <div class="col-sm-2 col-sm-8">
                   <button type="submit" class="btn btn-default">Save</button>
@@ -43,10 +50,13 @@
           <p>You are not registered yet.</p>
         {{/if}}
       </div>
+
+      <!-- Calendar Container -->
       {{#if currentUser}}
         <div class='col-sm-6'>
           {{> addEditEventModal }}
           <div id="calendar"></div>
+
           <div class='container'>
             <h5 class='keno'>
               <span class='glyphicon glyphicon-info-sign'></span>
@@ -64,10 +74,12 @@
       {{/if}}
     </div>
   </div>
+
   {{#if currentUser}}
     <div class="container-fluid">
+
+      <!-- Activity Panel -->
       <div class="col-sm-6 transactions-redirect">
-        <!-- ACTIVITY PANEL -->
         <div class="panel panel-default">
 
           <div class="panel-heading">
@@ -88,6 +100,7 @@
               <h4>History</h4>
               <hr>
             </div>
+
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
@@ -97,6 +110,7 @@
                   <th>Status</th>
                 </tr>
               </thead>
+
               <tbody>
               {{#each userTransactions}}
                 <tr>
@@ -121,6 +135,8 @@
           </div>
         </div>
       </div>
+
+      <!-- Events Container -->
       <div class='col-sm-6'>
         <h3>Events Requests</h3>
         <ul>
@@ -130,20 +146,25 @@
                 <strong>Title </strong>
                 <span class='orange bold'>{{title}}</span>
               </p>
+
               <div class='container'>
                 <div class='col-sm-6'>
                   <div class='row'>
+
                     <div class='col-sm-6'>
                       <div><p><strong>Start </strong>{{start}}</p></div>
                       <div><p><strong>End </strong>{{end}}</p></div>
                     </div>
+
                     <div class='col-sm-6'>
                       <table id='tbl'>
+
                         <tr>
                           <th></th>
                           <th>Giver</th>
                           <th>Receiver</th>
                         </tr>
+
                         <tr>
                           <td></td>
                           <td>
@@ -159,8 +180,10 @@
                             </p>
                           </td>
                         </tr>
+
                         <tr>
                           <td><strong>Validate</strong></td>
+
                           <td>
                             {{#if isEqual giverId currentUser._id}}
                               {{#if giverValidated}}
@@ -185,6 +208,7 @@
                               {{/if}}
                             {{/if}}
                           </td>
+
                           <td>
                             {{#if isEqual receiverId currentUser._id}}
                               {{#if receiverValidated}}
@@ -221,14 +245,15 @@
       </div>
     </div>
 
-
-
+    <!-- Messages Container -->
     <div class="container-fluid">
       <h3>Messages</h3>
+
       <ul>
         {{#each userMessages}}
           <li class="message">
             {{usernameFromId giverId}}: {{message}}
+
             <button class="toggle-read">
               {{#if read}}
                 <span class="glyphicon glyphicon-eye-open"></span>
@@ -236,11 +261,13 @@
                 <span class="glyphicon glyphicon-eye-close"></span>
               {{/if}}
             </button>
+
             <button>
               <a href="/users/{{usernameFromId giverId}}/contact">
                 <span class="glyphicon glyphicon-pencil"></span>
               </a>
             </button>
+
             <button class="delete">
               <span class="glyphicon glyphicon-remove"></span>
             </button>
@@ -251,6 +278,8 @@
   {{/if}}
 </template>
 
+
+<!-- Modal Container -->
 <template name='addEditEventModal'>
   <div class="modal fade" id="add-edit-event-modal" tabindex="-1"
       role="dialog" aria-labelledby="add-edit-event-modal">
@@ -262,13 +291,17 @@
           <h4 class="modal-title" id="add-edit-event">
             {{modalLabel.label}} Event Request</h4>
         </div>
+
+        <!-- Add Edit Event Form -->
         <form id="add-edit-event-form">
           <div class="modal-body">
+
             <div class="form-group">
               <label for="title">Event Title</label>
               <input type="text" name="title" class="form-control"
                 value="{{evnt.title}}">
             </div>
+
             <div class='form-group'>
               <div class='row'>
                 <div class='col-xs-12 col-sm-3'>
@@ -295,6 +328,7 @@
                 </div>
               </div>
             </div>
+
             <div class="form-group">
               <div class="row">
                 <div class="col-xs-12 col-sm-5">
@@ -316,6 +350,7 @@
               </div>
             </div>
           </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-default"
               data-dismiss="modal">Cancel</button>
@@ -327,15 +362,20 @@
       </div>
     </div>
   </div>
+
+  <!-- Javascript -->
   <script type='text/javascript'>
-    $(document).ready( function() {
-      $( '#add-edit-event-form' ).submit( function() {
-        if ( this.title.value == null || this.title.value == "" ) {
+    $(document).ready(function () {
+
+      // Check #add-edit-event-form on submit
+      $('#add-edit-event-form').submit(function () {
+        if (this.title.value == null || this.title.value == "") {
           Bert.alert('Event title is empty', 'warning', 'growl-top-right');
           return false;
         }
+
         var today = moment().format();
-        if ( moment(today).isAfter(this.start.value) ) {
+        if (moment(today).isAfter(this.start.value)) {
           Bert.alert(
             'Event Start should be after today',
             'warning',
@@ -343,7 +383,8 @@
           );
           return false;
         }
-        if ( moment(today).isAfter(this.end.value) ) {
+
+        if (moment(today).isAfter(this.end.value)) {
           Bert.alert(
             'Event End should be after today',
             'warning',
@@ -351,6 +392,7 @@
           );
           return false;
         }
+
         if (moment(this.start.value).isAfter(this.end.value) ||
             moment(this.start.value).isSame(this.end.value)) {
           Bert.alert(
