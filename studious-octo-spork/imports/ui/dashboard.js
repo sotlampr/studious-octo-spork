@@ -37,6 +37,7 @@ export const infoEvent = function (evnt, element) {
 
 
 Template.dashboard.onCreated(function dashboardOnCreated() {
+  // Required subscriptions
   this.subscribe('messages.user');
   this.subscribe('logbook.user');
   this.subscribe('users');
@@ -60,8 +61,8 @@ Template.dashboard.helpers({
     };
   },
 
+  // Data for pre-filling the dashboard form
   formData: function () {
-    // Data for pre-filling the dashboard form
     user = Meteor.users.findOne(Meteor.userId());
     if (user) {
       return {
@@ -73,8 +74,8 @@ Template.dashboard.helpers({
     }
   },
 
+  // Return messages for current user
   userMessages: function () {
-    // See if we have any messages for this user
     if (Meteor.user()) {
       var userMessages = Messages.find(
           {receiverId: Meteor.user()._id, visible:true},
@@ -83,8 +84,8 @@ Template.dashboard.helpers({
     }
   },
 
+  // Return the last 5 transactions for current user
   userTransactions: function () {
-    // Retrieve the last 5 user transactions
     if (Meteor.user()) {
       var userTransactions = Logbook.find(
           {$or: [{giverValidated: true}, {receiverValidated: true}]},
@@ -94,6 +95,7 @@ Template.dashboard.helpers({
     }
   },
 
+  // Return true if transaction is approved by both parties
   isApproved: (data) => {
     if (data.giverValidated && data.receiverValidated) {
       return true;
@@ -128,12 +130,15 @@ Template.dashboard.helpers({
 
 
 Template.dashboard.events({
+  // Redirect to transactions page when clicking the appropriate class
   'click .transactions-redirect': () => {
-     // This is to remove an Uncaught Error from the console
-     // Error: must be attached
+     /* This is to remove an Uncaught Error from the console
+      * Error: must be attached
+      */
      Meteor.defer(() => { FlowRouter.go('/dashboard/transactions'); });
   },
 
+  // Update user profile
   'submit .update-profile': function (event) {
     // Handle the updating logic, call updateUserProfile afterwards
     event.preventDefault();
@@ -147,10 +152,12 @@ Template.dashboard.events({
     Bert.alert('Your profile has been updated', 'success', 'growl-top-right');
   },
 
+  // Toggle the read flag of current message
   'click .toggle-read': function () {
     toggleRead.call({messageId: this._id});
   },
 
+  // Delete current message
   'click .delete': function () {
     deleteMessage.call({messageId: this._id});
   },

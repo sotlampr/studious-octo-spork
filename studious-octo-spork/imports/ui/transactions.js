@@ -9,6 +9,10 @@ import { deleteTransaction } from '../api/transactions/methods.js';
 import './transactions.html';
 import './common-helpers.js';
 
+/* Object with possible transaction states:
+ * both / self / other / none
+ * for using with contetual bootstrap classes
+ */
 const approvalStatusToContextualClass = {
   both: 'info',
   'self': 'success',
@@ -16,10 +20,11 @@ const approvalStatusToContextualClass = {
   none: 'danger'
 };
 
+/* Return transaction approval status as a string
+ * 4 Possible return values:
+ *   ['both', 'self', 'other', 'none']
+ */
 const transactionApprovalStatus = (data) => {
-  // Return transaction approval status as a string
-  // 4 Possible return values:
-  //   ['both', 'self', 'other', 'none']
   // Expand the data to variables for readability
   let user = Meteor.userId();
   let u1 = {id: data.giverId, ok: data.giverValidated};
@@ -33,6 +38,7 @@ const transactionApprovalStatus = (data) => {
 };
 
 Template.transactionsIndex.onCreated(function transactionsIndexOnCreated() {
+  // Required subscriptions
   this.subscribe('logbook.user');
   this.subscribe('users');
 });
@@ -42,6 +48,7 @@ Template.transactionsIndex.events({
 });
 
 Template.transactionsIndex.helpers({
+  // Return last 15 transactions for current user
   userTransactions: function () {
     if (Meteor.user()) {
       var userTransactions = Logbook.find(
@@ -50,9 +57,13 @@ Template.transactionsIndex.helpers({
       return userTransactions;
     }
   },
+
+  // Return the context according to approval status
   contextualApprovalStatus: (data) => {
     return approvalStatusToContextualClass[transactionApprovalStatus(data)];
   },
+
+  // Return a boolean indicating if the transaction is disputable
   canDelete: (giverValidated, receiverValidated) => {
     let state = transactionApprovalStatus(data);
     if (state === 'self' || state === 'other')

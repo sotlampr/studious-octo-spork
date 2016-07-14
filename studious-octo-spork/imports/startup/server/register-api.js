@@ -1,3 +1,7 @@
+/* register-api.js
+ * Here we should import every API's methods.js and publications.js
+ * in order for the server to see the required code
+ */
 import '../../api/email/methods.js';
 
 import '../../api/messaging/methods.js';

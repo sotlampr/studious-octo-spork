@@ -10,28 +10,35 @@ Logbook.deny({
 });
 
 Logbook.schema = new SimpleSchema({
+  // Mongo _id for the user that 'employs'
   giverId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
+  // Mongo _id for the user that 'works'
   receiverId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
+  // Small text description, max 320 chars
   description: {
     type: String,
     max: 320,
   },
+  // Insertion or Work date
   date: {
     type: Date,
   },
+  // How much the work cost
   cost: {
     type: Number
   },
+  // Boolean indicating if giver has validated the transaction
   giverValidated: {
     type: Boolean,
     defaultValue: false,
   },
+  // Boolean indicating if receiver has validated the transaction
   receiverValidated: {
     type: Boolean,
     defaultValue: false,
