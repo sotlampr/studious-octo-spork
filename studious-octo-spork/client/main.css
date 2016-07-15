@@ -137,3 +137,28 @@ h2 {
   background-color: #000;
   color: #fff;
 }
+
+.tabs-left {
+  border-bottom: none;
+  border-right: 1px solid #ddd;
+  padding-top: 2px;
+}
+
+.tabs-left > li {
+  float: none;
+  margin-bottom: 2px;
+  margin-right: -1px;
+}
+
+.tabs-left > li.active > a,
+.tabs-left > li.active > a:hover,
+.tabs-left > li.active > a:focus {
+  border-bottom-color: #ddd;
+  border-right-color: transparent;
+}
+
+.tabs-left > li > a {
+  border-radius: 4px 0 0 4px;
+  margin-right: 0;
+  display: block;
+}
