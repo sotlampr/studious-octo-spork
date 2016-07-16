@@ -7,6 +7,7 @@ Accounts.onCreateUser(function (options, user) {
   user.profile.description = '';
   user.profile.balance = 0.0;
   user.profile.logisticBalance = 0.0;
+  user.characteristic = '';
   return user;
 });
 

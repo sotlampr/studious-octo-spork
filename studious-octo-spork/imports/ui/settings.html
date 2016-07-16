@@ -1,8 +1,8 @@
 <!-- Settings Template -->
 <template name='settings'>
-  {{#if currentUser}}
-    <div class='jumbotron'>
-      <div class='container'>
+  <div class='jumbotron'>
+    <div class='container'>
+      {{#if currentUser}}
 
         <div class="col-xs-3">
           <!-- Nav tabs -->
@@ -98,9 +98,8 @@
                         </label>
 
                         <div class='col-md-5'>
-                          <textarea id='about-textarea' name='about'
-                            rows='6' class='form-control'>
-                          </textarea>
+                          <textarea name='characteristic' class='form-control'
+                            rows='3'>{{characteristic}}</textarea>
                         </div>
                       </div><!-- /.form-group -->
 
@@ -212,9 +211,30 @@
           </div>
         </div>
 
-      </div>
+        {{else}}
+        <h4>You are not registered yet.</h4>
+      {{/if}}
+
     </div>
-    {{else}}
-    <h4>You are not registered yet.</h4>
-  {{/if}}
+  </div>
+
+  <!-- Javascript -->
+  <script type='text/javascript'>
+    $(document).ready(function () {
+
+      // Check edit-profile form
+      $('#edit-profile').submit(function () {
+        var format = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+
+        if (!format.test(this.email.value)) {
+          Bert.alert(
+            'Invalid email format',
+            'warning',
+            'growl-top-right'
+          );
+          return false;
+        }
+      });
+    });
+  </script>
 </template>
