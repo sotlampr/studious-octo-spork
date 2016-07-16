@@ -45,72 +45,75 @@
                 </div>
 
                 <div class='panel-body'>
-                  <form class='form-horizontal' id='edit-profile'>
-                    <div class='form-group'>
-                      <label class='col-md-3 control-label'>
-                        Username
-                      </label>
+                  {{#with formData}}
+                    <form class='form-horizontal' id='edit-profile'>
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Username
+                        </label>
 
-                      <div class='col-md-5'>
-                        <input type='text' name='user-name'
-                        class='form-control'>
-                      </div>
-                    </div><!-- /.form-group -->
+                        <div class='col-md-5'>
+                          <input type='text' name='username'
+                          class='form-control' value={{username}}>
+                        </div>
+                      </div><!-- /.form-group -->
 
-                    <div class='form-group'>
-                      <label class='col-md-3 control-label'>
-                        Occupation
-                      </label>
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Occupation
+                        </label>
 
-                      <div class='col-md-5'>
-                        <input type='text' name='user-occupation'
-                        class='form-control'>
-                      </div>
-                    </div><!-- /.form-group -->
+                        <div class='col-md-5'>
+                          {{>inputAutocomplete settings=settings
+                          class='form-control' name='occupation'
+                          value=occupation}}
+                        </div>
+                      </div><!-- /.form-group -->
 
-                    <div class='form-group'>
-                      <label class='col-md-3 control-label'>
-                        Description
-                      </label>
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Description
+                        </label>
 
-                      <div class='col-md-5'>
-                        <input type='text' name='user-description'
-                        class='form-control'>
-                      </div>
-                    </div><!-- /.form-group -->
+                        <div class='col-md-5'>
+                          <input type='text' name='description'
+                          class='form-control' value={{description}}>
+                        </div>
+                      </div><!-- /.form-group -->
 
-                    <div class='form-group'>
-                      <label class='col-md-3 control-label'>
-                        Email Address
-                      </label>
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Email Address
+                        </label>
 
-                      <div class='col-md-5'>
-                        <input type='text' name='user-email'
-                        class='form-control'>
-                      </div>
-                    </div><!-- /.form-group -->
+                        <div class='col-md-5'>
+                          <input type='text' name='email'
+                          class='form-control' value={{email}}>
+                        </div>
+                      </div><!-- /.form-group -->
 
-                    <div class='form-group'>
-                      <label class='col-md-3 control-label'>
-                        About You
-                      </label>
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          About You
+                        </label>
 
-                      <div class='col-md-5'>
-                        <textarea id='about-textarea' name='about-you'
-                          rows='6' class='form-control'>
-                        </textarea>
-                      </div>
-                    </div><!-- /.form-group -->
+                        <div class='col-md-5'>
+                          <textarea id='about-textarea' name='about'
+                            rows='6' class='form-control'>
+                          </textarea>
+                        </div>
+                      </div><!-- /.form-group -->
 
-                    <div class="form-group">
-                      <div class="col-md-7 col-md-push-3">
-                        <button type="submit" class="btn btn-success">
-                          Save Changes
-                        </button>
-                      </div>
-                    </div> <!-- /.form-group -->
+                      <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                          <button type="submit" class="btn btn-success">
+                            Save Changes
+                          </button>
+                        </div>
+                      </div> <!-- /.form-group -->
 
-                  </form><!-- /form -->
+                    </form><!-- /form -->
+                  {{/with}}
                 </div>
               </div>
             </div>
@@ -190,7 +193,9 @@
                 <div class='panel-body'>
                   <form class='form-horizontal' id='delete-account'>
                     <div class="form-group">
-                      <h5 class='plai'>Think, take a deep breath and after push!</h5>
+                      <h5 class='plai'>
+                        Think, take a deep breath and after push!
+                      </h5>
 
                       <div class="col-md-3">
                         <button type="submit" class="btn btn-danger">
