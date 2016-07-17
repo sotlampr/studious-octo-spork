@@ -122,67 +122,15 @@
 
               <div class='panel panel-default'>
                 <div class='panel-heading'>
-                  <strong>Change Password</strong>
+                  <strong>Password</strong>
                 </div>
 
                 <div class='panel-body'>
-                  <form class='form-horizontal' id='change-password'>
-                    <div class="form-group">
-
-                      <label class="col-md-3 control-label">
-                        Current Password
-                      </label>
-
-                      <div class="col-md-5">
-                        <input type="password" name="current-password"
-                        class="form-control">
-                      </div>
-
-                    </div> <!-- /.form-group -->
-
-
-                    <div class="form-group">
-
-                      <label class="col-md-3 control-label">
-                        New Password
-                      </label>
-
-                      <div class="col-md-5">
-                        <input type="password" name="new-password-1"
-                        class="form-control">
-                      </div> <!-- /.col -->
-
-                    </div> <!-- /.form-group -->
-
-
-                    <div class="form-group">
-
-                      <label class="col-md-3 control-label">
-                        New Password Confirm
-                      </label>
-
-                      <div class="col-md-5">
-                        <input type="password" name="new-password-2"
-                        class="form-control">
-                      </div> <!-- /.col -->
-
-                    </div> <!-- /.form-group -->
-
-
-                    <div class="form-group">
-
-                      <div class="col-md-7 col-md-push-3">
-                        <button type="submit" class="btn btn-success">
-                          Save Changes
-                        </button>
-                      </div> <!-- /.col -->
-
-                    </div> <!-- /.form-group -->
-
-                  </form><!-- /form -->
+                  <div class='col-md-6 col-md-push-3'>
+                    {{> atForm state='changePwd'}}
+                  </div>
                 </div>
               </div>
-
 
               <div class='panel panel-danger'>
                 <div class='panel-heading'>
