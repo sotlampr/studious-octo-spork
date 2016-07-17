@@ -132,28 +132,26 @@
                 </div>
               </div>
 
+              {{> deleteAccountModal}}
               <div class='panel panel-danger'>
                 <div class='panel-heading'>
                   <strong>Delete Account</strong>
                 </div>
 
                 <div class='panel-body'>
-                  <form class='form-horizontal' id='delete-account'>
-                    <div class="form-group">
-                      <h5 class='plai'>
-                        Think, take a deep breath and after push!
-                      </h5>
+                  <h5 class='plai'>
+                    Think, take a deep breath and after push!
+                  </h5>
 
-                      <div class="col-md-3">
-                        <button type="submit" class="btn btn-danger">
-                          Delete
-                        </button>
-                      </div> <!-- /.col -->
-
-                    </div> <!-- /.form-group -->
-
-                  </form><!-- /form -->
+                  <div class="col-md-3">
+                    <button class="btn btn-danger"
+                      data-toggle='modal'
+                      data-target='#delete-account-modal'>
+                      Delete
+                    </button>
+                  </div> <!-- /.col -->
                 </div>
+
               </div>
             </div>
           </div>
@@ -185,4 +183,44 @@
       });
     });
   </script>
+</template>
+
+
+<!-- Delete Account Modal Template -->
+<template name='deleteAccountModal'>
+  <div class='modal fade' id='delete-account-modal' role='dialog'>
+    <div class='modal-dialog'>
+
+      <!-- Modal content -->
+      <div class='modal-content'>
+        <div class='modal-header bg-danger text-danger'>
+          <button type='button' class='close'
+            data-dismiss='modal'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+          <h4 class='modal-title'>Delete Account</h4>
+        </div>
+
+        <form class='form-horizontal' id='delete-account'>
+          <div class='modal-body'>
+            <h5>
+              Dear <strong>{{currentUser.username}}</strong>,
+            </h5>
+            <h5>
+              Would you like to permanently delete your account?
+            </h5>
+          </div>
+
+          <div class='modal-footer'>
+            <button type="submit" class="btn btn-danger">
+              Delete
+            </button>
+            <button type='button' class='btn btn-default'
+              data-dismiss='modal'>Close</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
 </template>
