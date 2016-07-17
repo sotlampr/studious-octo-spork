@@ -3,6 +3,8 @@ import { Template } from 'meteor/templating';
 import { Suggestions } from '../api/suggestions/suggestions.js';
 import { saveSuggestion } from '../api/suggestions/methods.js';
 import { editUserProfile } from '../api/users/methods.js';
+import { deleteAccount } from '../api/users/methods.js';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import './settings.html';
 
 
@@ -70,4 +72,23 @@ Template.settings.events({
       }
     });
   },
+});
+
+
+Template.deleteAccountModal.events({
+  'submit #delete-account': function (event, template) {
+    event.preventDefault();
+
+    deleteAccount.call({
+      id: Meteor.userId()
+    }, (err, res) => {
+      if (err) {
+        Bert.alert(err.reason, 'warning', 'growl-top-right');
+      } else {
+        $('.modal-backdrop').remove();
+        FlowRouter.go("/");
+        Bert.alert('Your account deleted', 'success', 'growl-top-right');
+      }
+    });
+  }
 });

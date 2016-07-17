@@ -77,3 +77,27 @@ export const editUserProfile = new ValidatedMethod({
     });
   }
 });
+
+
+/*  Delete user account
+ *    args:
+ *      id: The user id
+ */
+export const deleteAccount = new ValidatedMethod({
+  name: 'users.deleteAccount',
+
+  validate: new SimpleSchema({
+    id: { type: String },
+  }).validator(),
+
+  run (data) {
+    if (this.userId !== data.id) {
+      throw new Meteor.Error(
+        'users.deleteAccount.you-have-not-the-right',
+        'You have not the right'
+      );
+    }
+
+    Meteor.users.remove({_id: data.id});
+  },
+});

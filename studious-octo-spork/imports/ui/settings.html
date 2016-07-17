@@ -188,10 +188,9 @@
 
 <!-- Delete Account Modal Template -->
 <template name='deleteAccountModal'>
-  <div class='modal fade' id='delete-account-modal' role='dialog'>
+  <div class='modal fade' id='delete-account-modal' tabindex='-1'
+    role='dialog' aria-labelledby='delete-account-modal'>
     <div class='modal-dialog'>
-
-      <!-- Modal content -->
       <div class='modal-content'>
         <div class='modal-header bg-danger text-danger'>
           <button type='button' class='close'
@@ -216,7 +215,7 @@
               Delete
             </button>
             <button type='button' class='btn btn-default'
-              data-dismiss='modal'>Close</button>
+              data-dismiss='modal'>Cancel</button>
           </div>
         </form>
       </div>
