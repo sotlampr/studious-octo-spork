@@ -1,0 +1,225 @@
+<!-- Settings Template -->
+<template name='settings'>
+  <div class='jumbotron'>
+    <div class='container'>
+      {{#if currentUser}}
+
+        <div class="col-xs-3">
+          <!-- Nav tabs -->
+          <div class='panel panel-default'>
+            <div class='panel-heading'>
+              <strong>Personal Settings</strong>
+            </div>
+
+            <div class='panel-body zero'>
+              <ul class="nav tabs-left">
+                <li class="active">
+                  <a href="#profile-tab" data-toggle="tab">
+                    <i class='fa fa-user'></i>
+                    Profile
+                  </a>
+                </li>
+
+                <hr class='zero'>
+
+                <li>
+                  <a href="#password-tab" data-toggle="tab">
+                    <i class='fa fa-lock'></i>
+                    Account
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class='col-xs-9'>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane fade in active" id="profile-tab">
+
+              <div class='panel panel-default'>
+
+                <div class='panel-heading'>
+                  <strong>Edit Profile</strong>
+                </div>
+
+                <div class='panel-body'>
+                  {{#with formData}}
+                    <form class='form-horizontal' id='edit-profile'>
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Username
+                        </label>
+
+                        <div class='col-md-5'>
+                          <input type='text' name='username'
+                          class='form-control' value={{username}}>
+                        </div>
+                      </div><!-- /.form-group -->
+
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Occupation
+                        </label>
+
+                        <div class='col-md-5'>
+                          {{>inputAutocomplete settings=settings
+                          class='form-control' name='occupation'
+                          value=occupation}}
+                        </div>
+                      </div><!-- /.form-group -->
+
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Description
+                        </label>
+
+                        <div class='col-md-5'>
+                          <input type='text' name='description'
+                          class='form-control' value={{description}}>
+                        </div>
+                      </div><!-- /.form-group -->
+
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          Email Address
+                        </label>
+
+                        <div class='col-md-5'>
+                          <input type='text' name='email'
+                          class='form-control' value={{email}}>
+                        </div>
+                      </div><!-- /.form-group -->
+
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
+                          About You
+                        </label>
+
+                        <div class='col-md-5'>
+                          <textarea name='characteristic' class='form-control'
+                            rows='3'>{{characteristic}}</textarea>
+                        </div>
+                      </div><!-- /.form-group -->
+
+                      <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                          <button type="submit" class="btn btn-success">
+                            Save Changes
+                          </button>
+                        </div>
+                      </div> <!-- /.form-group -->
+
+                    </form><!-- /form -->
+                  {{/with}}
+                </div>
+              </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="password-tab">
+
+              <div class='panel panel-default'>
+                <div class='panel-heading'>
+                  <strong>Password</strong>
+                </div>
+
+                <div class='panel-body'>
+                  <div class='col-md-6 col-md-push-3'>
+                    {{> atForm state='changePwd'}}
+                  </div>
+                </div>
+              </div>
+
+              {{> deleteAccountModal}}
+              <div class='panel panel-danger'>
+                <div class='panel-heading'>
+                  <strong>Delete Account</strong>
+                </div>
+
+                <div class='panel-body'>
+                  <h5 class='plai'>
+                    Think, take a deep breath and after push!
+                  </h5>
+
+                  <div class="col-md-3">
+                    <button class="btn btn-danger"
+                      data-toggle='modal'
+                      data-target='#delete-account-modal'>
+                      Delete
+                    </button>
+                  </div> <!-- /.col -->
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{else}}
+        <h4>You are not registered yet.</h4>
+      {{/if}}
+
+    </div>
+  </div>
+
+  <!-- Javascript -->
+  <script type='text/javascript'>
+    $(document).ready(function () {
+
+      // Check edit-profile form
+      $('#edit-profile').submit(function () {
+        var format = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+
+        if (!format.test(this.email.value)) {
+          Bert.alert(
+            'Invalid email format',
+            'warning',
+            'growl-top-right'
+          );
+          return false;
+        }
+      });
+    });
+  </script>
+</template>
+
+
+<!-- Delete Account Modal Template -->
+<template name='deleteAccountModal'>
+  <div class='modal fade' id='delete-account-modal' tabindex='-1'
+    role='dialog' aria-labelledby='delete-account-modal'>
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header bg-danger text-danger'>
+          <button type='button' class='close'
+            data-dismiss='modal'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+          <h4 class='modal-title'>Delete Account</h4>
+        </div>
+
+        <form class='form-horizontal' id='delete-account'>
+          <div class='modal-body'>
+            <h5>
+              Dear <strong>{{currentUser.username}}</strong>,
+            </h5>
+            <h5>
+              Would you like to permanently delete your account?
+            </h5>
+          </div>
+
+          <div class='modal-footer'>
+            <button type="submit" class="btn btn-danger">
+              Delete
+            </button>
+            <button type='button' class='btn btn-default'
+              data-dismiss='modal'>Cancel</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</template>
