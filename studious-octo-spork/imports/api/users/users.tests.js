@@ -139,5 +139,41 @@ if (Meteor.isServer) {
       });
     });
 
+    describe('deleteAccount', function () {
+      let userId;
+
+      beforeEach(function (done) {
+        userId = Accounts.createUser({username: "mofarah"});
+        done();
+      });
+
+      afterEach(function (done) {
+        Meteor.users.remove({});
+        done();
+      });
+
+      it('Delete an account', function (done) {
+        const deleteAccount =
+          Meteor.server.method_handlers['users.deleteAccount'];
+        const invocation = { userId };
+
+        let num;
+        deleteAccount.apply(invocation, [{id: userId}]);
+        num = Meteor.users.find({}).count();
+        assert.equal(num, 0);
+        done();
+      });
+
+      it('Reject delete another user account', function (done) {
+        const deleteAccount =
+          Meteor.server.method_handlers['users.deleteAccount'];
+        const invocation = { id: Random.id() };
+        const throwing = function () {
+          deleteAccount.apply(invocation, [{id: userId}]);
+        };
+        assert.throws(throwing, Meteor.Error);
+        done();
+      });
+    });
   });
 }
