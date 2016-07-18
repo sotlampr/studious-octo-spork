@@ -62,7 +62,8 @@ export const editUserProfile = new ValidatedMethod({
       }
     }
 
-    if (data.email !== user.emails[0].address) {
+    if (data.email !==
+        Meteor.users.findOne({_id: this.userId}).emails[0].address) {
       Meteor.users.update({_id: data.id}, {$set: {
         'emails.0.verified': false}
       });
