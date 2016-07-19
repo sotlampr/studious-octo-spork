@@ -40,8 +40,19 @@ export const updateUserProfile = new ValidatedMethod({
 });
 
 
-/*  After submit Edit Profile form the method takes the inputs
- *  and update the corresponding users collection entry
+/*  Edit a user profile (username, occupation, description,
+ *  email, characteristic)
+ *    args:
+ *      id:
+ *        Mongo id of the user
+ *      username:
+ *        String, username to save
+ *      occupation:
+ *        String, occupation to save
+ *      email:
+ *        String, email to save
+ *      characteristic:
+ *        String, characteristic to save
  */
 export const editUserProfile = new ValidatedMethod({
   name: 'users.editUserProfile',
@@ -92,7 +103,7 @@ export const editUserProfile = new ValidatedMethod({
 });
 
 
-/*  Delete user account
+/*  Delete a user account
  *    args:
  *      id: The user id
  */

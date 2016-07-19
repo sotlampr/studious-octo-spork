@@ -4,8 +4,12 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Events } from './events.js';
 
 
-/*  When an user click on validateRequest button, the
- *  method set the corresponding event field true
+/*  Validate an event (userId, eventId)
+ *  args:
+ *    userId:
+ *      Mongo Id of the user
+ *    eventId:
+ *      Mongo Id of the event
  */
 export const validateRequest = new ValidatedMethod({
   name: 'events.validateRequest',
@@ -47,8 +51,10 @@ export const validateRequest = new ValidatedMethod({
 });
 
 
-/*  When an user click on removeRequest button, the
- *  method remove the event from events collection
+/*  Remove an event (eventId)
+ *  args:
+ *    eventId:
+ *      Mongo Id of the event
  */
 export const removeRequest = new ValidatedMethod({
   name: 'events.removeRequest',
@@ -81,8 +87,18 @@ export const removeRequest = new ValidatedMethod({
 });
 
 
-/*  After submit Add Event Request form the method
- *  takes the inputs and insert an entry in events collection
+/*  Add an event (title, giver, receiver, start, end)
+ *  args:
+ *    title:
+ *      String, the title of the event
+ *    giver:
+ *      Mongo Id of the giver
+ *    receiver:
+ *      Mongo Id of the receiver
+ *    start:
+ *      Date, the start date
+ *    end:
+ *      Date, the end date
  */
 export const addRequest = new ValidatedMethod({
   name: 'events.addRequest',
@@ -113,8 +129,20 @@ export const addRequest = new ValidatedMethod({
 });
 
 
-/*  After submit Edit Event form the method
- *  takes the inputs and update the corresponding entry
+/*  Edit an event (id, giver, receiver, start, end, changer)
+ *  args:
+ *    id:
+ *      Mongo Id of the event
+ *    giver:
+ *      Mongo Id of the giver
+ *    receiver:
+ *      Mongo Id of the receiver
+ *    start:
+ *      Date, the start date
+ *    end:
+ *      Date, the end date
+ *    changer:
+ *      Mongo Id of the user who changed the event
  */
 export const editEvent = new ValidatedMethod({
   name: 'events.editEvent',

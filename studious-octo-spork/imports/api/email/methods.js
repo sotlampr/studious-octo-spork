@@ -5,9 +5,14 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidationError } from 'meteor/mdg:validation-error';
 
 
-/*  After submit contact form, sendTestEmail
- *  take the inputs (name, email, comment) and
- *  call Email.send method
+/*  Send a email (name, email, comment)
+ *  args:
+ *    name:
+ *      String, the person's name
+ *    email:
+ *      String, the person's email
+ *    comment:
+ *      String, the comment
  */
 export const sendTestEmail = new ValidatedMethod({
   name: 'email.sendTestEmail',

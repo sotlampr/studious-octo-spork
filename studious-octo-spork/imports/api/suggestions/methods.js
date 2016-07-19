@@ -4,8 +4,10 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Suggestions } from './suggestions.js';
 
 
-/*  saveSuggestion takes an occupation, and if there isn't
- *  already in suggestions collection, then insert it
+/*  Save a suggestion (suggestion)
+ *  args:
+ *    suggestion:
+ *      String, the suggestion
  */
 export const saveSuggestion = new ValidatedMethod({
   name: 'suggestions.saveSuggestion',
