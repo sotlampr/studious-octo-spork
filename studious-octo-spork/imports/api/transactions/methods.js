@@ -4,8 +4,11 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Logbook } from './logbook.js';
 
-const tryFetchTransaction = (transactionId, userId) => {
-  // Try to fetch a transaction and run routine checks for errors
+
+/* Return a transaction if exists, else
+ * throw an appropriate error.
+ */
+function tryFetchTransaction (transactionId, userId) {
   let transaction = Logbook.findOne(transactionId);
 
   // Check if transaction exists
@@ -24,13 +27,15 @@ const tryFetchTransaction = (transactionId, userId) => {
   return transaction;
 };
 
-const commitTransaction = (transaction, type) => {
-  // Propagate transaction info to users balance.
-  // 2 options for var type:
-  //   final:
-  //     Register the transaction on users' real balance
-  //   logistic:
-  //     Register the transaction on users' logistic balance
+/* Propagate transaction info to users balance.
+ * 2 options for arg type:
+ *  final:
+ *    Register the transaction on users' real balance
+ *  logistic:
+ *    Register the transaction on users' logistic balance
+ */
+
+function commitTransaction (transaction, type) {
   if (type === 'final') {
     Meteor.users.update(
         { _id: transaction.giverId },
@@ -56,10 +61,27 @@ const commitTransaction = (transaction, type) => {
         { $inc: { 'profile.logisticBalance': transaction.cost } }
     );
   } else {
-    // Unrecongized type, do nothing?
+    // TODO Unrecongized type, do nothing?
   }
 };
 
+/* Insert a new transaction
+ * data keys:
+ *   giverId, giverValidated:
+ *     meteor userId of the user calling this function and a boolean
+ *     declaring if this is the giver.
+ *   reveiverId, reveiverValidated:
+ *     meteor userId of the opposite party and a boolean declaring if
+ *     the user calling this function is the receiver.
+ *      NOTE:
+ *        giverId = CURRENT USER
+ *        receiverId = OTHER PARTY
+ *        so, if receiverOk === true, flip giverId and receiverId.
+ *   description:
+ *     String, short description.
+ *   cost:
+ *     Number, represents cost.
+ */
 export const saveTransaction = new ValidatedMethod({
   name: 'transactions.saveTransaction',
   validate: new SimpleSchema({
@@ -106,12 +128,18 @@ export const saveTransaction = new ValidatedMethod({
         'Target balance is not enough to cover the cost.'
       );
     }
+
     data.date = new Date();
     let transactionId = Logbook.insert(data);
     commitTransaction(Logbook.findOne({ _id: transactionId }), 'logistic');
   },
 });
 
+/* Let the other party approve a registered transaction.
+ * args:
+ *   transactionId:
+ *     Mongo Id of the transaction.
+ */
 export const approveTransaction = new ValidatedMethod({
   name: 'transactions.approveTransaction',
   validate: new SimpleSchema({
@@ -137,6 +165,11 @@ export const approveTransaction = new ValidatedMethod({
   }
 });
 
+/* Delete a registered transaction.
+ * args:
+ *   transactionId:
+ *     Mongo Id of the transaction.
+ */
 export const deleteTransaction = new ValidatedMethod({
   name: 'transactions.deleteTransaction',
   validate: new SimpleSchema({

@@ -50,10 +50,10 @@ describe('Dashboard', function() {
     done();
   });
 
-  it('Display 5 messages', function (done) {
+  it('Display 3 messages', function (done) {
     let rawMessages = [];
     // Generate random messages
-    for (let i=0; i<5; i++) {
+    for (let i=0; i<3; i++) {
       tempData = {
         receiverId: usersIdArray[0],
         giverId: usersIdArray[i%2+1],
@@ -77,8 +77,8 @@ describe('Dashboard', function() {
 
     withRenderedTemplate('dashboard', {}, el => {
       let messages = $(el).find('.message');
-      assert.equal(messages.length, 5);
-        for (let i=0; i<5; i++) {
+      assert.equal(messages.length, 3);
+        for (let i=0; i<3; i++) {
           assert.include(
             messages[i].innerText.replace(/\s+/g, ' '),
             Meteor.users.findOne(rawMessages[i].giverId).username +
