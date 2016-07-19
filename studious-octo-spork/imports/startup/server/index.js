@@ -1,4 +1,4 @@
-/* index.js
+/* server index.js
  * Entry file for the server. Import any file you want to startup
  * on the server in the current folder
  */

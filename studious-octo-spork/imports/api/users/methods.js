@@ -4,6 +4,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Suggestions } from '../suggestions/suggestions.js';
 
+
 /* Update a users profile (description, occupation, username)
  * args:
  *   id:

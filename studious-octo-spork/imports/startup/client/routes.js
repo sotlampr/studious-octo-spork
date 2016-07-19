@@ -1,4 +1,7 @@
-// Routes for studious-octo-spork app
+/* Routes for studious-octo-spork app
+ * groups:
+ *   userRoutes: "/users/*"
+ */
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
@@ -7,8 +10,8 @@ import '../../ui/dashboard.js';
 import '../../ui/users.js';
 import '../../ui/transactions.js';
 
+
 // Helper function for boilerplate code
-//
 var renderTemplate = function (name) {
   return function () { BlazeLayout.render('App_body', {main: name}); };
 };
