@@ -149,3 +149,11 @@ h2 {
   border-color: red;
   color: #000;
 }
+
+.log-in-button {
+  margin-top: 8px;
+}
+
+.space {
+  margin-right: 10px;
+}

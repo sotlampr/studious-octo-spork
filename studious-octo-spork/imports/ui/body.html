@@ -18,7 +18,8 @@
 
   <!-- Navigation bar -->
   <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
+
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed"
           data-toggle="collapse" data-target="#navbar"
@@ -33,6 +34,7 @@
           Studious Octo Spork
         </a>
       </div>
+
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><a id='homePg' href='/'>Home</a></li>
@@ -42,42 +44,44 @@
           <li><a id='contactPg' href="/#contact">Contact</a></li>
         </ul>
         {{#if currentUser}}
-          <div class="nav navbar-right dropdown">
-            <button class="btn btn-info dropdown-toggle" type="button"
-              data-toggle="dropdown">
-              {{currentUser.username}}
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="">Signed in as
-                  <strong>{{currentUser.username}}</strong>
-                </a>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <a href="/dashboard">
-                  <i class='fa fa-user'></i> Your profile
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <i class='fa fa-info-circle'></i> Help
-                </a>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <a href="/settings">
-                  <i class='fa fa-cog'></i> Settings
-                </a>
-              </li>
-              <li>
-                <a class="signout">
-                  <i class='fa fa-sign-out'></i> Sign out
-                </a>
-              </li>
-            </ul>
-          </div>
+          <ul class="nav navbar-right">
+            <li class='dropdown'>
+              <div class="btn btn-info dropdown-toggle log-in-button space"
+                data-toggle="dropdown">
+                {{currentUser.username}}
+                <span class="caret"></span>
+              </div>
+              <ul class="dropdown-menu space">
+                <li>
+                  <a href="">Signed in as
+                    <strong>{{currentUser.username}}</strong>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="/dashboard">
+                    <i class='fa fa-user'></i> Your profile
+                  </a>
+                </li>
+                <li>
+                  <a href="">
+                    <i class='fa fa-info-circle'></i> Help
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="/settings">
+                    <i class='fa fa-cog'></i> Settings
+                  </a>
+                </li>
+                <li>
+                  <a class="signout">
+                    <i class='fa fa-sign-out'></i> Sign out
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
           {{else}}
           <ul class="nav navbar-nav navbar-right">
             <li><a id='signUpInPg' href="/register">
