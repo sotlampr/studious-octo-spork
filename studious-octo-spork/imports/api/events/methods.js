@@ -7,9 +7,9 @@ import { Events } from './events.js';
 /*  Validate an event (userId, eventId)
  *  args:
  *    userId:
- *      Mongo Id of the user
+ *      Mongo _id of the user
  *    eventId:
- *      Mongo Id of the event
+ *      Mongo _id of the event
  */
 export const validateRequest = new ValidatedMethod({
   name: 'events.validateRequest',
@@ -54,7 +54,7 @@ export const validateRequest = new ValidatedMethod({
 /*  Remove an event (eventId)
  *  args:
  *    eventId:
- *      Mongo Id of the event
+ *      Mongo _id of the event
  */
 export const removeRequest = new ValidatedMethod({
   name: 'events.removeRequest',
@@ -92,9 +92,9 @@ export const removeRequest = new ValidatedMethod({
  *    title:
  *      String, the title of the event
  *    giver:
- *      Mongo Id of the giver
+ *      Mongo _id of the giver
  *    receiver:
- *      Mongo Id of the receiver
+ *      Mongo _id of the receiver
  *    start:
  *      Date, the start date
  *    end:
@@ -132,17 +132,17 @@ export const addRequest = new ValidatedMethod({
 /*  Edit an event (id, giver, receiver, start, end, changer)
  *  args:
  *    id:
- *      Mongo Id of the event
+ *      Mongo _id of the event
  *    giver:
- *      Mongo Id of the giver
+ *      Mongo _id of the giver
  *    receiver:
- *      Mongo Id of the receiver
+ *      Mongo _id of the receiver
  *    start:
  *      Date, the start date
  *    end:
  *      Date, the end date
  *    changer:
- *      Mongo Id of the user who changed the event
+ *      Mongo _id of the user who changed the event
  */
 export const editEvent = new ValidatedMethod({
   name: 'events.editEvent',

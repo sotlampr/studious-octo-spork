@@ -29,7 +29,7 @@ function routineValidation (messageId, callerId) {
 /* Save a new message
  * args:
  *   receiverId:
- *     Mongo Id for the user that recieves this message.
+ *     Mongo _id for the user that recieves this message.
  *   message:
  *     String, the message body.
  */
@@ -68,7 +68,7 @@ export const saveMessage = new ValidatedMethod({
 /* Reverse the 'read' flag of a message
  * args:
  *   messageId:
- *     Mongo Id for the message we want to toggle.
+ *     Mongo _id for the message we want to toggle.
  */
 export const toggleRead = new ValidatedMethod({
   name: 'messaging.toggleRead',
@@ -86,7 +86,7 @@ export const toggleRead = new ValidatedMethod({
 /* Delete a message
  * args:
  *   messageId:
- *     Mongo Id for the message we want to toggle.
+ *     Mongo _id for the message we want to toggle.
  */
 export const deleteMessage = new ValidatedMethod({
   name: 'messaging.deleteMessage',

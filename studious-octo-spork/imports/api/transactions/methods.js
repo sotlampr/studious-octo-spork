@@ -138,7 +138,7 @@ export const saveTransaction = new ValidatedMethod({
 /* Let the other party approve a registered transaction.
  * args:
  *   transactionId:
- *     Mongo Id of the transaction.
+ *     Mongo _id of the transaction.
  */
 export const approveTransaction = new ValidatedMethod({
   name: 'transactions.approveTransaction',
@@ -168,7 +168,7 @@ export const approveTransaction = new ValidatedMethod({
 /* Delete a registered transaction.
  * args:
  *   transactionId:
- *     Mongo Id of the transaction.
+ *     Mongo _id of the transaction.
  */
 export const deleteTransaction = new ValidatedMethod({
   name: 'transactions.deleteTransaction',

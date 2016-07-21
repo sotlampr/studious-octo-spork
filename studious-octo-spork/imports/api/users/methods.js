@@ -7,7 +7,7 @@ import { Suggestions } from '../suggestions/suggestions.js';
 /* Update a users profile (description, occupation, username)
  * args:
  *   id:
- *     Mongo id of the user.
+ *     Mongo _id of the user.
  *   username:
  *     String, username to save.
  *   occupation:
@@ -44,7 +44,7 @@ export const updateUserProfile = new ValidatedMethod({
  *  email, characteristic)
  *    args:
  *      id:
- *        Mongo id of the user
+ *        Mongo _id of the user
  *      username:
  *        String, username to save
  *      occupation:
