@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+
 export const Messages = new Mongo.Collection('messages');
 Messages.deny({
   insert() { return true; },

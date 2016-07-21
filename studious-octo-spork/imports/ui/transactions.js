@@ -9,6 +9,7 @@ import { deleteTransaction } from '../api/transactions/methods.js';
 import './transactions.html';
 import './common-helpers.js';
 
+
 /* Object with possible transaction states:
  * both / self / other / none
  * for using with contetual bootstrap classes
@@ -22,7 +23,14 @@ const approvalStatusToContextualClass = {
 
 /* Return transaction approval status as a string
  * 4 Possible return values:
- *   ['both', 'self', 'other', 'none']
+ *   both
+ *     Both users have approved the transaction.
+ *   self
+ *     Caller has approved, the other party's approval is pending.
+ *   other
+ *     The other party has approved, caller approval is pending.
+ *   none
+ *     No-one has approved this transaction (which means it has been deleted)
  */
 const transactionApprovalStatus = (data) => {
   // Expand the data to variables for readability
@@ -74,14 +82,17 @@ Template.transactionsIndex.helpers({
 });
 
 Template.renderActions.helpers({
+  // return true if both approved
   isCompleted: (data) => {
     if (transactionApprovalStatus(data) === 'both') return true;
     else return false;
   },
+  // return true if caller has approved
   hasApproved: (data) => {
     if (transactionApprovalStatus(data) === 'self') return true;
     else return false;
   },
+  // return true if caller's approval is pending
   awaitingApproval: (data) => {
     if (transactionApprovalStatus(data) === 'other') return true;
     else return false;

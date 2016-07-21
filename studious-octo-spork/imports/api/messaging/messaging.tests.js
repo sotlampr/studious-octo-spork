@@ -7,6 +7,7 @@ import { assert } from 'meteor/practicalmeteor:chai';
 
 require('./methods.js');
 
+
 if (Meteor.isServer) {
   describe('Messaging', () => {
     describe('saveMessage', () => {
