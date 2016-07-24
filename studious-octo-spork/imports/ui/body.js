@@ -19,7 +19,11 @@ Template.App_body.events({
       comment: event.target.comments.value
     });
     event.target.reset();
-    Bert.alert('Your comment has been received', 'success', 'growl-top-right');
+    Bert.alert(
+      'Your comment has been received',
+      'success',
+      'growl-top-right'
+    );
   }
 });
 

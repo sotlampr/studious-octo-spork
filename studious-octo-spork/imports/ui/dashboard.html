@@ -7,7 +7,8 @@
       <div class="col-sm-6">
         {{#if formData}}
           {{#with formData}}
-            <form role="form" class="form-horizontal update-profile" method="post">
+            <form role="form" class="form-horizontal update-profile"
+              method="post">
 
               <div class="form-group">
                 <label for="username" class="control-label col-sm-2">
@@ -170,13 +171,17 @@
                           <td>
                             <p>
                               <a href='/users/{{usernameFromId giverId}}/'
-                                class='maroon bold'>{{usernameFromId giverId}}</a>
+                                class='maroon bold'>
+                                {{usernameFromId giverId}}
+                              </a>
                             </p>
                           </td>
                           <td>
                             <p>
                               <a href='/users/{{usernameFromId receiverId}}/'
-                                class='purple bold'>{{usernameFromId receiverId}}</a>
+                                class='purple bold'>
+                                {{usernameFromId receiverId}}
+                              </a>
                             </p>
                           </td>
                         </tr>
@@ -190,7 +195,8 @@
                                 <p class='green bold'>true</p>
                               {{else}}
                                 <div class='row'>
-                                  <button class='acceptRequest btn btn-success'>
+                                  <button
+                                    class='acceptRequest btn btn-success'>
                                     <span class='glyphicon glyphicon-ok'>
                                     </span>
                                   </button>
@@ -215,7 +221,8 @@
                                 <p class='green bold'>true</p>
                               {{else}}
                                 <div class='row'>
-                                  <button class='acceptRequest btn btn-success'>
+                                  <button
+                                    class='acceptRequest btn btn-success'>
                                     <span class='glyphicon glyphicon-ok'>
                                     </span>
                                   </button>
@@ -287,7 +294,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"
-            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
           <h4 class="modal-title" id="add-edit-event">
             {{modalLabel.label}} Event Request</h4>
         </div>
@@ -314,12 +323,14 @@
                     </select>
                     {{else}}
                     <input disabled type='text' name='giver'
-                      class='form-control' value="{{idToUsername evnt.giverId}}">
+                    class='form-control'
+                    value="{{idToUsername evnt.giverId}}">
                   {{/if}}
                 </div>
                 <div class='col-xs-12 col-sm-3'>
                   <label for='receiver'>Receiver</label>
-                  <input disabled type='text' name='receiver' class='form-control'
+                  <input disabled type='text' name='receiver'
+                  class='form-control'
                   value="{{#if modalType 'add'}}{{
                             currentUser.username
                         }}{{else}}{{
@@ -333,12 +344,14 @@
               <div class="row">
                 <div class="col-xs-12 col-sm-5">
                   <label for="start">Event Start</label>
-                  <input type="text" name="start" class="form-control startpicker"
+                  <input type="text" name="start"
+                  class="form-control startpicker"
                     value="{{changeFormat evnt.start}}">
                 </div>
                 <div class="col-xs-12 col-sm-5">
                   <label for="end">Event End</label>
-                  <input type="text" name="end" class="form-control endpicker"
+                  <input type="text" name="end"
+                  class="form-control endpicker"
                   value="{{changeFormat evnt.end}}">
                 </div>
                 <div class='container col-sm-12'>
