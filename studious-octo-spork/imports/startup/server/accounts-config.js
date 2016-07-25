@@ -8,6 +8,7 @@ Accounts.onCreateUser(function (options, user) {
   user.profile.balance = 0.0;
   user.profile.logisticBalance = 0.0;
   user.characteristic = '';
+  user.md5hash= Gravatar.hash(user.emails[0].address);
   return user;
 });
 
