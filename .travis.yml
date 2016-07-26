@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - "0.10"
+  - "0.10.46"
 cache:
   directories:
     - $HOME/.meteor
@@ -15,18 +15,17 @@ before_install:
   - PATH=$PATH:$HOME/.meteor
   - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
 
-  # Install spacejam
-  - cd studious-octo-spork; npm install
+  # Install spacejam and npm dependencies
+  - cd studious-octo-spork
+  - npm install
 
 script:
-    # Unit test using mocha
-  - cd studious-octo-spork
-  - meteor npm test
+  # Run the unit tests and output coverage
+  - npm run test:coverage
 
-    # Integration test using mocha
-  - meteor npm run test:coverage
-
-    # Save coverage now
+    # Send coverage to coveralls
+    #
   - cat lcov.info | ./node_modules/coveralls/bin/coveralls.js || true # ignore coveralls error
+
 notifications:
   on_success: change
