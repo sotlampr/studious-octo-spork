@@ -1,10 +1,42 @@
 sudo: required
 language: node_js
 node_js:
-  - "0.10"
+  - "6.3.1"
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+cache:
+  directories:
+    - $HOME/.meteor
+    - $HOME/.npm
+
+before_cache:
+  - rm -f $HOME/.meteor/log/*.log
 
 before_install:
-  - "curl -L http://git.io/ejPSng | /bin/sh"
-env: TEST_COMMAND=./travis.sh
+  # Download Meteor
+  - PATH=$PATH:$HOME/.meteor
+  - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
+
+  # Install spacejam and npm dependencies
+  - cd studious-octo-spork
+  # - npm -g install npm@latest
+  # - npm install bcrypt
+  - meteor npm install
+  - meteor npm rebuild
+
+script:
+  # Run the unit tests and output coverage
+  - npm run test:coverage
+
+    # Send coverage to coveralls
+    #
+  - cat lcov.info | ./node_modules/coveralls/bin/coveralls.js || true # ignore coveralls error
+
 notifications:
   on_success: change
