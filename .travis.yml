@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - "0.10"
+  - "0.10.43"
 cache:
   directories:
     - $HOME/.meteor
@@ -17,6 +17,7 @@ before_install:
 
   # Install spacejam and npm dependencies
   - cd studious-octo-spork
+  - npm install -g bcrypt
   - npm install
 
 script:
