@@ -27,7 +27,9 @@
     }
   },
   "devDependencies": {
+    "coveralls": "^2.11.11",
     "eslint": "^3.1.1",
-    "eslint-plugin-meteor": "^3.6.0"
+    "eslint-plugin-meteor": "^3.6.0",
+    "spacejam": "https://github.com/serut/spacejam/tarball/windows-suppport-rc4"
   }
 }
