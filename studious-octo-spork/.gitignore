@@ -1,3 +1,5 @@
 node_modules/
 *.swp
 *.swo
+lcov.info
+npm-debug.log
