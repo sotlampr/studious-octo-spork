@@ -16,7 +16,7 @@ before_install:
   - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
 
   # Install spacejam
-  - npm install
+  - cd studious-octo-spork; npm install
 
 script:
     # Unit test using mocha

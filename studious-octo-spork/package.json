@@ -6,6 +6,7 @@
     "test": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3050",
     "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha-phantomjs --port 3030",
     "test:web": "meteor test --driver-package practicalmeteor:mocha --port 3030",
+    "test:coverage": "./node_modules/.bin/spacejam test --driver-package=practicalmeteor:mocha-console-runner --coverage='out_lcovonly'",
     "jshint": "jshint --exclude ./node_modules .",
     "lint": "./node_modules/.bin/eslint '**/*.js'",
     "lint:fix": "./node_modules/.bin/eslint **/*.js --fix",
