@@ -17,9 +17,10 @@ before_install:
 
   # Install spacejam and npm dependencies
   - cd studious-octo-spork
-  - npm -g install npm@latest
-  - npm install bcrypt
+  # - npm -g install npm@latest
+  # - npm install bcrypt
   - meteor npm install
+  - meteor npm rebuild
 
 script:
   # Run the unit tests and output coverage
