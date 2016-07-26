@@ -1,5 +1,16 @@
 sudo: required
 language: node_js
+addons:
+  apt:
+    sources:
+    # add PPAs with more up-to-date toolchains
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    packages:
+    # install toolchains
+    - gcc-5
+    - g++-5
+    - clang-3.6
 node_js:
   - "0.10.43"
 cache:
