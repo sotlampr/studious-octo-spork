@@ -24,6 +24,25 @@ Template.App_body.events({
 });
 
 
+Template.App_body.onCreated(function AppBodyOnCreated() {
+  this.subscribe('users');
+});
+
+
+Template.App_body.helpers({
+  avatar: function (user, size) {
+    return Gravatar.imageUrl(
+      user.md5hash,
+      {
+        secure: true,
+        size: size,
+        d: 'retro',
+      }
+    );
+  }
+});
+
+
 Template.hello.onCreated(function helloOnCreated() {
   this.subscribe('users');
 });

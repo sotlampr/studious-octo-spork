@@ -95,6 +95,10 @@ h2 {
   color: orange;
 }
 
+.white {
+  color: white;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -151,9 +155,14 @@ h2 {
 }
 
 .log-in-button {
-  margin-top: 8px;
+  margin: 10px 10px 2px 0px;
+  padding: 0;
 }
 
 .space {
   margin-right: 10px;
+}
+
+.avatar {
+  padding: 1px;
 }
