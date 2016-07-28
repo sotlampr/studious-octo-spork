@@ -41,3 +41,4 @@ useraccounts:bootstrap
 practicalmeteor:mocha-console-runner
 lmieulet:meteor-coverage
 fourseven:scss
+jparker:gravatar

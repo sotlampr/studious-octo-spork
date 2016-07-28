@@ -5,6 +5,8 @@ Meteor.publish('users', function fetchUsers() {
     'username': 1,
     'profile.occupation': 1,
     'profile.description': 1,
-    'characteristic': 1
+    'profile.avatarType': 1,
+    'characteristic': 1,
+    'md5hash': 1
   }});
 });

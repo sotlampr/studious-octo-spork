@@ -46,10 +46,11 @@
         {{#if currentUser}}
           <ul class="nav navbar-right">
             <li class='dropdown'>
-              <div class="btn btn-info dropdown-toggle log-in-button space"
+              <div class="btn dropdown-toggle log-in-button"
                 data-toggle="dropdown">
-                {{currentUser.username}}
-                <span class="caret"></span>
+                <img class='img-thumbnail avatar' alt='{{currentUser.username}}'
+                src='{{avatar currentUser 26}}'/>
+                <span class='caret white'></span>
               </div>
               <ul class="dropdown-menu space">
                 <li>

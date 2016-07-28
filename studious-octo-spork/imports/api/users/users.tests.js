@@ -67,7 +67,8 @@ if (Meteor.isServer) {
           'profile.description': 'virtual runner',
           'emails.0.address': 'gomofarah@co.uk',
           'emails.0.verified': true,
-          characteristic: 'mobot'}
+          characteristic: 'mobot',
+          'profile.avatarType': 'retro'}
         });
         done();
       });
@@ -87,7 +88,8 @@ if (Meteor.isServer) {
           occupation: 'athlete',
           description: 'long distance',
           email: 'gomo@co.uk',
-          characteristic: 'yeaz'
+          characteristic: 'yeaz',
+          avatarType: 'identicon'
         }]);
 
         user = Meteor.users.findOne();
@@ -97,6 +99,7 @@ if (Meteor.isServer) {
         assert.equal(user.emails[0].address, 'gomo@co.uk');
         assert.equal(user.emails[0].verified, false);
         assert.equal(user.characteristic, 'yeaz');
+        assert.equal(user.profile.avatarType, 'identicon');
         done();
       });
 
@@ -111,7 +114,8 @@ if (Meteor.isServer) {
             occupation: 'run',
             description: 'marathon',
             email: 'go@co.uk',
-            characteristic: 'zzzzzz'
+            characteristic: 'zzzzzz',
+            avatarType: 'retro'
           }]);
         };
 
@@ -131,7 +135,8 @@ if (Meteor.isServer) {
             occupation: 'runner',
             description: '1500, 3K, 5K, 10K, half marathon, marathon',
             email: 'mofarah@co.uk',
-            characteristic: 'celebration move'
+            characteristic: 'celebration move',
+            avatarType: 'wavatar'
           }]);
         };
 

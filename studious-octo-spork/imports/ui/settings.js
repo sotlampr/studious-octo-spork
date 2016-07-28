@@ -5,6 +5,7 @@ import { saveSuggestion } from '../api/suggestions/methods.js';
 import { editUserProfile } from '../api/users/methods.js';
 import { deleteAccount } from '../api/users/methods.js';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { avatar } from './body.js';
 import './settings.html';
 
 
@@ -42,6 +43,8 @@ Template.settings.helpers({
       };
     }
   },
+
+  avatar: avatar
 });
 
 
@@ -56,7 +59,8 @@ Template.settings.events({
       occupation: event.target.occupation.value,
       description: event.target.description.value,
       email: event.target.email.value,
-      characteristic: event.target.characteristic.value
+      characteristic: event.target.characteristic.value,
+      avatarType: event.target.avatarType.value
     }, (err, res) => {
       if (err) {
         Bert.alert(err.reason, 'warning', 'growl-top-right');
