@@ -49,6 +49,43 @@
                     <form class='form-horizontal' id='edit-profile'>
                       <div class='form-group'>
                         <label class='col-md-3 control-label'>
+                          Avatar
+                        </label>
+
+                        <div class='col-md-2'>
+                          <img class='img-thumbnail avatar'
+                          alt='{{currentUser.username}}'
+                          src='{{avatar currentUser 100}}'/>
+                        </div>
+
+                        <div class='col-md-3'>
+                          <div class='col-md-12'>
+                            <h5>Select Avatar Type</h5>
+                          </div>
+
+                          <div class='col-md-12'>
+                            <select class='form-control' name='avatarType'>
+                              <option>identicon</option>
+                              <option>monsterid</option>
+                              <option>wavatar</option>
+                              <option>retro</option>
+                            </select>
+                          </div>
+
+                          <div class='col-md-12'>
+                            <h5>
+                              <a
+                                href='https://en.gravatar.com/site/implement/images/'
+                                target='_blank'>
+                                What are they?
+                              </a>
+                            </h5>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class='form-group'>
+                        <label class='col-md-3 control-label'>
                           Username
                         </label>
 

@@ -4,6 +4,18 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import './body.html';
 
 
+export const avatar = function (user, size) {
+  return Gravatar.imageUrl(
+    user.md5hash,
+    {
+      secure: true,
+      size: size,
+      d: user.profile.avatarType,
+    }
+  );
+};
+
+
 Template.App_body.events({
   'click .signout': function () {
     // logout
@@ -30,16 +42,7 @@ Template.App_body.onCreated(function AppBodyOnCreated() {
 
 
 Template.App_body.helpers({
-  avatar: function (user, size) {
-    return Gravatar.imageUrl(
-      user.md5hash,
-      {
-        secure: true,
-        size: size,
-        d: 'retro',
-      }
-    );
-  }
+  avatar: avatar
 });
 
 
