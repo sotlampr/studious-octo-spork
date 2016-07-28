@@ -63,7 +63,8 @@ export const editUserProfile = new ValidatedMethod({
     occupation: { type: String },
     description: { type: String },
     email: { type: String },
-    characteristic: { type: String }
+    characteristic: { type: String },
+    avatarType: { type: String }
   }).validator(),
 
   run (data) {
@@ -97,7 +98,8 @@ export const editUserProfile = new ValidatedMethod({
       'profile.occupation': data.occupation,
       'profile.description': data.description,
       'emails.0.address': data.email,
-      characteristic: data.characteristic}
+      characteristic: data.characteristic,
+      'profile.avatarType': data.avatarType}
     });
   }
 });
