@@ -5,10 +5,7 @@ import { Messages } from '../api/messaging/messaging.js';
 import { Logbook } from '../api/transactions/logbook.js';
 import { toggleRead } from '../api/messaging/methods.js';
 import { deleteMessage } from '../api/messaging/methods.js';
-import { updateUserProfile } from '../api/users/methods.js';
 import './dashboard.html';
-import { Suggestions } from '../api/suggestions/suggestions.js';
-import { saveSuggestion } from '../api/suggestions/methods.js';
 import { Events } from '../api/events/events.js';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { addRequest } from '../api/events/methods.js';
@@ -42,38 +39,10 @@ Template.dashboard.onCreated(function dashboardOnCreated() {
   this.subscribe('logbook.user');
   this.subscribe('users');
   this.subscribe('events');
-  this.subscribe('suggestions');
 });
 
 
 Template.dashboard.helpers({
-  settings: function () {
-    return {
-      position: "top",
-      limit: 2,
-      rules: [
-        {
-          collection: Suggestions,
-          field: "suggestion",
-          template: Template.autocomplete
-        }
-      ]
-    };
-  },
-
-  // Data for pre-filling the dashboard form
-  formData: function () {
-    user = Meteor.users.findOne(Meteor.userId());
-    if (user) {
-      return {
-        id: user._id,
-        username: user.username,
-        occupation: user.profile.occupation,
-        description: user.profile.description
-      };
-    }
-  },
-
   // Return messages for current user
   userMessages: function () {
     if (Meteor.user()) {
@@ -136,20 +105,6 @@ Template.dashboard.events({
       * Error: must be attached
       */
      Meteor.defer(() => { FlowRouter.go('/dashboard/transactions'); });
-  },
-
-  // Update user profile
-  'submit .update-profile': function (event) {
-    // Handle the updating logic, call updateUserProfile afterwards
-    event.preventDefault();
-    updateUserProfile.call({
-      id: Meteor.userId(),
-      username: event.target.username.value,
-      occupation: event.target.occupation.value,
-      description: event.target.description.value
-    });
-    saveSuggestion.call({suggestion: event.target.occupation.value});
-    Bert.alert('Your profile has been updated', 'success', 'growl-top-right');
   },
 
   // Toggle the read flag of current message
