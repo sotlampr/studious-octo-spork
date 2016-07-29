@@ -1,59 +1,11 @@
 <!-- Dashboard template -->
 <template name="dashboard">
-  <div class='jumbotron'>
-    <div class='container'>
+  {{#if currentUser}}
 
-      <!-- Update Profile Container -->
-      <div class="col-sm-6">
-        {{#if formData}}
-          {{#with formData}}
-            <form role="form" class="form-horizontal update-profile"
-              method="post">
+    <div class='jumbotron'>
+      <div class='container-fluid'>
 
-              <div class="form-group">
-                <label for="username" class="control-label col-sm-2">
-                  Username:
-                </label>
-                <div class="col-sm-4 plai">
-                  <input type="text" class="form-control" id="username"
-                  name="username" value={{username}}>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="occupation" class="control-label col-sm-2">
-                  Occupation:
-                </label>
-                <div class="col-sm-4 plai">
-                  {{>inputAutocomplete settings=settings id='occupation'
-                    class='form-control' name='occupation' value=occupation }}
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="description" class="control-label col-sm-2">
-                  Description:
-                </label>
-                <div class="col-sm-4 plai">
-                  <input type="text" class="form-control" id="description"
-                  name="description" value={{description}}>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="col-sm-2 col-sm-8">
-                  <button type="submit" class="btn btn-default">Save</button>
-                </div>
-              </div>
-            </form>
-          {{/with}}
-          {{else}}
-          <p>You are not registered yet.</p>
-        {{/if}}
-      </div>
-
-      <!-- Calendar Container -->
-      {{#if currentUser}}
+        <!-- Calendar Container -->
         <div class='col-sm-6'>
           {{> addEditEventModal }}
           <div id="calendar"></div>
@@ -72,11 +24,10 @@
             </h5>
           </div>
         </div>
-      {{/if}}
+      </div>
     </div>
-  </div>
 
-  {{#if currentUser}}
+
     <div class="container-fluid">
 
       <!-- Activity Panel -->
@@ -113,24 +64,24 @@
               </thead>
 
               <tbody>
-              {{#each userTransactions}}
-                <tr>
-                  <td>{{usernameFromId giverId}}</td>
-                  <td>{{usernameFromId receiverId}}</td>
-                  <td>{{cost}}</td>
-                  <td>
-                    {{#if isApproved this}}
-                      <span class="glyphicon glyphicon-ok green"
-                            title="Transaction is approved!">
-                      </span>
-                    {{else}}
-                      <span class="glyphicon glyphicon-question-sign"
-                            title="Transaction is not approved yet.">
-                      </span>
-                    {{/if}}
-                  </td>
-                </tr>
-              {{/each}}
+                {{#each userTransactions}}
+                  <tr>
+                    <td>{{usernameFromId giverId}}</td>
+                    <td>{{usernameFromId receiverId}}</td>
+                    <td>{{cost}}</td>
+                    <td>
+                      {{#if isApproved this}}
+                        <span class="glyphicon glyphicon-ok green"
+                          title="Transaction is approved!">
+                        </span>
+                        {{else}}
+                        <span class="glyphicon glyphicon-question-sign"
+                          title="Transaction is not approved yet.">
+                        </span>
+                      {{/if}}
+                    </td>
+                  </tr>
+                {{/each}}
               </tbody>
             </table>
           </div>
@@ -193,7 +144,7 @@
                             {{#if isEqual giverId currentUser._id}}
                               {{#if giverValidated}}
                                 <p class='green bold'>true</p>
-                              {{else}}
+                                {{else}}
                                 <div class='row'>
                                   <button
                                     class='acceptRequest btn btn-success'>
@@ -206,10 +157,10 @@
                                   </button>
                                 </div>
                               {{/if}}
-                            {{else}}
+                              {{else}}
                               {{#if giverValidated}}
                                 <p class='green bold'>true</p>
-                              {{else}}
+                                {{else}}
                                 <p class='yellow bold'>not yet</p>
                               {{/if}}
                             {{/if}}
@@ -219,7 +170,7 @@
                             {{#if isEqual receiverId currentUser._id}}
                               {{#if receiverValidated}}
                                 <p class='green bold'>true</p>
-                              {{else}}
+                                {{else}}
                                 <div class='row'>
                                   <button
                                     class='acceptRequest btn btn-success'>
@@ -232,10 +183,10 @@
                                   </button>
                                 </div>
                               {{/if}}
-                            {{else}}
+                              {{else}}
                               {{#if receiverValidated}}
                                 <p class='green bold'>true</p>
-                              {{else}}
+                                {{else}}
                                 <p class='yellow bold'>not yet</p>
                               {{/if}}
                             {{/if}}
@@ -264,7 +215,7 @@
             <button class="toggle-read">
               {{#if read}}
                 <span class="glyphicon glyphicon-eye-open"></span>
-              {{else}}
+                {{else}}
                 <span class="glyphicon glyphicon-eye-close"></span>
               {{/if}}
             </button>
@@ -282,6 +233,10 @@
         {{/each}}
       </ul>
     </div>
+    {{else}}
+    <div class='container-fluid'>
+      <h5>You are not registered yet.</h5>
+    </div>
   {{/if}}
 </template>
 
@@ -289,7 +244,7 @@
 <!-- Modal Container -->
 <template name='addEditEventModal'>
   <div class="modal fade" id="add-edit-event-modal" tabindex="-1"
-      role="dialog" aria-labelledby="add-edit-event-modal">
+    role="dialog" aria-labelledby="add-edit-event-modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -308,7 +263,7 @@
             <div class="form-group">
               <label for="title">Event Title</label>
               <input type="text" name="title" class="form-control"
-                value="{{evnt.title}}">
+              value="{{evnt.title}}">
             </div>
 
             <div class='form-group'>
@@ -332,10 +287,10 @@
                   <input disabled type='text' name='receiver'
                   class='form-control'
                   value="{{#if modalType 'add'}}{{
-                            currentUser.username
-                        }}{{else}}{{
-                            idToUsername evnt.receiverId
-                        }}{{/if}}">
+                    currentUser.username
+                    }}{{else}}{{
+                    idToUsername evnt.receiverId
+                    }}{{/if}}">
                 </div>
               </div>
             </div>
@@ -346,7 +301,7 @@
                   <label for="start">Event Start</label>
                   <input type="text" name="start"
                   class="form-control startpicker"
-                    value="{{changeFormat evnt.start}}">
+                  value="{{changeFormat evnt.start}}">
                 </div>
                 <div class="col-xs-12 col-sm-5">
                   <label for="end">Event End</label>
