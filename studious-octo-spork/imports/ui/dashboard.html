@@ -2,36 +2,10 @@
 <template name="dashboard">
   {{#if currentUser}}
 
-    <div class='jumbotron'>
-      <div class='container-fluid'>
-
-        <!-- Calendar Container -->
-        <div class='col-sm-6'>
-          {{> addEditEventModal }}
-          <div id="calendar"></div>
-
-          <div class='container'>
-            <h5 class='keno'>
-              <span class='glyphicon glyphicon-info-sign'></span>
-              <span class='maroon bold'>C</span>
-              <span class='orange bold'>o</span>
-              <span class='green bold'>l</span>
-              <span class='yellow bold'>o</span>
-              <span class='purple bold'>r</span>
-              orange=<span class='orange bold'>title</span>,
-              maroon=<span class='maroon bold'>giver</span>
-              and purple=<span class='purple bold'>receiver</span>
-            </h5>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="container-fluid">
+    <div class='container-fluid paddingTop'>
 
       <!-- Activity Panel -->
-      <div class="col-sm-6 transactions-redirect">
+      <div class="col-sm-7 transactions-redirect">
         <div class="panel panel-default">
 
           <div class="panel-heading">
@@ -40,7 +14,6 @@
 
           <div class="panel-body">
             <div class="transactions-redirect">
-              <hr>
               <h4>Wallet</h4>
               <hr>
               <p><b>Balance:</b> {{currentUser.profile.balance}} Units</p>
@@ -88,151 +61,201 @@
         </div>
       </div>
 
+      <!-- Calendar Container -->
+      <div class='col-sm-5'>
+        <div class="panel panel-default">
+
+          <div class="panel-heading">
+            <h3>Calendar</h3>
+          </div>
+
+          <div class="panel-body">
+            {{> addEditEventModal }}
+            <div id="calendar"></div>
+
+            <div class='container'>
+              <h5 class='keno'>
+                <span class='glyphicon glyphicon-info-sign'></span>
+                <span class='maroon bold'>C</span>
+                <span class='orange bold'>o</span>
+                <span class='green bold'>l</span>
+                <span class='yellow bold'>o</span>
+                <span class='purple bold'>r</span>
+                orange=<span class='orange bold'>title</span>,
+                maroon=<span class='maroon bold'>giver</span>
+                and purple=<span class='purple bold'>receiver</span>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="container-fluid">
+
       <!-- Events Container -->
       <div class='col-sm-6'>
-        <h3>Events Requests</h3>
-        <ul>
-          {{#each requests}}
-            <li class="request">
-              <p>
-                <strong>Title </strong>
-                <span class='orange bold'>{{title}}</span>
-              </p>
+        <div class="panel panel-default">
 
-              <div class='container'>
-                <div class='col-sm-6'>
-                  <div class='row'>
+          <div class="panel-heading">
+            <h3>Events Requests</h3>
+          </div>
 
+          <div class="panel-body">
+            <ul>
+              {{#each requests}}
+                <li class="request">
+                  <p>
+                    <strong>Title </strong>
+                    <span class='orange bold'>{{title}}</span>
+                  </p>
+
+                  <div class='container'>
                     <div class='col-sm-6'>
-                      <div><p><strong>Start </strong>{{start}}</p></div>
-                      <div><p><strong>End </strong>{{end}}</p></div>
-                    </div>
+                      <div class='row'>
 
-                    <div class='col-sm-6'>
-                      <table id='tbl'>
+                        <div class='col-sm-6'>
+                          <div><p><strong>Start </strong>{{start}}</p></div>
+                          <div><p><strong>End </strong>{{end}}</p></div>
+                        </div>
 
-                        <tr>
-                          <th></th>
-                          <th>Giver</th>
-                          <th>Receiver</th>
-                        </tr>
+                        <div class='col-sm-6'>
+                          <table id='tbl'>
 
-                        <tr>
-                          <td></td>
-                          <td>
-                            <p>
-                              <a href='/users/{{usernameFromId giverId}}/'
-                                class='maroon bold'>
-                                {{usernameFromId giverId}}
-                              </a>
-                            </p>
-                          </td>
-                          <td>
-                            <p>
-                              <a href='/users/{{usernameFromId receiverId}}/'
-                                class='purple bold'>
-                                {{usernameFromId receiverId}}
-                              </a>
-                            </p>
-                          </td>
-                        </tr>
+                            <tr>
+                              <th></th>
+                              <th>Giver</th>
+                              <th>Receiver</th>
+                            </tr>
 
-                        <tr>
-                          <td><strong>Validate</strong></td>
+                            <tr>
+                              <td></td>
+                              <td>
+                                <p>
+                                  <a href='/users/{{usernameFromId giverId}}/'
+                                    class='maroon bold'>
+                                    {{usernameFromId giverId}}
+                                  </a>
+                                </p>
+                              </td>
+                              <td>
+                                <p>
+                                  <a href='/users/{{usernameFromId receiverId}}/'
+                                    class='purple bold'>
+                                    {{usernameFromId receiverId}}
+                                  </a>
+                                </p>
+                              </td>
+                            </tr>
 
-                          <td>
-                            {{#if isEqual giverId currentUser._id}}
-                              {{#if giverValidated}}
-                                <p class='green bold'>true</p>
-                                {{else}}
-                                <div class='row'>
-                                  <button
-                                    class='acceptRequest btn btn-success'>
-                                    <span class='glyphicon glyphicon-ok'>
-                                    </span>
-                                  </button>
-                                  <button class='denyRequest btn btn-danger'>
-                                    <span class='glyphicon glyphicon-remove'>
-                                    </span>
-                                  </button>
-                                </div>
-                              {{/if}}
-                              {{else}}
-                              {{#if giverValidated}}
-                                <p class='green bold'>true</p>
-                                {{else}}
-                                <p class='yellow bold'>not yet</p>
-                              {{/if}}
-                            {{/if}}
-                          </td>
+                            <tr>
+                              <td><strong>Validate</strong></td>
 
-                          <td>
-                            {{#if isEqual receiverId currentUser._id}}
-                              {{#if receiverValidated}}
-                                <p class='green bold'>true</p>
-                                {{else}}
-                                <div class='row'>
-                                  <button
-                                    class='acceptRequest btn btn-success'>
-                                    <span class='glyphicon glyphicon-ok'>
-                                    </span>
-                                  </button>
-                                  <button class='denyRequest btn btn-danger'>
-                                    <span class='glyphicon glyphicon-remove'>
-                                    </span>
-                                  </button>
-                                </div>
-                              {{/if}}
-                              {{else}}
-                              {{#if receiverValidated}}
-                                <p class='green bold'>true</p>
-                                {{else}}
-                                <p class='yellow bold'>not yet</p>
-                              {{/if}}
-                            {{/if}}
-                          </td>
-                        </tr>
-                      </table>
+                              <td>
+                                {{#if isEqual giverId currentUser._id}}
+                                  {{#if giverValidated}}
+                                    <p class='green bold'>true</p>
+                                    {{else}}
+                                    <div class='row'>
+                                      <button
+                                        class='acceptRequest btn btn-success'>
+                                        <span class='glyphicon glyphicon-ok'>
+                                        </span>
+                                      </button>
+                                      <button class='denyRequest btn btn-danger'>
+                                        <span class='glyphicon glyphicon-remove'>
+                                        </span>
+                                      </button>
+                                    </div>
+                                  {{/if}}
+                                  {{else}}
+                                  {{#if giverValidated}}
+                                    <p class='green bold'>true</p>
+                                    {{else}}
+                                    <p class='yellow bold'>not yet</p>
+                                  {{/if}}
+                                {{/if}}
+                              </td>
+
+                              <td>
+                                {{#if isEqual receiverId currentUser._id}}
+                                  {{#if receiverValidated}}
+                                    <p class='green bold'>true</p>
+                                    {{else}}
+                                    <div class='row'>
+                                      <button
+                                        class='acceptRequest btn btn-success'>
+                                        <span class='glyphicon glyphicon-ok'>
+                                        </span>
+                                      </button>
+                                      <button class='denyRequest btn btn-danger'>
+                                        <span class='glyphicon glyphicon-remove'>
+                                        </span>
+                                      </button>
+                                    </div>
+                                  {{/if}}
+                                  {{else}}
+                                  {{#if receiverValidated}}
+                                    <p class='green bold'>true</p>
+                                    {{else}}
+                                    <p class='yellow bold'>not yet</p>
+                                  {{/if}}
+                                {{/if}}
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          {{/each}}
-        </ul>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
       </div>
+
+      <!-- Messages Container -->
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+
+          <div class="panel-heading">
+            <h3>Messages</h3>
+          </div>
+
+          <ul>
+            {{#each userMessages}}
+              <li class="message">
+                {{usernameFromId giverId}}: {{message}}
+
+                <button class="toggle-read">
+                  {{#if read}}
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    {{else}}
+                    <span class="glyphicon glyphicon-eye-close"></span>
+                  {{/if}}
+                </button>
+
+                <button>
+                  <a href="/users/{{usernameFromId giverId}}/contact">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </a>
+                </button>
+
+                <button class="delete">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </li>
+            {{/each}}
+          </ul>
+
+        </div>
+      </div>
+
     </div>
 
-    <!-- Messages Container -->
-    <div class="container-fluid">
-      <h3>Messages</h3>
-
-      <ul>
-        {{#each userMessages}}
-          <li class="message">
-            {{usernameFromId giverId}}: {{message}}
-
-            <button class="toggle-read">
-              {{#if read}}
-                <span class="glyphicon glyphicon-eye-open"></span>
-                {{else}}
-                <span class="glyphicon glyphicon-eye-close"></span>
-              {{/if}}
-            </button>
-
-            <button>
-              <a href="/users/{{usernameFromId giverId}}/contact">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </a>
-            </button>
-
-            <button class="delete">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-          </li>
-        {{/each}}
-      </ul>
-    </div>
     {{else}}
     <div class='container-fluid'>
       <h5>You are not registered yet.</h5>
