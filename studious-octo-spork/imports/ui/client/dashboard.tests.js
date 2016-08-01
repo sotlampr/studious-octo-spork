@@ -39,17 +39,6 @@ describe('Dashboard', function() {
     });
   });
 
-  it('Display appropriate data when logged in', function (done) {
-    sinon.stub(Meteor, 'userId', () => { return usersIdArray[0]; });
-    withRenderedTemplate('dashboard', {}, el => {
-      assert.equal($(el).find('#username').val(), usersData[0].username);
-      assert.equal($(el).find('#occupation').val(), usersData[0].profile.occupation);
-      assert.equal($(el).find('#description').val(), usersData[0].profile.description);
-    });
-    Meteor.userId.restore();
-    done();
-  });
-
   it('Display 3 messages', function (done) {
     let rawMessages = [];
     // Generate random messages
