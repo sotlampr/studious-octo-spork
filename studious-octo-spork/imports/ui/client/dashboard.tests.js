@@ -33,7 +33,7 @@ describe('Dashboard', function() {
 
   it('Prompt for login if unresgistered', function(done) {
     withRenderedTemplate('dashboard', {}, el => {
-      let targetText = $(el).find('p').text();
+      let targetText = $(el).find('h4').text();
       assert.include(targetText, "You are not registered yet.");
       done();
     });
