@@ -25,7 +25,7 @@ function tryFetchTransaction (transactionId, userId) {
 
   // If we got so far, everything is ok
   return transaction;
-};
+}
 
 /* Propagate transaction info to users balance.
  * 2 options for arg type:
@@ -63,7 +63,7 @@ function commitTransaction (transaction, type) {
   } else {
     // TODO Unrecongized type, do nothing?
   }
-};
+}
 
 /* Insert a new transaction
  * data keys:
