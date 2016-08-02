@@ -24,7 +24,7 @@ function routineValidation (messageId, callerId) {
     if (Messages.findOne(messageId).receiverId !== callerId) {
       throw new Meteor.Error('message-not-yours');
     }
-};
+}
 
 /* Save a new message
  * args:
@@ -46,7 +46,7 @@ export const saveMessage = new ValidatedMethod({
       throw new Meteor.Error('user-not-exist');
     }
 
-    if (this.userId == data.receiverId) {
+    if (this.userId === data.receiverId) {
       throw new Meteor.Error(
         'messages.saveMessage.selfToSelf',
         'Cannot send a message to yourself!'
