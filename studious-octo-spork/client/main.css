@@ -170,3 +170,7 @@ h2 {
 .paddingTop {
   padding-top: 30px;
 }
+
+.message {
+  list-style-type: none;
+}

@@ -13,6 +13,7 @@ import { removeRequest } from '../api/events/methods.js';
 import { validateRequest } from '../api/events/methods.js';
 import { editEvent } from '../api/events/methods.js';
 import './common-helpers.js';
+import { avatar } from './body.js';
 
 
 /*  Display informations for each event, on the calendar
@@ -95,6 +96,12 @@ Template.dashboard.helpers({
   isEqual: function (x, y) {
     return x === y;
   },
+
+  user: function (userId) {
+    return Meteor.users.findOne({_id: userId});
+  },
+
+  avatar: avatar
 });
 
 
