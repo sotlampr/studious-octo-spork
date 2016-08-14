@@ -226,28 +226,32 @@
           </div>
 
           <div class="panel-body">
-            <ul>
+            <ul class='messages'>
               {{#each userMessages}}
                 <li class="message">
                   <div class='col-md-12'>
 
-                    {{usernameFromId giverId}}
+                    <div class='col-md-2'>
+                      <b>{{usernameFromId giverId}}</b>
+                    </div>
 
-                    <div class='col-md-10'>
-                      {{dateCreated}}
+                    <div class='col-md-10 text-right'>
+                      <b>{{dateCreated}}</b>
                     </div>
 
                     <div class='col-md-2'>
                       <img class='img-thumbnail avatar'
                       alt='{{usernameFromId giverId}}'
-                      src='{{avatar (user giverId) 26}}'/>
+                      src='{{avatar (user giverId) 38}}'/>
                     </div>
 
-                    <div class='col-md-8'>
-                      {{message}}
+                    <div class='col-md-7'>
+                      <p class='bubble'>
+                        {{message}}
+                      </p>
                     </div>
 
-                    <div class='col-md-4'>
+                    <div class='col-md-3 text-right'>
                       <button class="toggle-read">
                         {{#if read}}
                           <span class="glyphicon glyphicon-eye-open"></span>

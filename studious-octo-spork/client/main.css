@@ -174,3 +174,42 @@ h2 {
 .message {
   list-style-type: none;
 }
+
+.messages {
+  padding: 0;
+  margin: 0;
+}
+
+p.bubble {
+  padding: 5px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  line-height: 25px;
+  background-color: #fff;
+  border: 2px solid #666;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 4px #888;
+  -moz-box-shadow: 2px 2px 4px #888;
+  box-shadow: 2px 2px 4px #888;
+}
+
+p.bubble:before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: -6px;
+  top: 6px;
+  display: inline-block;
+  background: #fff;
+  border-top: 2px solid #666;
+  border-left: 2px solid #666;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+}
