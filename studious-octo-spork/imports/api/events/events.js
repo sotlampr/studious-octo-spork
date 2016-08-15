@@ -13,10 +13,12 @@ Events.deny({
 
 
 Events.schema = new SimpleSchema({
+  // Mongo _id for the user that 'employs'
   giverId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
   },
+  // Mongo _id for the user that 'works'
   receiverId: {
     type: String,
     regEx: SimpleSchema.RegEx.Id,
@@ -33,6 +35,10 @@ Events.schema = new SimpleSchema({
   end: {
     type: Date,
     label: 'When this event will end.'
+  },
+  // How much does the work cost
+  cost: {
+    type: Number
   },
   giverValidated: {
     type: Boolean,
@@ -54,6 +60,7 @@ Events.publicFields = {
   title: 1,
   start: 1,
   end: 1,
+  cost: 1,
   giverValidated: 1,
   receiverValidated: 1
 };

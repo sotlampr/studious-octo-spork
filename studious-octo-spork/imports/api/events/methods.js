@@ -108,7 +108,8 @@ export const addRequest = new ValidatedMethod({
     giver: { type: String },
     receiver: { type: String },
     start: { type: Date },
-    end: { type: Date }
+    end: { type: Date },
+    cost: { type: Number }
   }).validator(),
 
   run (data) {
@@ -122,6 +123,7 @@ export const addRequest = new ValidatedMethod({
       receiverId: data.receiver,
       start: data.start,
       end: data.end,
+      cost: data.cost,
       giverValidated: false,
       receiverValidated: true
     });

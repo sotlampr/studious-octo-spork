@@ -22,6 +22,7 @@ if (Meteor.isServer) {
           receiverId: Random.id(),
           start: new Date(),
           end: new Date(),
+          cost: 100,
           giverValidated: false,
           receiverValidated: true
         });
@@ -82,6 +83,7 @@ if (Meteor.isServer) {
           receiverId: Random.id(),
           start: new Date(),
           end: new Date(),
+          cost: 100,
           giverValidated: false,
           receiverValidated: true
         });
@@ -132,7 +134,7 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Add a event', function (done) {
+      it('Add an event', function (done) {
         const addRequest =
           Meteor.server.method_handlers['events.addRequest'];
         const invocation = { userId };
@@ -146,6 +148,7 @@ if (Meteor.isServer) {
             receiver: userId,
             start: new Date(),
             end: new Date(),
+            cost: 100,
           }]
         );
         count = Events.find({}).count();
@@ -166,6 +169,7 @@ if (Meteor.isServer) {
               receiver: Random.id(),
               start: new Date(),
               end: new Date(),
+              cost: 100,
             }]
           );
         };
@@ -187,6 +191,7 @@ if (Meteor.isServer) {
           receiverId: who,
           start: new Date(),
           end: new Date(),
+          cost: 100,
           giverValidated: true,
           receiverValidated: true
         });
@@ -222,7 +227,7 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Reject editing with invalic userId', function (done) {
+      it('Reject editing with invalid userId', function (done) {
         const editEvent =
           Meteor.server.method_handlers['events.editEvent'];
         const invocation = {userId: Random.id()};
