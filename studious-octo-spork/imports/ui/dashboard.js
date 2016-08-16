@@ -259,10 +259,12 @@ Template.addEditEventModal.events({
     let rcvr = template.find('[name="receiver"]').value;
     let eventModal = Session.get('eventModal');
     let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
+    debugger;
     let eventItem = {
       title: template.find('[name="title"]').value,
       giver: Meteor.users.findOne({username: gvr})._id,
       receiver: Meteor.users.findOne({username: rcvr})._id,
+      cost: Number(template.find('[name="cost"]').value),
       start: moment(template.find('[name="start"]').value).toDate(),
       end: moment(template.find('[name="end"]').value).toDate()
     };

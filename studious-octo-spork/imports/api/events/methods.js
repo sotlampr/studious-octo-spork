@@ -51,6 +51,7 @@ export const validateRequest = new ValidatedMethod({
 });
 
 
+
 /*  Remove an event (eventId)
  *  args:
  *    eventId:
@@ -145,6 +146,8 @@ export const addRequest = new ValidatedMethod({
  *      Date, the end date
  *    changer:
  *      Mongo _id of the user who changed the event
+ *    cost:
+ *      Cost of the transaction
  */
 export const editEvent = new ValidatedMethod({
   name: 'events.editEvent',
@@ -156,7 +159,8 @@ export const editEvent = new ValidatedMethod({
     receiver: { type: String },
     start: { type: Date },
     end: { type: Date },
-    changer: { type: String }
+    changer: { type: String },
+    cost: { type: Number }
   }).validator(),
 
   run (data) {

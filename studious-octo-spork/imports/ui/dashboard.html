@@ -323,6 +323,14 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-xs-12 col-sm-5">
+                  <label for="cost">Cost</label>
+                  <input type="text" name="cost"
+                  class="form-control"
+                  value="{{#if modalType 'add'}}{{cost}}{{else}}{{evnt.cost}}{{/if}}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-5">
                   <label for="start">Event Start</label>
                   <input type="text" name="start"
                   class="form-control startpicker"
