@@ -4,6 +4,74 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Events } from './events.js';
 
 
+/* Propagate transaction info to users balance.
+ * 2 options for arg type:
+ *  final:
+ *    Register the transaction on users' real balance
+ *  logistic:
+ *    Register the transaction on users' logistic balance
+ */
+
+function commitTransaction (data, type) {
+  if (type === 'final') {
+    Meteor.users.update(
+        { _id: data.giverId },
+        { $inc: {
+          'profile.balance': data.cost,
+          'profile.logisticBalance': -data.cost
+        }}
+    );
+    Meteor.users.update(
+        { _id: data.receiverId },
+        { $inc: {
+          'profile.balance': -data.cost,
+          'profile.logisticBalance': data.cost
+        }}
+    );
+  } else if (type === 'logistic') {
+    Meteor.users.update(
+        { _id: data.giverId },
+        { $inc: { 'profile.logisticBalance': data.cost } }
+    );
+    Meteor.users.update(
+        { _id: data.receiverId },
+        { $inc: { 'profile.logisticBalance': -data.cost } }
+    );
+  } else {
+    // TODO Unrecongized type, do nothing?
+  }
+}
+
+/* Check if a user has the required balance to do a transaction,
+ * and if not raise an appropriate error.
+ * args:
+ *   userId:
+ *     Mongo _id of the user to check
+ *   cost:
+ *     Target transaction cost
+ */
+function checkUserBalance (userId, cost) {
+  // Cannot have a negative cost value!
+    if (cost <= 0) {
+      throw new Meteor.Error(
+        'events.checkUserBalance.zeroCost',
+        'Transaction cost should not be zero or negative'
+      );
+    }
+
+  // Check for available balance
+  let employer= Meteor.users.findOne({ _id: userId });
+  let fromBalance = employer.profile.balance + employer.profile.logisticBalance;
+  let difference = fromBalance - cost;
+  if (difference < -100) {
+    throw new Meteor.Error(
+      'events.checkUserBalance.notEnoughBalance',
+      'Target balance is not enough to cover the cost.'
+    );
+  }
+}
+
+
 /*  Validate an event (userId, eventId)
  *  args:
  *    userId:
@@ -47,6 +115,9 @@ export const validateRequest = new ValidatedMethod({
     } else {
       Events.update({_id: eventId}, {$set: {receiverValidated: true}});
     }
+
+    // Commit the transaction on users' real balance
+    commitTransaction(evnt, 'final');
   },
 });
 
@@ -118,7 +189,9 @@ export const addRequest = new ValidatedMethod({
       throw new Meteor.Error('not-authorized');
     }
 
-    Events.insert({
+    checkUserBalance(data.receiver, data.cost);
+
+    let eventId = Events.insert({
       title: data.title,
       giverId: data.giver,
       receiverId: data.receiver,
@@ -128,6 +201,8 @@ export const addRequest = new ValidatedMethod({
       giverValidated: false,
       receiverValidated: true
     });
+
+    commitTransaction(Events.findOne({ _id: eventId }), 'logistic');
   }
 });
 
@@ -183,6 +258,7 @@ export const editEvent = new ValidatedMethod({
       receiverId: receiverId,
       start: data.start,
       end: data.end,
+      cost: data.cost,
       giverValidated: flag,
       receiverValidated: !flag}
     });

@@ -121,10 +121,17 @@ if (Meteor.isServer) {
     });
 
     describe('addRequest', function () {
-      let userId;
+      let receiverId, giverId;
 
       beforeEach(function (done) {
-        userId = Accounts.createUser({username: 'dibaba'});
+        giverId = Accounts.createUser({username: 'testGiver'});
+        receiverId = Accounts.createUser({username: 'testReceiver'});
+        Meteor.users.update({ _id: giverId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': 0}
+        });
+        Meteor.users.update({ _id: receiverId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': 0}
+        });
         done();
       });
 
@@ -137,15 +144,15 @@ if (Meteor.isServer) {
       it('Add an event', function (done) {
         const addRequest =
           Meteor.server.method_handlers['events.addRequest'];
-        const invocation = { userId };
+        const invocation = { userId: receiverId };
 
         let count;
         addRequest.apply(
           invocation,
           [{
             title: 'Triple at Rio',
-            giver: Random.id(),
-            receiver: userId,
+            giver: giverId,
+            receiver: receiverId,
             start: new Date(),
             end: new Date(),
             cost: 100,

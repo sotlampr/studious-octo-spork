@@ -259,7 +259,6 @@ Template.addEditEventModal.events({
     let rcvr = template.find('[name="receiver"]').value;
     let eventModal = Session.get('eventModal');
     let submitType = eventModal.type === 'edit' ? 'editEvent' : 'addEvent';
-    debugger;
     let eventItem = {
       title: template.find('[name="title"]').value,
       giver: Meteor.users.findOne({username: gvr})._id,
