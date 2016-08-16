@@ -218,7 +218,8 @@ if (Meteor.isServer) {
             receiver: who,
             start: new Date(),
             end: new Date(),
-            changer: userId
+            changer: userId,
+            cost: 120
           }]
         );
 
