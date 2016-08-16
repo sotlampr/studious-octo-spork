@@ -231,9 +231,10 @@
                   <th>Title</th>
                   <th>Start</th>
                   <th>End</th>
+                  <th></th>
+                  <th></th>
                   <th>Giver</th>
                   <th>Receiver</th>
-                  <th>Status</th>
                 </tr>
               </thead>
 
@@ -243,67 +244,84 @@
                     <td><b class='orange'>{{title}}</b></td>
                     <td>{{start}}</td>
                     <td>{{end}}</td>
-                    <td>
-                      <a class='bold maroon'
-                        href='/users/{{usernameFromId giverId}}/'>
-                        {{usernameFromId giverId}}
-                      </a>
+                    <td class='len'></td>
+                    <td class='len'>
+                      <div>
+                        <p class='down'>
+                          <b>Validate</b>
+                        </p>
+                      </div>
                     </td>
-                    <td>
-                      <a class='bold purple'
-                        href='/users/{{usernameFromId receiverId}}/'>
-                        {{usernameFromId receiverId}}
-                      </a>
+
+                    <td class='len'>
+                      <div>
+                        <a class='bold maroon'
+                          href='/users/{{usernameFromId giverId}}/'>
+                          {{usernameFromId giverId}}
+                        </a>
+
+                        {{#if isEqual giverId currentUser._id}}
+                          {{#if giverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <div class='row'>
+                              <button
+                                class='acceptRequest btn btn-success'>
+                                <span class='glyphicon glyphicon-ok'>
+                                </span>
+                              </button>
+                              <button class='denyRequest btn btn-danger'>
+                                <span class='glyphicon glyphicon-remove'>
+                                </span>
+                              </button>
+                            </div>
+                          {{/if}}
+                        {{else}}
+                          {{#if giverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <p class='yellow bold'>not yet</p>
+                         {{/if}}
+                        {{/if}}
+
+                      </div>
                     </td>
-                    <td>
-                      {{#if isEqual giverId currentUser._id}}
-                        {{#if giverValidated}}
-                          <p class='green bold'>true</p>
+
+                    <td class='len'>
+                      <div>
+
+                        <a class='bold purple'
+                          href='/users/{{usernameFromId receiverId}}/'>
+                          {{usernameFromId receiverId}}
+                        </a>
+
+                        {{#if isEqual receiverId currentUser._id}}
+                          {{#if receiverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <div class='row'>
+                              <button
+                                class='acceptRequest btn btn-success'>
+                                <span class='glyphicon glyphicon-ok'>
+                                </span>
+                              </button>
+                              <button class='denyRequest btn btn-danger'>
+                                <span class='glyphicon glyphicon-remove'>
+                                </span>
+                              </button>
+                            </div>
+                          {{/if}}
                         {{else}}
-                          <div class='row'>
-                            <button
-                              class='acceptRequest btn btn-success'>
-                              <span class='glyphicon glyphicon-ok'>
-                              </span>
-                            </button>
-                            <button class='denyRequest btn btn-danger'>
-                              <span class='glyphicon glyphicon-remove'>
-                              </span>
-                            </button>
-                          </div>
+                          {{#if receiverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <p class='yellow bold'>not yet</p>
+                          {{/if}}
                         {{/if}}
-                      {{else}}
-                        {{#if giverValidated}}
-                          <p class='green bold'>true</p>
-                        {{else}}
-                          <p class='yellow bold'>not yet</p>
-                        {{/if}}
-                      {{/if}}
-                      |
-                      {{#if isEqual receiverId currentUser._id}}
-                        {{#if receiverValidated}}
-                          <p class='green bold'>true</p>
-                        {{else}}
-                          <div class='row'>
-                            <button
-                              class='acceptRequest btn btn-success'>
-                              <span class='glyphicon glyphicon-ok'>
-                              </span>
-                            </button>
-                            <button class='denyRequest btn btn-danger'>
-                              <span class='glyphicon glyphicon-remove'>
-                              </span>
-                            </button>
-                          </div>
-                        {{/if}}
-                      {{else}}
-                        {{#if receiverValidated}}
-                          <p class='green bold'>true</p>
-                        {{else}}
-                          <p class='yellow bold'>not yet</p>
-                        {{/if}}
-                      {{/if}}
+
+                      </div>
                     </td>
+
                   </tr>
                 {{/each}}
               </tbody>

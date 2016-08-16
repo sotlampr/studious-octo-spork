@@ -213,3 +213,11 @@ p.bubble:before {
   -ms-transform: rotate(-45deg);
   -o-transform: rotate(-45deg);
 }
+
+.down {
+  margin-top: 20px;
+}
+
+.len {
+  width: 90px;
+}
