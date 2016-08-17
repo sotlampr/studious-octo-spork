@@ -105,14 +105,27 @@ export const validateRequest = new ValidatedMethod({
         (user._id !== evnt.giverId)&&
         (user._id !== evnt.receiverId) )) {
       throw new Meteor.Error(
-        'events.validtateRequest.not-authorized',
+        'events.validateRequest.not-authorized',
         'You have not the right'
       );
     }
 
+
     if (evnt.giverId === userId) {
+      if (evnt.giverValidated) {
+        throw new Meteor.Error(
+          'events.validateRequest.already-validated',
+          'You have already validated this event'
+          );
+      }
       Events.update({_id: eventId}, {$set: {giverValidated: true}});
     } else {
+      if (evnt.receiverValidated) {
+        throw new Meteor.Error(
+          'events.validateRequest.already-validated',
+          'You have already validated this event'
+          );
+      }
       Events.update({_id: eventId}, {$set: {receiverValidated: true}});
     }
 

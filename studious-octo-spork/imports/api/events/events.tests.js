@@ -11,20 +11,37 @@ require('./methods.js');
 if (Meteor.isServer) {
   describe('Events', function () {
     describe('validateRequest', function () {
-      let userId;
-      let eventId;
+      let giverId, receiverId, eventId, data;
+      const invokeValidateAs = function(userId, data) {
+       const validateRequest =
+          Meteor.server.method_handlers['events.validateRequest'];
+        const invocation = { userId };
+        validateRequest.apply(invocation, [ data ]);
+      };
+
 
       beforeEach(function (done) {
-        userId = Accounts.createUser({username: 'bolek'});
+        giverId = Accounts.createUser({username: 'testGiver'});
+        receiverId = Accounts.createUser({username: 'testReceiver'});
         eventId = Events.insert({
           title: 'Something',
-          giverId: userId,
-          receiverId: Random.id(),
+          giverId: giverId,
+          receiverId: receiverId,
           start: new Date(),
           end: new Date(),
           cost: 100,
           giverValidated: false,
           receiverValidated: true
+        });
+        data = {
+          userId: giverId,
+          eventId: eventId
+        };
+        Meteor.users.update({ _id: giverId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': 100}
+        });
+        Meteor.users.update({ _id: receiverId}, {$set:
+          {'profile.balance': 0, 'profile.logisticBalance': -100}
         });
         done();
       });
@@ -35,38 +52,63 @@ if (Meteor.isServer) {
         done();
       });
 
-      it('Validate a event request', function (done) {
-        const validateRequest =
-          Meteor.server.method_handlers['events.validateRequest'];
-        const invocation = { userId };
-
-        let count;
-        validateRequest.apply(
-          invocation,
-          [{
-            userId: userId,
-            eventId: eventId
-          }]
-        );
+      it('Validate an event request', function (done) {
+        invokeValidateAs(giverId, data);
         count = Events.find({giverValidated: true}).count();
         assert.equal(count, 1);
         done();
       });
 
-      it('Reject validation with invalid userId', function (done) {
-        const validateRequest =
-          Meteor.server.method_handlers['events.validateRequest'];
-        const invocation = { userId };
-        const wrong = function () {
-          validateRequest.apply(
-            invocation,
-            [{
-              userId: Random.id(),
-              eventId: eventId
-            }]
-          );
+      it('Reject validation for unauthorized userId', function (done) {
+        data.userId = Random.id();
+        let invocationAttempt = function() {
+          invokeValidateAs(giverId, data);
         };
-        assert.throws(wrong, Meteor.Error);
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject already validated request (giver)', function (done) {
+        let invocationAttempt = function() {
+          invokeValidateAs(giverId, data);
+        };
+        Events.update({_id: eventId}, {$set: {giverValidated: true}});
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject already validated request (receiver)', function (done) {
+        data.userId = receiverId;
+        let invocationAttempt = function() {
+          invokeValidateAs(receiverId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Restore logistic balance on validation', function (done) {
+        invokeValidateAs(giverId, data);
+        assert.equal(
+            Meteor.users.findOne({ _id: giverId }).profile.logisticBalance,
+            0.0
+        );
+        assert.equal(
+            Meteor.users.findOne({ _id: receiverId }).profile.logisticBalance,
+            0.0
+        );
+        done();
+      });
+
+      it('Modify real balance on validation', function (done) {
+        invokeValidateAs(giverId, data);
+        assert.equal(
+            Meteor.users.findOne({ _id: giverId }).profile.balance,
+            100.0
+        );
+        assert.equal(
+            Meteor.users.findOne({ _id: receiverId }).profile.balance,
+            -100.0
+        );
         done();
       });
     });
@@ -121,11 +163,26 @@ if (Meteor.isServer) {
     });
 
     describe('addRequest', function () {
-      let receiverId, giverId;
+      let receiverId, giverId, data;
+      const invokeAddAs = function(userId, data) {
+       const addRequest =
+          Meteor.server.method_handlers['events.addRequest'];
+        const invocation = { userId };
+        addRequest.apply(invocation, [ data ]);
+      };
+
 
       beforeEach(function (done) {
         giverId = Accounts.createUser({username: 'testGiver'});
         receiverId = Accounts.createUser({username: 'testReceiver'});
+        data = {
+          title: 'Triple at Rio',
+          giver: giverId,
+          receiver: receiverId,
+          start: new Date(),
+          end: new Date(),
+          cost: 100,
+        };
         Meteor.users.update({ _id: giverId}, {$set:
           {'profile.balance': 0, 'profile.logisticBalance': 0}
         });
@@ -142,45 +199,50 @@ if (Meteor.isServer) {
       });
 
       it('Add an event', function (done) {
-        const addRequest =
-          Meteor.server.method_handlers['events.addRequest'];
-        const invocation = { userId: receiverId };
-
-        let count;
-        addRequest.apply(
-          invocation,
-          [{
-            title: 'Triple at Rio',
-            giver: giverId,
-            receiver: receiverId,
-            start: new Date(),
-            end: new Date(),
-            cost: 100,
-          }]
-        );
+        invokeAddAs(receiverId, data);
         count = Events.find({}).count();
         assert.equal(count, 1);
         done();
       });
 
+      it('Modify logistic balance on new transaction', function(done) {
+        invokeAddAs(receiverId, data);
+        assert.equal(
+            Meteor.users.findOne({ _id: giverId }).profile.logisticBalance,
+            100.0
+        );
+        assert.equal(
+            Meteor.users.findOne({ _id: receiverId }).profile.logisticBalance,
+            -100.0
+        );
+        done();
+      });
+
+
       it('Reject addition with invalid userId', function (done) {
-        const addRequest =
-          Meteor.server.method_handlers['events.addRequest'];
-        const invocation = {userId: Random.id()};
-        const fault = function () {
-          addRequest.apply(
-            invocation,
-            [{
-              title: '1500m, 5K, 10K',
-              giver: Random.id(),
-              receiver: Random.id(),
-              start: new Date(),
-              end: new Date(),
-              cost: 100,
-            }]
-          );
+        let invocationAttempt = function () {
+          invokeAddAs(Random.id(), data)
         };
-        assert.throws(fault, Meteor.Error);
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject transaction user cannot pay', function(done) {
+        data.cost = 101;
+        let invocationAttempt = function () {
+          invokeAddAs(receiverId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
+        done();
+      });
+
+      it('Reject transaction user cannot pay (cumulative)', function(done) {
+        data.cost = 51;
+        invokeAddAs(receiverId, data);
+        let invocationAttempt = function () {
+          invokeAddAs(receiverId, data);
+        };
+        assert.throws(invocationAttempt, Meteor.Error);
         done();
       });
     });
