@@ -4,6 +4,63 @@
 
     <div class='container-fluid paddingTop'>
 
+      <div class='col-sm-12'>
+        <div class='panel panel-default'>
+
+          <div class='panel-heading'>
+            <h3>Notifications</h3>
+          </div>
+
+          <div class='panel-body'>
+            <div class="row">
+
+              <div class='col-sm-2 col-sm-offset-1'>
+                <div class='row'>
+                  <div class="col-xs-3">
+                    <i class="fa fa-calendar fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div>Next Event Start</div>
+                    <div>{{nextEvent}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class='col-sm-2 col-sm-offset-2'>
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="glyphicon glyphicon-comment fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div>Unread Messages</div>
+                    <div>{{userUnreadMessages}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class='col-sm-2 col-sm-offset-2'>
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="glyphicon glyphicon-transfer fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div>Events Requests</div>
+                    <div>{{requests.count}}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class='container-fluid'>
+
       <!-- Activity Panel -->
       <div class="col-sm-7 transactions-redirect">
         <div class="panel panel-default">
@@ -95,6 +152,7 @@
 
     <div class="container-fluid">
 
+      <!-- Events Requests Container -->
       <div class='col-sm-7'>
         <div class='panel panel-default'>
 

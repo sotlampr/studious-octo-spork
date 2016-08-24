@@ -54,6 +54,49 @@ Template.dashboard.helpers({
     }
   },
 
+  // Return the number of unread messages for current user
+  userUnreadMessages: function () {
+    var userUnreadMessages = Messages.find(
+        {
+          receiverId: Meteor.user()._id,
+          visible: true,
+          read: false
+        }).count();
+
+    return userUnreadMessages;
+  },
+
+  // Return the next event start for current user
+  nextEvent: function () {
+    var now = new Date()
+    var nextEvent = Events.findOne(
+        {
+          $and: [
+            {
+              $and: [
+              {giverValidated: true},
+              {receiverValidated: true}
+              ]
+            },
+            {
+              $or : [
+                {'giverId': Meteor.userId()},
+                {'receiverId': Meteor.userId()}
+              ]
+            },
+            {
+              start: {$gte: now}
+            }
+          ]
+        },
+        {
+          sort: {start: 1}
+        }
+        );
+
+    return nextEvent.start;
+  },
+
   // Return the last 5 transactions for current user
   userTransactions: function () {
     if (Meteor.user()) {
