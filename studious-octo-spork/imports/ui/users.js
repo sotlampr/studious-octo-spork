@@ -7,6 +7,7 @@ import { Bert } from 'meteor/themeteorchef:bert';
 import { Events } from '../api/events/events.js';
 import { infoEvent } from './dashboard.js';
 import { saveTransaction } from '../api/transactions/methods.js';
+import { avatar } from './body.js';
 
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
@@ -93,10 +94,14 @@ Template.usersByUsername.helpers({
       return {
         username: targetUser.username,
         occupation: targetUser.profile.occupation,
-        description: targetUser.profile.description
+        description: targetUser.profile.description,
+        about: targetUser.characteristic,
+        user: targetUser
       };
     }
-  }
+  },
+
+  avatar: avatar,
 });
 
 

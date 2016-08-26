@@ -41,53 +41,92 @@
 </template>
 
 <template name="usersByUsername">
-  <div class="jumbotron">
-    <div class="container">
-      {{#if userData}}
-        {{#with userData}}
-        <div class='col-sm-6'>
-	  <h3>User <b>{{username}}</b></h3>
-          {{#if occupation}}
-            <p><b>Occupation:</b> {{occupation}}</p>
-          {{else}}
-            <p>User has not registered an occupation yet.</p>
-          {{/if}}
-          {{#if description}}
-            <p><i>{{description}}</i></p>
-          {{/if}}
+  <div class="container paddingTop">
+    {{#if userData}}
+      {{#with userData}}
 
-	  {{#if userIsNotSelf}}
-            <p>
-              <a href="/users/{{targetUsername}}/contact">contact user</a>
-            </p>
-          {{/if}}
+        <div class='col-sm-3'>
+          <div class='panel panel-default'>
+
+            <div class='panel-body'>
+
+              <div class='text-center'>
+                <h3><b>{{username}}</b></h3>
+
+                <img class='img-thumbnail avatar'
+                alt='{{targetUsername}}'
+                src='{{avatar user 100}}'/>
+
+                {{#if userIsNotSelf}}
+                  <p>
+                    <a class='btn btn-success'
+                      href="/users/{{targetUsername}}/contact">
+                      contact user
+                    </a>
+                  </p>
+                {{/if}}
+              </div>
+
+              <hr>
+
+              {{#if occupation}}
+                <h4><b>Occupation</b></h4>
+                <p>{{occupation}}</p>
+                {{else}}
+                <p>User has not registered an occupation yet.</p>
+              {{/if}}
+
+              {{#if description}}
+                <h4><b>Description</b></h4>
+                <p><i>{{description}}</i></p>
+              {{/if}}
+
+              <hr>
+
+              {{#if about}}
+                <h4><b>About</b></h4>
+                <p>{{about}}</p>
+              {{/if}}
+
+            </div>
+
+          </div>
         </div>
+
         {{#if currentUser}}
           <div class='col-sm-6'>
-            <div id="calendarUser"></div>
+            <div class='panel panel-default'>
+
+              <div class='panel-heading'>
+                <h3>{{targetUsername}}'s calendar</h3>
+              </div>
+
+              <div class='panel-body'>
+                <div id="calendarUser"></div>
+              </div>
+            </div>
           </div>
         {{/if}}
 
-        <div class="col-sm-6">
-                  </div>
+        <div class="col-sm-6"></div>
 
         <div class="col-sm-6">
-        {{#if userIsNotSelf}}
-          <p>Claim a session with {{username}}:</p>
+          {{#if userIsNotSelf}}
+            <p>Claim a session with {{username}}:</p>
             <form role="form" id="claim-session"
-                  class="form-horizontal" method="post">
+              class="form-horizontal" method="post">
               <div class="form-group">
                 <div class="radio">
                   <label>
                     <input type="radio" name="relationship-type"
-                           id="giverValidated">
+                    id="giverValidated">
                     {{username}} worked for me
                   </label>
                 </div>
                 <div class="radio">
                   <label>
                     <input type="radio" name="relationship-type"
-                           id="receiverValidated">
+                    id="receiverValidated">
                     I worked for {{username}}
                   </label>
                 </div>
@@ -98,8 +137,8 @@
                   Please elaboarate
                 </label>
                 <input type="text" class="form-control"
-                       id="sessionDescription"
-                       name="session-description">
+                id="sessionDescription"
+                name="session-description">
               </div>
 
               <div class="form-group">
@@ -108,8 +147,8 @@
                 </label>
                 <div class="col-sm-7">
                   <input type="text" class="form-control"
-                         id="sessionCost"
-                         name="session-cost">
+                  id="sessionCost"
+                  name="session-cost">
                 </div>
               </div>
               <div class="form-group">
@@ -123,11 +162,10 @@
           {{/if}}
         </div>
 
-        {{/with}}
-      {{else}}
-        <p>User {{targetUsername}} does not exist.</p>
-      {{/if}}
-    </div>
+      {{/with}}
+    {{else}}
+      <p>User {{targetUsername}} does not exist.</p>
+    {{/if}}
   </div>
 </template>
 
