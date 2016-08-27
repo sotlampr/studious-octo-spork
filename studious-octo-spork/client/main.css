@@ -221,3 +221,7 @@ p.bubble:before {
 .len {
   width: 90px;
 }
+
+.circle {
+  border-radius: 50%;
+}
