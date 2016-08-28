@@ -1,42 +1,131 @@
 <template name="usersIndex">
-  <div class="container">
-    <h2>An overview of all the users</h2>
-    {{# if users}}
-      <ul id='users'>
-      {{#each users}}
-        <a href="{{path(username)}}">
-          <li>{{username}}: {{profile.occupation}}</li>
-        </a>
-      {{/each}}
-      </ul>
-    {{/if}}
-  </div>
-  <div class='container'>
-    <div class='col-md-6'>
-      <form class='find' id='occupation'>
-        <input class="col-md-6" type='text' name='work'
-               placeholder='Are you looking for an occupation?' />
-      </form>
+  <div class="container paddingTop">
+
+    <div class="col-xs-3">
+      <!-- Nav tabs -->
+      <div class='panel panel-default'>
+        <div class='panel-heading'>
+          <strong>Overview</strong>
+        </div>
+
+        <div class='panel-body zero'>
+          <ul class="nav tabs-left">
+            <li class="active">
+              <a href="#users-tab" data-toggle="tab">
+                <i class='fa fa-users'></i>
+                Users
+                <span class='btn btn-xs btn-default circle pull-right'>
+                  42
+                </span>
+              </a>
+            </li>
+
+            <hr class='zero'>
+
+            <li>
+              <a href="#occupations-tab" data-toggle="tab">
+                <i class='fa fa-briefcase'></i>
+                Occupations
+                <span class='btn btn-xs btn-default circle pull-right'>
+                  42
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class='col-md-6'>
-      <form class='find' id='description'>
-        <input class="col-md-6" type='text' name='description'
-               placeholder='Give me a description!' />
-      </form>
+
+    <div class='col-xs-6'>
+      <!-- Tab panes -->
+      <div class='tab-content'>
+        <div class='tab-pane fade in active' id='users-tab'>
+
+          <div class='panel panel-default'>
+
+            <div class='panel-heading'>
+              <h3><b>Users</b></h3>
+            </div>
+
+            <div class='panel-body'>
+              {{# if users}}
+                <ul id='users'>
+                  {{#each users}}
+                    <a href="{{path(username)}}">
+                      <li>{{username}}: {{profile.occupation}}</li>
+                    </a>
+                    <img class='img-thumbnail avatar'
+                    alt='{{username}}'
+                    src='{{avatar (user _id) 38}}'/>
+                  {{/each}}
+                </ul>
+              {{/if}}
+            </div>
+
+          </div>
+        </div>
+
+        <div class='tab-pane fade' id='occupations-tab'>
+          <div class='panel panel-default'>
+
+            <div class='panel-heading'>
+              <h3><b>Occupations</b></h3>
+            </div>
+
+            <div class='panel-body'>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class='container'>
-    <div class='col-md-6 col-md-offset-3'>
-      {{#if usersSearch}}
-        <ul id='searchResults'>
-          {{#each usersSearch}}
-            <a href="{{path(username)}}">
-              <li>{{username}}: {{profile.occupation}}</li>
-            </a>
-          {{/each}}
-        </ul>
-      {{/if}}
+
+    <div class='col-xs-3'>
+      <div class='panel panel-default'>
+
+        <div class='panel-heading'>
+          <b>Search For</b>
+        </div>
+
+        <div class='panel-body'>
+          <h5>Occupations</h5>
+          <div class='col-md-12'>
+            <form class='find' id='occupation'>
+              <input class="col-md-12" type='text' name='work'
+              placeholder='Give me an occupation!' />
+            </form>
+          </div>
+
+          <br>
+          <hr>
+
+          <h5>Descriptions</h5>
+          <div class='col-md-12'>
+            <form class='find' id='description'>
+              <input class="col-md-12" type='text' name='description'
+              placeholder='Give me a description!' />
+            </form>
+          </div>
+
+          <br>
+          <hr>
+
+          <h5 class='text-center'>Results</h5>
+          <div class='col-md-12'>
+            {{#if usersSearch}}
+              <ul id='searchResults'>
+                {{#each usersSearch}}
+                  <a href="{{path(username)}}">
+                    <li>{{username}}: {{profile.occupation}}</li>
+                  </a>
+                {{/each}}
+              </ul>
+            {{/if}}
+          </div>
+        </div>
+
+      </div>
     </div>
+
   </div>
 </template>
 

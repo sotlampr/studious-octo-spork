@@ -8,6 +8,7 @@ import { Events } from '../api/events/events.js';
 import { infoEvent } from './dashboard.js';
 import { saveTransaction } from '../api/transactions/methods.js';
 import { avatar } from './body.js';
+import { userFromUserId } from './dashboard.js';
 
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
@@ -66,7 +67,11 @@ Template.usersIndex.helpers({
     } else if (description && description !== '') {
       return Meteor.users.find({'profile.description': descriptionSearch });
     }
-  }
+  },
+
+  avatar: avatar,
+
+  user: userFromUserId
 });
 
 
