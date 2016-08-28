@@ -34,6 +34,19 @@ export const infoEvent = function (evnt, element) {
 };
 
 
+/*  Return the user with _id: userId
+ *  args:
+ *    userId:
+ *      Mongo _id of user
+ */
+export const userFromUserId = function (userId) {
+  var user = Meteor.users.findOne({_id: userId});
+  if (user) {
+    return user;
+  }
+};
+
+
 Template.dashboard.onCreated(function dashboardOnCreated() {
   // Required subscriptions
   this.subscribe('messages.user');
@@ -140,9 +153,7 @@ Template.dashboard.helpers({
     return x === y;
   },
 
-  user: function (userId) {
-    return Meteor.users.findOne({_id: userId});
-  },
+  user: userFromUserId,
 
   avatar: avatar
 });
