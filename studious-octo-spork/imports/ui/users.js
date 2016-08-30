@@ -75,6 +75,10 @@ Template.usersIndex.helpers({
 
   occupations: function () {
     return _.uniq(Meteor.users.find({}).map( function(x) {return x.profile.occupation}));
+  },
+
+  usersWithOccupation: function (occupation) {
+    return Meteor.users.find({'profile.occupation': occupation});
   }
 });
 
