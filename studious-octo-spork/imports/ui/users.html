@@ -14,8 +14,8 @@
               <a href="#users-tab" data-toggle="tab">
                 <i class='fa fa-users'></i>
                 Users
-                <span class='btn btn-xs btn-default circle pull-right'>
-                  42
+                <span class='badge pull-right'>
+                  {{users.count}}
                 </span>
               </a>
             </li>
@@ -26,8 +26,8 @@
               <a href="#occupations-tab" data-toggle="tab">
                 <i class='fa fa-briefcase'></i>
                 Occupations
-                <span class='btn btn-xs btn-default circle pull-right'>
-                  42
+                <span class='badge pull-right'>
+                  {{occupations.length}}
                 </span>
               </a>
             </li>
@@ -73,6 +73,9 @@
             </div>
 
             <div class='panel-body'>
+              {{#each occupation in occupations}}
+                <p>{{occupation}}</p>
+              {{/each}}
             </div>
           </div>
         </div>

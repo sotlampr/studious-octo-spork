@@ -71,7 +71,11 @@ Template.usersIndex.helpers({
 
   avatar: avatar,
 
-  user: userFromUserId
+  user: userFromUserId,
+
+  occupations: function () {
+    return _.uniq(Meteor.users.find({}).map( function(x) {return x.profile.occupation}));
+  }
 });
 
 
