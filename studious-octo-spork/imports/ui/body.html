@@ -317,45 +317,59 @@
   </div>
 
   <!-- Random Users Container -->
-  <div class='container-fluid'>
-    <div class='container box'>
-      <h2>Random Users</h2>
+  <div class='container box'>
+    <h2>Random Users</h2>
 
-      <!-- Carousel -->
-      <div id="myCarousel" class="carousel slide text-center"
+    <!-- Carousel -->
+    <div class='col-md-8 col-md-offset-2'>
+      <div id="myCarousel" class="carousel slide"
         data-ride="carousel">
 
         <!-- Indicators -->
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#myCarousel" data-slide-to="1" class=""></li>
-          <li data-target="#myCarousel" data-slide-to="2" class=""></li>
-          <li data-target="#myCarousel" data-slide-to="3" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+          <li data-target="#myCarousel" data-slide-to="3"></li>
         </ol>
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
           <div class='item active'>
-            <h4>
-              All users
-              <br>
-              are available at
-              <br><a href='/users'>users page</a>
-            </h4>
+            <div class='inside text-center'>
+              <img class='img-thumbnail avatar'
+              alt='{{currentUser.username}}'
+              src='{{avatar currentUser 100}}'>
+            </div>
+            <div class='carousel-caption'>
+              <h4>
+                All users
+                <br>
+                are available at
+                <br><a href='/users'>users page</a>
+              </h4>
+            </div>
           </div>
           {{#if randomUsers}}
-            {{#each randomUsers}}
+            {{#each randomUser in randomUsers}}
               <div class='item'>
-                <h4>{{username}}
-                  <br>
-                  <span>
-                    <strong>Occupation: </strong>{{profile.occupation}}
-                  </span>
-                  <br>
-                  <span>
-                    <strong>Description: </strong>{{profile.description}}
-                  </span>
-                </h4>
+                <div class='inside text-center'>
+                  <img class='img-thumbnail avatar'
+                  alt='{{randomUser.username}}'
+                  src='{{avatar randomUser 100}}'>
+                </div>
+                <div class='carousel-caption'>
+                  <h4><b>{{randomUser.username}}</b>
+                    <br>
+                    <span>
+                      Occupation: {{randomUser.profile.occupation}}
+                    </span>
+                    <br>
+                    <span>
+                      Description: {{randomUser.profile.description}}
+                    </span>
+                  </h4>
+                </div>
               </div>
             {{/each}}
           {{/if}}

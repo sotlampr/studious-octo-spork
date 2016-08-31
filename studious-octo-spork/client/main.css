@@ -225,3 +225,8 @@ p.bubble:before {
 .circle {
   border-radius: 50%;
 }
+
+.inside {
+  background-color: #2d2d30;
+  height: 240px;
+}
