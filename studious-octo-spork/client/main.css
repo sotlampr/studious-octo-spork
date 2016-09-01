@@ -228,5 +228,6 @@ p.bubble:before {
 
 .inside {
   background-color: #2d2d30;
-  height: 240px;
+  height: 250px;
+  padding: 20px;
 }
