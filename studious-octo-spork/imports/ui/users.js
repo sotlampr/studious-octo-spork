@@ -38,7 +38,7 @@ Template.usersIndex.events({
 
 Template.usersIndex.helpers({
   users: function () {
-    return Meteor.users.find();
+    return Meteor.users.find({}, {sort: {'username': 1}});
   },
 
   path: function (username) {
@@ -63,9 +63,13 @@ Template.usersIndex.helpers({
     var description = Session.get('description');
     var descriptionSearch = new RegExp(description, 'i');
     if (work && work !== '') {
-      return Meteor.users.find({'profile.occupation': workSearch});
+      return Meteor.users.find(
+          {'profile.occupation': workSearch},
+          {sort: {'username': 1}});
     } else if (description && description !== '') {
-      return Meteor.users.find({'profile.description': descriptionSearch });
+      return Meteor.users.find(
+          {'profile.description': descriptionSearch },
+          {sort: {'username': 1}});
     }
   },
 
@@ -74,11 +78,16 @@ Template.usersIndex.helpers({
   user: userFromUserId,
 
   occupations: function () {
-    return _.uniq(Meteor.users.find({}).map( function(x) {return x.profile.occupation}));
+    return _.uniq(
+        Meteor.users.find({}, {sort: {'profile.occupation': 1}}).map(
+          function(x) {
+            return x.profile.occupation
+          }
+        ));
   },
 
   usersWithOccupation: function (occupation) {
-    return Meteor.users.find({'profile.occupation': occupation});
+    return Meteor.users.find({'profile.occupation': occupation}, {sort: {'username': 1}});
   }
 });
 
