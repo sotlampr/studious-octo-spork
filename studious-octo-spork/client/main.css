@@ -231,3 +231,7 @@ p.bubble:before {
   height: 250px;
   padding: 20px;
 }
+
+.oval {
+  border-radius: 30px;
+}

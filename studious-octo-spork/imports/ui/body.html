@@ -335,21 +335,10 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-          <div class='item active'>
-            <div class='inside text-center'></div>
-            <div class='carousel-caption'>
-              <h4>
-                All users
-                <br>
-                are available at
-                <br><a href='/users'>users page</a>
-              </h4>
-            </div>
-          </div>
           {{#if randomUsers}}
             {{#each randomUser in randomUsers}}
               <div class='item'>
-                <div class='inside text-center'>
+                <div class='inside text-center oval'>
                   <img class='img-thumbnail avatar'
                   alt='{{randomUser.username}}'
                   src='{{avatar randomUser 100}}'>
@@ -369,16 +358,27 @@
               </div>
             {{/each}}
           {{/if}}
+          <div class='item'>
+            <div class='inside text-center oval'></div>
+            <div class='carousel-caption'>
+              <h4>
+                All users
+                <br>
+                are available at
+                <br><a href='/users'>users page</a>
+              </h4>
+            </div>
+          </div>
         </div>
 
         <!-- Left and right controls -->
-        <a class="left carousel-control" href="#myCarousel" role="button"
+        <a class="left carousel-control oval" href="#myCarousel" role="button"
           data-slide="prev">
           <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
           </span>
           <span class="sr-only">Previous</span>
         </a>
-        <a class="right carousel-control" href="#myCarousel" role="button"
+        <a class="right carousel-control oval" href="#myCarousel" role="button"
           data-slide="next">
           <span class="glyphicon glyphicon-chevron-right" aria-hidden="true">
           </span>
@@ -475,6 +475,9 @@
       $('#toTop').click(function () {
         $('html, body').animate({scrollTop: 0}, 1000);
       });
+
+      // add .active to last .item
+      $('.item:first').addClass('active');
     });
   </script>
 </template>
