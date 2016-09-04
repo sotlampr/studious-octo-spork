@@ -47,16 +47,26 @@
               <h3><b>Users</b></h3>
             </div>
 
-            <div class='panel-body'>
+            <div class='panel-body zero'>
               {{# if users}}
-                <ul id='users'>
+                <ul id='users' class='nav nav-pills nav-stacked'>
                   {{#each users}}
-                    <a href="{{path(username)}}">
-                      <li>{{username}}: {{profile.occupation}}</li>
-                    </a>
-                    <img class='img-thumbnail avatar'
-                    alt='{{username}}'
-                    src='{{avatar (user _id) 38}}'/>
+                    <li class='nav-header'>
+                      <a href="{{path(username)}}">
+                        <div class='row'>
+                          <div class='col-sm-2'>
+                            <img class='img-thumbnail avatar'
+                            alt='{{username}}'
+                            src='{{avatar (user _id) 38}}'/>
+                          </div>
+                          <div class='col-sm-10'>
+                            <p>{{username}}: {{profile.occupation}}</p>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+
+                    <hr class='zero'>
                   {{/each}}
                 </ul>
               {{/if}}
@@ -72,7 +82,7 @@
               <h3><b>Occupations</b></h3>
             </div>
 
-            <div class='panel-body'>
+            <div class='panel-body zero'>
               <ul class='nav nav-pills nav-stacked'>
 
                 {{#each occupation in occupations}}
@@ -88,18 +98,28 @@
                         (usersWithOccupation occupation)}}
 
                         {{#with userWithOccupation}}
-                          <a href="{{path(username)}}">
-                            <li>{{username}}: {{profile.occupation}}</li>
-                          </a>
-                          <img class='img-thumbnail avatar'
-                          alt='{{username}}'
-                          src='{{avatar (user _id) 38}}'/>
+                          <li>
+                            <a href="{{path(username)}}">
+                              <div class='row'>
+                                <div class='col-sm-2'>
+                                  <img class='img-thumbnail avatar'
+                                  alt='{{username}}'
+                                  src='{{avatar (user _id) 38}}'/>
+                                </div>
+                                <div class='col-sm-10'>
+                                  <p>{{username}}: {{profile.occupation}}</p>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
                         {{/with}}
 
                       {{/each}}
 
                     </ul>
                   </li>
+
+                  <hr class='zero'>
                 {{/each}}
 
               </ul>
