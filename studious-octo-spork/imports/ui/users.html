@@ -87,8 +87,9 @@
 
                 {{#each occupation in occupations}}
                   <li class='nav-header'>
-                    <a href='' data-toggle='collapse'
+                    <a href='' data-toggle='collapse' class='tree'
                       data-target='#{{occupation}}'>
+                      <span class='fa fa-plus'></span>
                       {{occupation}}
                     </a>
                     <ul class='nav nav-list collapse col-xs-offset-1'
@@ -179,6 +180,22 @@
     </div>
 
   </div>
+  <script type='text/javascript'>
+    $(document).ready(function () {
+      $('.tree').click(function (event) {
+        event.preventDefault();
+
+        var span = $($(this).children()[0]);
+        if (span.hasClass('fa-plus')) {
+          span.removeClass('fa-plus');
+          span.addClass('fa-minus');
+        } else {
+          span.removeClass('fa-minus');
+          span.addClass('fa-plus');
+        }
+      });
+    });
+  </script>
 </template>
 
 <template name="usersByUsername">
