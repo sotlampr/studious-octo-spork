@@ -235,3 +235,7 @@ p.bubble:before {
 .oval {
   border-radius: 30px;
 }
+
+.navbar-brand {
+  font-variant: small-caps;
+}
