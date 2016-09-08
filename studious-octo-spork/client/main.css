@@ -236,6 +236,6 @@ p.bubble:before {
   border-radius: 30px;
 }
 
-.navbar-brand {
+.navbar-brand, .brand {
   font-variant: small-caps;
 }
