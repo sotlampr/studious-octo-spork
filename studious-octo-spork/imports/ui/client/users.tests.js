@@ -41,7 +41,7 @@ describe('Users', function() {
 
       it('Displays name and occupation for all 3 default users', function(done) {
         withRenderedTemplate('usersIndex', {}, el => {
-          let users = $(el).find('#users li');
+          let users = $(el).find('#users li p');
           for (let i=0; i < 3; i++) {
             assert.equal(
                 users[i].innerText,
