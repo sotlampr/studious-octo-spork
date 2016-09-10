@@ -68,10 +68,11 @@ describe('Dashboard', function() {
       let messages = $(el).find('.message');
       assert.equal(messages.length, 3);
         for (let i=0; i<3; i++) {
-          assert.include(
+          assert.equal(
             messages[i].innerText.replace(/\s+/g, ' '),
-            Meteor.users.findOne(rawMessages[i].giverId).username +
-            ': ' + rawMessages[i].message
+            ' ' + Meteor.users.findOne(rawMessages[i].giverId).username +
+            ' ' + rawMessages[i].dateCreated +
+            ' ' + rawMessages[i].message + ' '
           );
         }
     });
