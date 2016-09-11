@@ -76,6 +76,13 @@ describe('Users', function() {
         Session.set('description', '');
         done();
       });
+
+      it('Displays 3 default occupations on occupations-tab', function(done) {
+        withRenderedTemplate('usersIndex', {}, el => {
+          assert.equal($(el).find('#occupations .nav-header').length, 3);
+        });
+        done();
+      });
     });
 
     describe('Redirects', function(){

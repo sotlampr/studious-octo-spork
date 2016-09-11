@@ -23,7 +23,7 @@
             <hr class='zero'>
 
             <li>
-              <a href="#occupations-tab" data-toggle="tab">
+              <a id='occupationsTab' href="#occupations-tab" data-toggle="tab">
                 <i class='fa fa-briefcase'></i>
                 Occupations
                 <span class='badge pull-right'>
@@ -83,7 +83,7 @@
             </div>
 
             <div class='panel-body zero'>
-              <ul class='nav nav-pills nav-stacked'>
+              <ul id='occupations' class='nav nav-pills nav-stacked'>
 
                 {{#each occupation in occupations}}
                   <li class='nav-header'>
