@@ -75,3 +75,24 @@ describe('Home page', function() {
     });
   });
 });
+
+
+describe('About page', function() {
+  beforeEach(function(done) {
+    Template.registerHelper('_', key => key);
+    done();
+  });
+
+  afterEach(function(done) {
+    Template.deregisterHelper('_');
+    done();
+  });
+
+  it('Displays heading', function(done) {
+    withRenderedTemplate('about', {}, el => {
+      let html = $(el).find('h2').html();
+      assert.equal(html, 'About Time Ride');
+    });
+    done();
+  });
+});
