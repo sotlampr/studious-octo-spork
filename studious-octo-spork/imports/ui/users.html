@@ -11,7 +11,8 @@
         <div class='panel-body zero'>
           <ul class="nav tabs-left">
             <li class="active">
-              <a href="#users-tab" data-toggle="tab">
+              <a id='usersTab' href="#users-tab" data-toggle="tab" role='tab'
+                aria-controls='users-tab'>
                 <i class='fa fa-users'></i>
                 Users
                 <span class='badge pull-right'>
@@ -23,7 +24,8 @@
             <hr class='zero'>
 
             <li>
-              <a id='occupationsTab' href="#occupations-tab" data-toggle="tab">
+              <a id='occupationsTab' href="#occupations-tab" data-toggle="tab"
+                role='tab' aria-controls='occupations-tab'>
                 <i class='fa fa-briefcase'></i>
                 Occupations
                 <span class='badge pull-right'>
@@ -39,7 +41,7 @@
     <div class='col-xs-6'>
       <!-- Tab panes -->
       <div class='tab-content'>
-        <div class='tab-pane fade in active' id='users-tab'>
+        <div role='tabpanel' class='tab-pane fade in active' id='users-tab'>
 
           <div class='panel panel-default'>
 
@@ -75,7 +77,7 @@
           </div>
         </div>
 
-        <div class='tab-pane fade' id='occupations-tab'>
+        <div role='tabpanel' class='tab-pane fade' id='occupations-tab'>
           <div class='panel panel-default'>
 
             <div class='panel-heading'>

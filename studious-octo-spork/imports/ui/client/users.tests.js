@@ -77,9 +77,18 @@ describe('Users', function() {
         done();
       });
 
-      it('Displays 3 default occupations on occupations-tab', function(done) {
+      it('Default 3 occupations on occupations-tab', function(done) {
         withRenderedTemplate('usersIndex', {}, el => {
           assert.equal($(el).find('#occupations .nav-header').length, 3);
+        });
+        done();
+      });
+
+      it('Displays occupations after click on #occupations-tab', function(done) {
+        withRenderedTemplate('usersIndex', {}, el => {
+          assert.equal($(el).find('#users-tab').hasClass('in'), true);
+          $(el).find('#occupationsTab')[0].click();
+          assert.equal($(el).find('#users-tab').hasClass('in'), false);
         });
         done();
       });
