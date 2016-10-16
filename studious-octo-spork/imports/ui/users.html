@@ -1,93 +1,292 @@
 <template name="usersIndex">
-  <div class="container">
-    <h2>An overview of all the users</h2>
-    {{# if users}}
-      <ul id='users'>
-      {{#each users}}
-        <a href="{{path(username)}}">
-          <li>{{username}}: {{profile.occupation}}</li>
-        </a>
-      {{/each}}
-      </ul>
-    {{/if}}
-  </div>
-  <div class='container'>
-    <div class='col-md-6'>
-      <form class='find' id='occupation'>
-        <input class="col-md-6" type='text' name='work'
-               placeholder='Are you looking for an occupation?' />
-      </form>
+  <div class="container paddingTop">
+
+    <div class="col-xs-3">
+      <!-- Nav tabs -->
+      <div class='panel panel-default'>
+        <div class='panel-heading'>
+          <strong>Overview</strong>
+        </div>
+
+        <div class='panel-body zero'>
+          <ul class="nav tabs-left">
+            <li class="active">
+              <a id='usersTab' href="#users-tab" data-toggle="tab" role='tab'
+                aria-controls='users-tab'>
+                <i class='fa fa-users'></i>
+                Users
+                <span class='badge pull-right'>
+                  {{users.count}}
+                </span>
+              </a>
+            </li>
+
+            <hr class='zero'>
+
+            <li>
+              <a id='occupationsTab' href="#occupations-tab" data-toggle="tab"
+                role='tab' aria-controls='occupations-tab'>
+                <i class='fa fa-briefcase'></i>
+                Occupations
+                <span class='badge pull-right'>
+                  {{occupations.length}}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class='col-md-6'>
-      <form class='find' id='description'>
-        <input class="col-md-6" type='text' name='description'
-               placeholder='Give me a description!' />
-      </form>
+
+    <div class='col-xs-6'>
+      <!-- Tab panes -->
+      <div class='tab-content'>
+        <div role='tabpanel' class='tab-pane fade in active' id='users-tab'>
+
+          <div class='panel panel-default'>
+
+            <div class='panel-heading'>
+              <h3><b>Users</b></h3>
+            </div>
+
+            <div class='panel-body zero'>
+              {{# if users}}
+                <ul id='users' class='nav nav-pills nav-stacked'>
+                  {{#each users}}
+                    <li class='nav-header'>
+                      <a href="{{path(username)}}">
+                        <div class='row'>
+                          <div class='col-sm-2'>
+                            <img class='img-thumbnail avatar'
+                            alt='{{username}}'
+                            src='{{avatar (user _id) 38}}'/>
+                          </div>
+                          <div class='col-sm-10'>
+                            <p>{{username}}: {{profile.occupation}}</p>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+
+                    <hr class='zero'>
+                  {{/each}}
+                </ul>
+              {{/if}}
+            </div>
+
+          </div>
+        </div>
+
+        <div role='tabpanel' class='tab-pane fade' id='occupations-tab'>
+          <div class='panel panel-default'>
+
+            <div class='panel-heading'>
+              <h3><b>Occupations</b></h3>
+            </div>
+
+            <div class='panel-body zero'>
+              <ul id='occupations' class='nav nav-pills nav-stacked'>
+
+                {{#each occupation in occupations}}
+                  <li class='nav-header'>
+                    <a href='' data-toggle='collapse' class='tree'
+                      data-target='#{{occupation}}'>
+                      <span class='fa fa-plus'></span>
+                      {{occupation}}
+                    </a>
+                    <ul class='nav nav-list collapse col-xs-offset-1'
+                      id='{{occupation}}'>
+
+                      {{#each userWithOccupation in
+                        (usersWithOccupation occupation)}}
+
+                        {{#with userWithOccupation}}
+                          <li>
+                            <a href="{{path(username)}}">
+                              <div class='row'>
+                                <div class='col-sm-2'>
+                                  <img class='img-thumbnail avatar'
+                                  alt='{{username}}'
+                                  src='{{avatar (user _id) 38}}'/>
+                                </div>
+                                <div class='col-sm-10'>
+                                  <p>{{username}}: {{profile.occupation}}</p>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+                        {{/with}}
+
+                      {{/each}}
+
+                    </ul>
+                  </li>
+
+                  <hr class='zero'>
+                {{/each}}
+
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-  <div class='container'>
-    <div class='col-md-6 col-md-offset-3'>
-      {{#if usersSearch}}
-        <ul id='searchResults'>
-          {{#each usersSearch}}
-            <a href="{{path(username)}}">
-              <li>{{username}}: {{profile.occupation}}</li>
-            </a>
-          {{/each}}
-        </ul>
-      {{/if}}
+
+    <div class='col-xs-3'>
+      <div class='panel panel-default'>
+
+        <div class='panel-heading'>
+          <b>Search For</b>
+        </div>
+
+        <div class='panel-body'>
+          <h5>Occupations</h5>
+          <div class='col-md-12'>
+            <form class='find' id='occupation'>
+              <input class="col-md-12" type='text' name='work'
+              placeholder='Give me an occupation!' />
+            </form>
+          </div>
+
+          <br>
+          <hr>
+
+          <h5>Descriptions</h5>
+          <div class='col-md-12'>
+            <form class='find' id='description'>
+              <input class="col-md-12" type='text' name='description'
+              placeholder='Give me a description!' />
+            </form>
+          </div>
+
+          <br>
+          <hr>
+
+          <h5 class='text-center'>Results</h5>
+          <div class='col-md-12'>
+            {{#if usersSearch}}
+              <ul id='searchResults'>
+                {{#each usersSearch}}
+                  <a href="{{path(username)}}">
+                    <li>{{username}}: {{profile.occupation}}</li>
+                  </a>
+                {{/each}}
+              </ul>
+            {{/if}}
+          </div>
+        </div>
+
+      </div>
     </div>
+
   </div>
+  <script type='text/javascript'>
+    $(document).ready(function () {
+      $('.tree').click(function (event) {
+        event.preventDefault();
+
+        var span = $($(this).children()[0]);
+        if (span.hasClass('fa-plus')) {
+          span.removeClass('fa-plus');
+          span.addClass('fa-minus');
+        } else {
+          span.removeClass('fa-minus');
+          span.addClass('fa-plus');
+        }
+      });
+    });
+  </script>
 </template>
 
 <template name="usersByUsername">
-  <div class="jumbotron">
-    <div class="container">
-      {{#if userData}}
-        {{#with userData}}
-        <div class='col-sm-6'>
-	  <h3>User <b>{{username}}</b></h3>
-          {{#if occupation}}
-            <p><b>Occupation:</b> {{occupation}}</p>
-          {{else}}
-            <p>User has not registered an occupation yet.</p>
-          {{/if}}
-          {{#if description}}
-            <p><i>{{description}}</i></p>
-          {{/if}}
+  <div class="container paddingTop">
+    {{#if userData}}
+      {{#with userData}}
 
-	  {{#if userIsNotSelf}}
-            <p>
-              <a href="/users/{{targetUsername}}/contact">contact user</a>
-            </p>
-          {{/if}}
+        <div class='col-sm-3'>
+          <div class='panel panel-default'>
+
+            <div class='panel-body'>
+
+              <div class='text-center'>
+                <h3><b>{{username}}</b></h3>
+
+                <img class='img-thumbnail avatar'
+                alt='{{targetUsername}}'
+                src='{{avatar user 100}}'/>
+
+                {{#if userIsNotSelf}}
+                  <p>
+                    <a class='btn btn-success'
+                      href="/users/{{targetUsername}}/contact">
+                      contact user
+                    </a>
+                  </p>
+                {{/if}}
+              </div>
+
+              <hr>
+
+              {{#if occupation}}
+                <h4><b>Occupation</b></h4>
+                <p>{{occupation}}</p>
+                {{else}}
+                <p>User has not registered an occupation yet.</p>
+              {{/if}}
+
+              {{#if description}}
+                <h4><b>Description</b></h4>
+                <p><i>{{description}}</i></p>
+              {{/if}}
+
+              <hr>
+
+              {{#if about}}
+                <h4><b>About</b></h4>
+                <p>{{about}}</p>
+              {{/if}}
+
+            </div>
+
+          </div>
         </div>
+
         {{#if currentUser}}
           <div class='col-sm-6'>
-            <div id="calendarUser"></div>
+            <div class='panel panel-default'>
+
+              <div class='panel-heading'>
+                <h3>{{targetUsername}}'s calendar</h3>
+              </div>
+
+              <div class='panel-body'>
+                <div id="calendarUser"></div>
+              </div>
+            </div>
           </div>
         {{/if}}
 
-        <div class="col-sm-6">
-                  </div>
+        <div class="col-sm-6"></div>
 
         <div class="col-sm-6">
-        {{#if userIsNotSelf}}
-          <p>Claim a session with {{username}}:</p>
+          {{#if userIsNotSelf}}
+            <p>Claim a session with {{username}}:</p>
             <form role="form" id="claim-session"
-                  class="form-horizontal" method="post">
+              class="form-horizontal" method="post">
               <div class="form-group">
                 <div class="radio">
                   <label>
                     <input type="radio" name="relationship-type"
-                           id="giverValidated">
+                    id="giverValidated">
                     {{username}} worked for me
                   </label>
                 </div>
                 <div class="radio">
                   <label>
                     <input type="radio" name="relationship-type"
-                           id="receiverValidated">
+                    id="receiverValidated">
                     I worked for {{username}}
                   </label>
                 </div>
@@ -98,8 +297,8 @@
                   Please elaboarate
                 </label>
                 <input type="text" class="form-control"
-                       id="sessionDescription"
-                       name="session-description">
+                id="sessionDescription"
+                name="session-description">
               </div>
 
               <div class="form-group">
@@ -108,8 +307,8 @@
                 </label>
                 <div class="col-sm-7">
                   <input type="text" class="form-control"
-                         id="sessionCost"
-                         name="session-cost">
+                  id="sessionCost"
+                  name="session-cost">
                 </div>
               </div>
               <div class="form-group">
@@ -123,11 +322,10 @@
           {{/if}}
         </div>
 
-        {{/with}}
-      {{else}}
-        <p>User {{targetUsername}} does not exist.</p>
-      {{/if}}
-    </div>
+      {{/with}}
+    {{else}}
+      <p>User {{targetUsername}} does not exist.</p>
+    {{/if}}
   </div>
 </template>
 
@@ -173,58 +371,4 @@
       });
     });
   </script>
-</template>
-
-<template name='addEditRequestEventModal'>
-  <div class="modal fade" id="add-edit-event-modal" tabindex="-1"
-    role="dialog" aria-labelledby="add-edit-event-modal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title"
-            id="add-edit-event">{{modalLabel.label}} Event</h4>
-				</div>
-				<form id="add-edit-event-form">
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="title">Event Title</label>
-              <input type="text" name="title" class="form-control"
-              value="{{evnt.title}}">
-						</div>
-						<div class="form-group">
-							<div class="row">
-								<div class="col-xs-12 col-sm-3">
-									<label for="start">Event Starts</label>
-                  <input type="text" name="start" class="form-control"
-                  value="{{evnt.start}}">
-								</div>
-								<div class="col-xs-12 col-sm-3">
-									<label for="end">Event End</label>
-                  <input type="text" name="end" class="form-control"
-                  value="{{#if evnt.end}}{{evnt.end}}{{else}}{{evnt.start}}{{/if}}">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						{{#if modalType 'edit'}}
-              <button class="btn btn-danger pull-left delete-event">
-                Delete Event
-              </button>
-						{{/if}}
-            <button type="button" class="btn btn-default"
-              data-dismiss="modal">
-              Cancel
-            </button>
-            <button type="submit"
-              class="btn btn-success">{{modalLabel.button}} Event</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 </template>

@@ -4,6 +4,63 @@
 
     <div class='container-fluid paddingTop'>
 
+      <div class='col-sm-12'>
+        <div class='panel panel-default'>
+
+          <div class='panel-heading'>
+            <h3>Notifications</h3>
+          </div>
+
+          <div class='panel-body'>
+            <div class="row">
+
+              <div class='col-sm-2 col-sm-offset-1'>
+                <div class='row'>
+                  <div class="col-xs-3">
+                    <i class="fa fa-calendar fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div>Next Event Start</div>
+                    <div>{{nextEvent}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class='col-sm-2 col-sm-offset-2'>
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="glyphicon glyphicon-comment fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div>Unread Messages</div>
+                    <div>{{userUnreadMessages}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class='col-sm-2 col-sm-offset-2'>
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="glyphicon glyphicon-transfer fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div>Events Requests</div>
+                    <div>{{requests.count}}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class='container-fluid'>
+
       <!-- Activity Panel -->
       <div class="col-sm-7 transactions-redirect">
         <div class="panel panel-default">
@@ -95,130 +152,127 @@
 
     <div class="container-fluid">
 
-      <!-- Events Container -->
-      <div class='col-sm-6'>
-        <div class="panel panel-default">
+      <!-- Events Requests Container -->
+      <div class='col-sm-7'>
+        <div class='panel panel-default'>
 
-          <div class="panel-heading">
+          <div class='panel-heading'>
             <h3>Events Requests</h3>
           </div>
 
-          <div class="panel-body">
-            <ul>
-              {{#each requests}}
-                <li class="request">
-                  <p>
-                    <strong>Title </strong>
-                    <span class='orange bold'>{{title}}</span>
-                  </p>
+          <div class='panel-body'>
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th></th>
+                  <th></th>
+                  <th>Giver</th>
+                  <th>Receiver</th>
+                </tr>
+              </thead>
 
-                  <div class='container'>
-                    <div class='col-sm-6'>
-                      <div class='row'>
-
-                        <div class='col-sm-6'>
-                          <div><p><strong>Start </strong>{{start}}</p></div>
-                          <div><p><strong>End </strong>{{end}}</p></div>
-                        </div>
-
-                        <div class='col-sm-6'>
-                          <table id='tbl'>
-
-                            <tr>
-                              <th></th>
-                              <th>Giver</th>
-                              <th>Receiver</th>
-                            </tr>
-
-                            <tr>
-                              <td></td>
-                              <td>
-                                <p>
-                                  <a href='/users/{{usernameFromId giverId}}/'
-                                    class='maroon bold'>
-                                    {{usernameFromId giverId}}
-                                  </a>
-                                </p>
-                              </td>
-                              <td>
-                                <p>
-                                  <a href='/users/{{usernameFromId receiverId}}/'
-                                    class='purple bold'>
-                                    {{usernameFromId receiverId}}
-                                  </a>
-                                </p>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td><strong>Validate</strong></td>
-
-                              <td>
-                                {{#if isEqual giverId currentUser._id}}
-                                  {{#if giverValidated}}
-                                    <p class='green bold'>true</p>
-                                    {{else}}
-                                    <div class='row'>
-                                      <button
-                                        class='acceptRequest btn btn-success'>
-                                        <span class='glyphicon glyphicon-ok'>
-                                        </span>
-                                      </button>
-                                      <button class='denyRequest btn btn-danger'>
-                                        <span class='glyphicon glyphicon-remove'>
-                                        </span>
-                                      </button>
-                                    </div>
-                                  {{/if}}
-                                  {{else}}
-                                  {{#if giverValidated}}
-                                    <p class='green bold'>true</p>
-                                    {{else}}
-                                    <p class='yellow bold'>not yet</p>
-                                  {{/if}}
-                                {{/if}}
-                              </td>
-
-                              <td>
-                                {{#if isEqual receiverId currentUser._id}}
-                                  {{#if receiverValidated}}
-                                    <p class='green bold'>true</p>
-                                    {{else}}
-                                    <div class='row'>
-                                      <button
-                                        class='acceptRequest btn btn-success'>
-                                        <span class='glyphicon glyphicon-ok'>
-                                        </span>
-                                      </button>
-                                      <button class='denyRequest btn btn-danger'>
-                                        <span class='glyphicon glyphicon-remove'>
-                                        </span>
-                                      </button>
-                                    </div>
-                                  {{/if}}
-                                  {{else}}
-                                  {{#if receiverValidated}}
-                                    <p class='green bold'>true</p>
-                                    {{else}}
-                                    <p class='yellow bold'>not yet</p>
-                                  {{/if}}
-                                {{/if}}
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
+              <tbody>
+                {{#each requests}}
+                  <tr>
+                    <td><b class='orange'>{{title}}</b></td>
+                    <td>{{start}}</td>
+                    <td>{{end}}</td>
+                    <td class='len'></td>
+                    <td class='len'>
+                      <div>
+                        <p class='down'>
+                          <b>Validate</b>
+                        </p>
                       </div>
-                    </div>
-                  </div>
-                </li>
-              {{/each}}
-            </ul>
+                    </td>
+
+                    <td class='len'>
+                      <div>
+                        <a class='bold maroon'
+                          href='/users/{{usernameFromId giverId}}/'>
+                          {{usernameFromId giverId}}
+                        </a>
+
+                        {{#if isEqual giverId currentUser._id}}
+                          {{#if giverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <div class='row'>
+                              <button
+                                class='acceptRequest btn btn-sm
+                                btn-success'>
+                                <span class='glyphicon glyphicon-ok'>
+                                </span>
+                              </button>
+                              <button class='denyRequest btn btn-sm
+                                btn-danger'>
+                                <span class='glyphicon glyphicon-remove'>
+                                </span>
+                              </button>
+                            </div>
+                          {{/if}}
+                        {{else}}
+                          {{#if giverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <p class='yellow bold'>not yet</p>
+                         {{/if}}
+                        {{/if}}
+
+                      </div>
+                    </td>
+
+                    <td class='len'>
+                      <div>
+
+                        <a class='bold purple'
+                          href='/users/{{usernameFromId receiverId}}/'>
+                          {{usernameFromId receiverId}}
+                        </a>
+
+                        {{#if isEqual receiverId currentUser._id}}
+                          {{#if receiverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <div class='row'>
+                              <button
+                                class='acceptRequest btn btn-sm
+                                btn-success'>
+                                <span class='glyphicon glyphicon-ok'>
+                                </span>
+                              </button>
+                              <button class='denyRequest btn btn-sm
+                                 btn-danger'>
+                                <span class='glyphicon glyphicon-remove'>
+                                </span>
+                              </button>
+                            </div>
+                          {{/if}}
+                        {{else}}
+                          {{#if receiverValidated}}
+                            <p class='green bold'>true</p>
+                          {{else}}
+                            <p class='yellow bold'>not yet</p>
+                          {{/if}}
+                        {{/if}}
+
+                      </div>
+                    </td>
+
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
           </div>
+
         </div>
       </div>
 
       <!-- Messages Container -->
-      <div class="col-sm-6">
+      <div class="col-sm-5">
         <div class="panel panel-default">
 
           <div class="panel-heading">
@@ -226,28 +280,51 @@
           </div>
 
           <div class="panel-body">
-            <ul>
+            <ul class='messages'>
               {{#each userMessages}}
                 <li class="message">
-                  {{usernameFromId giverId}}: {{message}}
+                  <div class='col-md-12'>
 
-                  <button class="toggle-read">
-                    {{#if read}}
-                      <span class="glyphicon glyphicon-eye-open"></span>
-                    {{else}}
-                      <span class="glyphicon glyphicon-eye-close"></span>
-                    {{/if}}
-                  </button>
+                    <div class='col-md-2'>
+                      <b>{{usernameFromId giverId}}</b>
+                    </div>
 
-                  <button>
-                    <a href="/users/{{usernameFromId giverId}}/contact">
-                      <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-                  </button>
+                    <div class='col-md-10 text-right'>
+                      <b>{{dateCreated}}</b>
+                    </div>
 
-                  <button class="delete">
-                    <span class="glyphicon glyphicon-remove"></span>
-                  </button>
+                    <div class='col-md-2'>
+                      <img class='img-thumbnail avatar'
+                      alt='{{usernameFromId giverId}}'
+                      src='{{avatar (user giverId) 38}}'/>
+                    </div>
+
+                    <div class='col-md-7'>
+                      <p class='bubble'>
+                        {{message}}
+                      </p>
+                    </div>
+
+                    <div class='col-md-3 text-right'>
+                      <button class="toggle-read btn btn-xs btn-success circle">
+                        {{#if read}}
+                          <span class="glyphicon glyphicon-eye-open"></span>
+                        {{else}}
+                          <span class="glyphicon glyphicon-eye-close"></span>
+                        {{/if}}
+                      </button>
+
+                      <button class='btn btn-xs btn-warning circle'>
+                        <a href="/users/{{usernameFromId giverId}}/contact">
+                          <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                      </button>
+
+                      <button class="delete btn btn-xs btn-danger circle">
+                        <span class="glyphicon glyphicon-remove"></span>
+                      </button>
+                    </div>
+                  </div>
                 </li>
               {{/each}}
             </ul>

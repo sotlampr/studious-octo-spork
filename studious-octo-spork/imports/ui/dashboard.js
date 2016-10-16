@@ -13,6 +13,7 @@ import { removeRequest } from '../api/events/methods.js';
 import { validateRequest } from '../api/events/methods.js';
 import { editEvent } from '../api/events/methods.js';
 import './common-helpers.js';
+import { avatar } from './body.js';
 
 
 /*  Display informations for each event, on the calendar
@@ -30,6 +31,19 @@ export const infoEvent = function (evnt, element) {
       '<p><span class="purple bold">' +
       Meteor.users.findOne(evnt.receiverId).username + '</span></p>'
       );
+};
+
+
+/*  Return the user with _id: userId
+ *  args:
+ *    userId:
+ *      Mongo _id of user
+ */
+export const userFromUserId = function (userId) {
+  var user = Meteor.users.findOne({_id: userId});
+  if (user) {
+    return user;
+  }
 };
 
 
@@ -51,6 +65,49 @@ Template.dashboard.helpers({
           {sort: {read: 1, dateCreated: -1}});
       return userMessages;
     }
+  },
+
+  // Return the number of unread messages for current user
+  userUnreadMessages: function () {
+    var userUnreadMessages = Messages.find(
+        {
+          receiverId: Meteor.user()._id,
+          visible: true,
+          read: false
+        }).count();
+
+    return userUnreadMessages;
+  },
+
+  // Return the next event start for current user
+  nextEvent: function () {
+    var now = new Date()
+    var nextEvent = Events.findOne(
+        {
+          $and: [
+            {
+              $and: [
+              {giverValidated: true},
+              {receiverValidated: true}
+              ]
+            },
+            {
+              $or : [
+                {'giverId': Meteor.userId()},
+                {'receiverId': Meteor.userId()}
+              ]
+            },
+            {
+              start: {$gte: now}
+            }
+          ]
+        },
+        {
+          sort: {start: 1}
+        }
+        );
+
+    return nextEvent.start;
   },
 
   // Return the last 5 transactions for current user
@@ -95,6 +152,10 @@ Template.dashboard.helpers({
   isEqual: function (x, y) {
     return x === y;
   },
+
+  user: userFromUserId,
+
+  avatar: avatar
 });
 
 

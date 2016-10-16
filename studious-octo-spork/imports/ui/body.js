@@ -57,6 +57,8 @@ Template.hello.onCreated(function helloOnCreated() {
 
 Template.hello.helpers({
   randomUsers: function () {
-    return Meteor.users.find({}, {limit: 3});
+    return _.sample(Meteor.users.find({}).fetch(), 3);
   },
+
+  avatar: avatar
 });

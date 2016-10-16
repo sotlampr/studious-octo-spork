@@ -41,7 +41,7 @@ describe('Users', function() {
 
       it('Displays name and occupation for all 3 default users', function(done) {
         withRenderedTemplate('usersIndex', {}, el => {
-          let users = $(el).find('#users li');
+          let users = $(el).find('#users li p');
           for (let i=0; i < 3; i++) {
             assert.equal(
                 users[i].innerText,
@@ -74,6 +74,22 @@ describe('Users', function() {
           );
         });
         Session.set('description', '');
+        done();
+      });
+
+      it('Default 3 occupations on occupations-tab', function(done) {
+        withRenderedTemplate('usersIndex', {}, el => {
+          assert.equal($(el).find('#occupations .nav-header').length, 3);
+        });
+        done();
+      });
+
+      it('Displays occupations after click on #occupations-tab', function(done) {
+        withRenderedTemplate('usersIndex', {}, el => {
+          assert.equal($(el).find('#users-tab').hasClass('in'), true);
+          $(el).find('#occupationsTab')[0].click();
+          assert.equal($(el).find('#users-tab').hasClass('in'), false);
+        });
         done();
       });
     });

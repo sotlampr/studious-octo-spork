@@ -7,6 +7,8 @@ import { Bert } from 'meteor/themeteorchef:bert';
 import { Events } from '../api/events/events.js';
 import { infoEvent } from './dashboard.js';
 import { saveTransaction } from '../api/transactions/methods.js';
+import { avatar } from './body.js';
+import { userFromUserId } from './dashboard.js';
 
 
 Template.usersIndex.onCreated(function usersIndexOnCreated() {
@@ -36,7 +38,7 @@ Template.usersIndex.events({
 
 Template.usersIndex.helpers({
   users: function () {
-    return Meteor.users.find();
+    return Meteor.users.find({}, {sort: {'username': 1}});
   },
 
   path: function (username) {
@@ -61,10 +63,31 @@ Template.usersIndex.helpers({
     var description = Session.get('description');
     var descriptionSearch = new RegExp(description, 'i');
     if (work && work !== '') {
-      return Meteor.users.find({'profile.occupation': workSearch});
+      return Meteor.users.find(
+          {'profile.occupation': workSearch},
+          {sort: {'username': 1}});
     } else if (description && description !== '') {
-      return Meteor.users.find({'profile.description': descriptionSearch });
+      return Meteor.users.find(
+          {'profile.description': descriptionSearch },
+          {sort: {'username': 1}});
     }
+  },
+
+  avatar: avatar,
+
+  user: userFromUserId,
+
+  occupations: function () {
+    return _.uniq(
+        Meteor.users.find({}, {sort: {'profile.occupation': 1}}).map(
+          function(x) {
+            return x.profile.occupation
+          }
+        ));
+  },
+
+  usersWithOccupation: function (occupation) {
+    return Meteor.users.find({'profile.occupation': occupation}, {sort: {'username': 1}});
   }
 });
 
@@ -93,10 +116,14 @@ Template.usersByUsername.helpers({
       return {
         username: targetUser.username,
         occupation: targetUser.profile.occupation,
-        description: targetUser.profile.description
+        description: targetUser.profile.description,
+        about: targetUser.characteristic,
+        user: targetUser
       };
     }
-  }
+  },
+
+  avatar: avatar,
 });
 
 
